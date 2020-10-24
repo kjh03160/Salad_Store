@@ -1,5 +1,8 @@
 # config.py
 
+# flask-sqlacodegen "mysql://root:localhost:3306/mysite" --flask > models.py
+
+
 # https://beomi.github.io/2017/10/20/DB-To-SQLAlchemy-Model/
 # https://velog.io/@inyong_pang/Flask-API-MySQL-%EC%97%B0%EB%8F%99-SQLAlchemy
 # http://blog.naver.com/PostView.nhn?blogId=sukjun40&logNo=221155152471
