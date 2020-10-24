@@ -40,7 +40,6 @@ class Index(Resource):
         session.add(menu)
         print()
         session.flush()
-        # print()
         # session.commit()
         return {'result':user.category_pk, "2":menu.menu_pk}
     def post(self):
