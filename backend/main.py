@@ -45,7 +45,7 @@ class Index(Resource):
     def post(self):
         pass
 
-api.add_resource(Index, '/')
+api.add_resource(Index, '/menu')
 
 if __name__=='__main__':
     
