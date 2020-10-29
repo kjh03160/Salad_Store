@@ -1,6 +1,6 @@
 # config.py
 
-# flask-sqlacodegen "mysql://root:localhost:3306/mysite" --flask > models.py
+# flask-sqlacodegen "mysql://root:password@localhost:3306/mysite" --flask > models.py
 
 
 # https://beomi.github.io/2017/10/20/DB-To-SQLAlchemy-Model/

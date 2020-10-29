@@ -34,7 +34,7 @@ class Index(Resource):
         session.flush()
         print(user.category_pk)
         # print(session.new)
-        # print(session.query(models.Category).all())
+        # print(session.query(models.Category).get())
         menu = models.Menu(category_pk=user.category_pk, menu_name = 'gd')
         
         session.add(menu)
@@ -43,6 +43,10 @@ class Index(Resource):
         # session.commit()
         return {'result':user.category_pk, "2":menu.menu_pk}
     def post(self):
+        pass
+    def put(self):
+        pass
+    def delete(self):
         pass
 
 api.add_resource(Index, '/menu')
