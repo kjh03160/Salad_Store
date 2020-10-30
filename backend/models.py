@@ -91,7 +91,7 @@ class User(db.Model):
 
     user_id = db.Column(db.String(20), primary_key=True)
     password = db.Column(db.String(45), nullable=False)
-    
+    is_super = db.Column(db.Integer, nullable=False)
     def set_password(self, password):
         self.password = generate_password_hash(password)
     
