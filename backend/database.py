@@ -11,7 +11,7 @@
 
 db = {
     'user'     : 'root',		# 1
-    'password' : 'password',		# 2
+    'password' : '1234',		# 2
     'host'     : 'localhost',	# 3
     'port'     : 3306,			# 4
     'database' : 'mysite'		# 5
