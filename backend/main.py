@@ -20,11 +20,11 @@ def create_app():
         }
     DB_URL = f"mysql+pymysql://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['database']}?charset=utf8"
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+    CORS(app, resources={r'*': {'origins': '*'}})
     models.db.init_app(app)
     return app
 
 app = create_app()
-CORS(app, resources={r'*': {'origins': '*'}})
 api = Api(app)
 app.secret_key = "super secret key"
 
