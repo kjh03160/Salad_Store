@@ -14,19 +14,23 @@ def query_to_dict(ret):
 # from main import api
 class Order(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('data', action='append', required=False)
+    parser.add_argument('data', 
+        action='append', 
+        required=False,
+        help = 'Order information to insert OrderDB'
+        )
     parser.add_argument('pk',
         type=int,
         required = False,
-        help = 'start date of finding orders'
+        help = 'if you want to get specific order, give the pk as a parameter'
         )
+
     def get(self):
         data = Order.parser.parse_args()
 
         if data['pk']:
             pass
         
-
         else:
             order_sql = """
                         SELECT   
