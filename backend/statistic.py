@@ -5,22 +5,13 @@ from database import session, Base, engine
 from datetime import date, datetime
 
 class Statistic(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('startDate', required=False, help = 'start date of filtering orders')
+    parser.add_argument('endDate', required=False, help = 'end date of filtering orders')
+
 
     def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('startDate', action='append',
-        type=str,
-        required = True,
-        help = 'start date of finding orders'
-        )
-
-        parser.add_argument('endDate',
-        type = str,
-        required = True,
-        help = 'start date of finding orders'
-        )
-
-        data = parser.parse_args()
+        data = Statistic.parser.parse_args()
 
         start_date = data['startDate']
         end_date = data['endDate']
@@ -47,20 +38,8 @@ class Statistic(Resource):
 
     # https://www.daleseo.com/python-datetime/
     def post(self):
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('data', 
-        type=str,
-        required = True,
-        help = 'start date of finding orders'
-        )
-        print(request.json)
-
-        return 200
-
+        pass
     def put(self):
-        print(data)
         pass
     def delete(self):
-        data = request.json
         pass
