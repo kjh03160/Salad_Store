@@ -4,6 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String
 from database import Base
 
+
+
 db = SQLAlchemy()
 
 
@@ -51,12 +53,16 @@ class Option(db.Model):
     order_products = db.relationship('OrderProduct', secondary='order_options', backref='options')
 
 
+class OrderOption(db.Model):
+    __tablename__ = 'order_options'
 
-t_order_options = db.Table(
-    'order_options',
-    db.Column('order_product_pk', db.ForeignKey('order_products.product_pk', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False),
-    db.Column('order_option_pk', db.ForeignKey('options.option_pk', onupdate='CASCADE'), primary_key=True, nullable=False, index=True)
-)
+    order_pk = db.Column(db.ForeignKey('order_products.order_pk', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)
+    order_option_pk = db.Column(db.ForeignKey('options.option_pk', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, index=True)
+    order_product_pk = db.Column(db.ForeignKey('order_products.product_pk', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, index=True)
+
+    option = db.relationship('Option', primaryjoin='OrderOption.order_option_pk == Option.option_pk', backref='order_options')
+    order_product = db.relationship('OrderProduct', primaryjoin='OrderOption.order_pk == OrderProduct.order_pk', backref='orderproduct_order_options')
+    order_product1 = db.relationship('OrderProduct', primaryjoin='OrderOption.order_product_pk == OrderProduct.product_pk', backref='orderproduct_order_options_0')
 
 
 
@@ -76,13 +82,10 @@ class OrderProduct(db.Model):
 class Order(db.Model):
     __tablename__ = 'orders'
 
-    order_pk = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    user_id = db.Column(db.ForeignKey('users.user_id'), primary_key=True, nullable=False, index=True)
+    order_pk = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_time = db.Column(db.DateTime, index=True)
     completed = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Integer)
-
-    user = db.relationship('User', primaryjoin='Order.user_id == User.user_id', backref='orders')
 
 
 
@@ -90,7 +93,7 @@ class User(db.Model):
     __tablename__ = 'users'
 
     user_id = db.Column(db.String(20), primary_key=True)
-    password = db.Column(db.String(45), nullable=False)
+    password = db.Column(db.String, nullable=False)
     is_super = db.Column(db.Integer, nullable=False)
     def set_password(self, password):
         self.password = generate_password_hash(password)
