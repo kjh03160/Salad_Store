@@ -4,8 +4,8 @@ from flask_restful import Resource, Api
 from flask_restful import reqparse
 import models
 from flask_cors import CORS
-from user import Signup
 from models import db
+from user import *
 
 Base.metadata.create_all(bind=engine)
 
@@ -54,8 +54,11 @@ class Index(Resource):
     def delete(self):
         pass
 
+
 api.add_resource(Index, '/menu')
 api.add_resource(Signup, '/signup')
+api.add_resource(Login, '/login')
+api.add_resource(VerifyUser, '/check')
 
 if __name__=='__main__':
     

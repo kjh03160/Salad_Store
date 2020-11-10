@@ -12,6 +12,6 @@ export default {
 
     loginUser(data) {
         console.log(data);
-        return axios.post("/signup", data)
+        return axios.post("/login", data)
     }
 }
