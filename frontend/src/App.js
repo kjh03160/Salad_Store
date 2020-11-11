@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {useSelector,useDispatch} from 'react-redux'
+import {Redirect} from 'react-router-dom'
+
+import { Switch,Route,Link } from 'react-router-dom';
+
+
+import MenuPage from './pages/MenuPage'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Error from './pages/Error'
+import Kitchen from './pages/Kitchen'
+import Admin from './pages/Admin'
 
 function App() {
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <>
+      <Switch>
+        {/* <Route exact path='/' component ={Home}/> */}
+        <Route exact path='/' component={Login}/>
+        <Route  path='/menu' component = {MenuPage}/>
+        <Route exact path='/kitchen' component = {Kitchen}/>
+        <Route exact path ='/admin' component={Admin}/>
+        <Route component={Error}/>
+      </Switch>
+    </>
+      
+      
+      
+      
+      
+    
   );
 }
 
