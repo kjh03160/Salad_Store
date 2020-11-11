@@ -58,7 +58,7 @@ class Index(Resource):
 api.add_resource(Index, '/menu')
 api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')
-api.add_resource(VerifyUser, '/check')
+# api.add_resource(VerifyUser, '/check')
 
 if __name__=='__main__':
     
