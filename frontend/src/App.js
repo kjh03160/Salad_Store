@@ -16,9 +16,13 @@ function App() {
   }
   console.log(startDate, endDate)
   const getOrders = async () =>{
-    // let result = await api.getOrders(startDate, endDate);
+    let result2 = await api.getOrders();
+    // let result2 = await api.test();
+    // let result2 = await api.makeOrders(startDate);
+    // let result2 = await api.setComplete(15)
+    // let result2 = await api.deleteOrder(15)
 
-    let result2 = await api.makeOrders({'menus' : [{'menuId' : 2, 'options' :[1, 2, 3]}, {'menuId' : 3, 'options' : [1]}], 'total' : 10000})
+    // let result2 = await api.makeOrders({'menus' : [{'menuId' : 2, 'options' :[1, 2, 3], 'quantity' : 1}, {'menuId' : 3, 'options' : [1], 'quantity' : 3}], 'totalPrice' : 10000})
     console.log(result2)
   }
 

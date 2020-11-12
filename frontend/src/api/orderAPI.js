@@ -6,42 +6,36 @@ let base = "http://127.0.0.1:5000"
 
 
 export default {
-    getOrders(startDate, endDate) {
-        return axios.get("/orders", {
-            params: {
-              startDate: startDate,
-              endDate : endDate
-            }
-          })
+    getOrders(orderPk=null) {
+        return axios.get("/orders", {params:{pk:orderPk}})
     },
 
 
     
     makeOrders(data) {
-      console.log(1111)
-      // fetch(base + "/orders", {
-      //     method: "POST",
-      //     headers: {
-      //       'Content-type': 'application/json',
-      //       "Access-Control-Allow-Origin": "*"
-      //   },
-      //     body: JSON.stringify({
-      //       data : data
-      //     })
-      //   })
-    //   let config = {
-    //     headers: {
-    //         "Access-Control-Allow-Origin": "*"
-    //     },
-    // };
-      
-        let status = axios.post('/orders', data)
+        console.log(data)
+        // let status = axios.post('/orders', {params: {data:data}})
+        let status = axios.post('/orders', {data:data})
 
         return status
 
     },
 
-    async get_inst() {
-        return axios.get("/inst_update")
+    setComplete(orderPk){
+    let status = axios.put('/orders', {pk:orderPk})
+
+    return status
+    },
+
+    deleteOrder(orderPk){
+      console.log(orderPk)
+      let status = axios.delete('/orders', {params:{pk:orderPk}})
+
+      return status
+  },
+
+
+    async test() {
+        return axios.get("/test")
         }
 }
