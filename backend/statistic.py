@@ -20,8 +20,8 @@ class Statistic(Resource):
 
         order_sql = """
                     SELECT * FROM ORDERS ORD
-                                JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
-                                JOIN MENUS M ON (M.menu_pk = product_pk)
+                                JOIN ORDER_PRODUCTS ORD_PRD ON(ORD.order_pk = ORD_PRD.order_pk)
+                                JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
                                 JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.order_product_pk)
                                 JOIN OPTIONS OP ON (ORD_OP.order_option_pk = OP.option_pk)
                     """

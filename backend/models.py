@@ -5,7 +5,6 @@ from sqlalchemy import Column, Integer, String
 from database import Base
 
 
-
 db = SQLAlchemy()
 
 
@@ -50,19 +49,19 @@ class Option(db.Model):
     option_price = db.Column(db.Integer, nullable=False)
     option_soldout = db.Column(db.Integer, nullable=False)
 
-    order_products = db.relationship('OrderProduct', secondary='order_options', backref='options')
 
 
 class OrderOption(db.Model):
     __tablename__ = 'order_options'
 
-    order_pk = db.Column(db.ForeignKey('order_products.order_pk', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)
-    order_option_pk = db.Column(db.ForeignKey('options.option_pk', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, index=True)
-    order_product_pk = db.Column(db.ForeignKey('order_products.product_pk', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, index=True)
+    order_option_pk = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    order_pk = db.Column(db.ForeignKey('order_products.order_pk', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    product_pk = db.Column(db.ForeignKey('order_products.product_pk', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    option_pk = db.Column(db.ForeignKey('options.option_pk', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
 
-    option = db.relationship('Option', primaryjoin='OrderOption.order_option_pk == Option.option_pk', backref='order_options')
+    option = db.relationship('Option', primaryjoin='OrderOption.option_pk == Option.option_pk', backref='order_options')
     order_product = db.relationship('OrderProduct', primaryjoin='OrderOption.order_pk == OrderProduct.order_pk', backref='orderproduct_order_options')
-    order_product1 = db.relationship('OrderProduct', primaryjoin='OrderOption.order_product_pk == OrderProduct.product_pk', backref='orderproduct_order_options_0')
+    order_product1 = db.relationship('OrderProduct', primaryjoin='OrderOption.product_pk == OrderProduct.product_pk', backref='orderproduct_order_options_0')
 
 
 
@@ -95,6 +94,7 @@ class User(db.Model):
     user_id = db.Column(db.String(20), primary_key=True)
     password = db.Column(db.String, nullable=False)
     is_super = db.Column(db.Integer, nullable=False)
+    
     def set_password(self, password):
         self.password = generate_password_hash(password)
     

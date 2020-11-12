@@ -4,6 +4,8 @@ from flask_restful import Resource, Api
 from flask_restful import reqparse
 import models
 from flask_cors import CORS
+from order import Order
+from statistic import Statistic
 
 Base.metadata.create_all(bind=engine)
 
@@ -14,16 +16,21 @@ def create_app():
         'password' : 'password',		# 2
         'host'     : 'localhost',	# 3
         'port'     : 3306,			# 4
-        'database' : 'mysite'		# 5
+        'database' : 'mysite',		# 5
+        'query': {'charset':'utf8'}
+
         }
     DB_URL = f"mysql+mysqlconnector://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['database']}?charset=utf8"
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
     models.db.init_app(app)
+    CORS(app, resources={r'*': {'origins': '*'}})
+
     return app
 
 app = create_app()
-CORS(app, resources={r'*': {'origins': '*'}})
 api = Api(app)
+
+
 app.secret_key = "super secret key"
 
 
@@ -50,6 +57,9 @@ class Index(Resource):
         pass
 
 api.add_resource(Index, '/menu')
+api.add_resource(Order, '/orders')
+# api.add_resource(Test, '/test')
+api.add_resource(Statistic, '/statistic')
 
 if __name__=='__main__':
     
