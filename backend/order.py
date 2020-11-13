@@ -1,6 +1,6 @@
 import models
 from flask_restful import Resource, Api, reqparse
-from flask import Flask, request, jsonify, request
+from flask import Flask, request, jsonify, request, abort, Response
 from database import session, Base, engine
 from datetime import date, datetime
 import json 
@@ -77,15 +77,13 @@ class Order(Resource):
 
             # 주문 메뉴 생성
             menu_list = data['menus']
-            product_count = 1
 
             for each in menu_list:
                 order_menu_pk = each['menuId']
                 quantity = each['quantity']
-                product = models.OrderProduct(product_pk = product_count, order_pk = order.order_pk, 
+                product = models.OrderProduct(order_pk = order.order_pk, 
                                                 order_menu_pk = order_menu_pk, quantity = quantity)
                 session.add(product)
-                product_count += 1
                 session.flush()
                 product_pk = product.product_pk
 
@@ -95,42 +93,47 @@ class Order(Resource):
 
                 for each_option in each['options']:
                     option_id = each_option
-                    # order_insert_insert_sql = """
-                    #     INSERT INTO ORDER_OPTIONS VALUES ({product}, {option})
-                    # """.format(product = product_pk, option = option_id)
-                    product_option = models.OrderOption(order_pk = order.order_pk, order_product_pk=product_pk, order_option_pk=option_id)
+                    product_option = models.OrderOption(product_pk=product_pk, option_pk=option_id)
                     session.add(product_option)
+                    
             session.commit()
 
         except Exception as err:
             print(err)
             session.rollback()
+            return Response(status=400)
+        # order_sql = """
+        #             SELECT   
+        #             ORD.order_pk, order_time, completed, total_price,  menu_name, quantity, option_name 
+        #                         FROM ORDERS ORD
+        #                         JOIN ORDER_PRODUCTS ORD_PRD ON(ORD.order_pk = ORD_PRD.order_pk)
+        #                         JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
+        #                         JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.product_pk and ORD_PRD.order_pk = ORD_OP.order_pk)
+        #                         JOIN OPTIONS OP ON (ORD_OP.option_pk = OP.option_pk)
+        #                         WHERE ORD.completed=False;
+        #             """
         
-        order_sql = """
-                    SELECT   
-                    ORD.order_pk, order_time, completed, total_price,  menu_name, quantity, option_name 
-                                FROM ORDERS ORD
-                                JOIN ORDER_PRODUCTS ORD_PRD ON(ORD.order_pk = ORD_PRD.order_pk)
-                                JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
-                                JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.order_product_pk)
-                                JOIN OPTIONS OP ON (ORD_OP.order_option_pk = OP.option_pk)
-                                WHERE ORD.completed=False;
-                    """
-        
-        result = session.execute(order_sql).fetchall()
+        # result = session.execute(order_sql).fetchall()
 
-        print(result[0])
-        return 201
+        # print(result[0])
+        return Response(status=201)
 
     def put(self):
         data = Order.parser.parse_args()
         print(data)
-        return 200
+        return Response(status=204)
 
     def delete(self):
         data = Order.parser.parse_args()
-        print(data)
-        return 204
+        # session.execute("DELETE FROM ORDERS WHERE ORDERS.order_pk = %d" % data['pk'])
+        instance = session.query(models.Order).get(data['pk'])
+        
+        if instance is None:
+            return Response(status = 404)
+        
+        session.delete(instance)
+        session.commit()
+        return Response(status=204)
 
 # class Test(Resource):
 #     def get(self):
