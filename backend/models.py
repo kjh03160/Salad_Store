@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String
 from database import Base
-
+from sqlalchemy.orm import backref
 
 db = SQLAlchemy()
 
@@ -54,13 +54,10 @@ class Option(db.Model):
 class OrderOption(db.Model):
     __tablename__ = 'order_options'
 
-    order_option_pk = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    order_pk = db.Column(db.ForeignKey('order_products.order_pk', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
-    product_pk = db.Column(db.ForeignKey('order_products.product_pk', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
-    option_pk = db.Column(db.ForeignKey('options.option_pk', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    product_pk = db.Column(db.ForeignKey('order_products.product_pk'), nullable=False, index=True, primary_key=True)
+    option_pk = db.Column(db.ForeignKey('options.option_pk', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True, primary_key=True)
 
     option = db.relationship('Option', primaryjoin='OrderOption.option_pk == Option.option_pk', backref='order_options')
-    order_product = db.relationship('OrderProduct', primaryjoin='OrderOption.order_pk == OrderProduct.order_pk', backref='orderproduct_order_options')
     order_product1 = db.relationship('OrderProduct', primaryjoin='OrderOption.product_pk == OrderProduct.product_pk', backref='orderproduct_order_options_0')
 
 
@@ -68,15 +65,14 @@ class OrderOption(db.Model):
 class OrderProduct(db.Model):
     __tablename__ = 'order_products'
 
-    product_pk = db.Column(db.Integer, primary_key=True, nullable=False)
+    product_pk = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     order_pk = db.Column(db.ForeignKey('orders.order_pk', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, index=True)
-    order_menu_pk = db.Column(db.ForeignKey('menus.menu_pk', onupdate='CASCADE'), nullable=False, index=True)
+    order_menu_pk = db.Column(db.ForeignKey('menus.menu_pk', ondelete='CASCADE',onupdate='CASCADE'), nullable=False, index=True)
     quantity = db.Column(db.Integer)
 
     menu = db.relationship('Menu', primaryjoin='OrderProduct.order_menu_pk == Menu.menu_pk', backref='order_products')
-    order = db.relationship('Order', primaryjoin='OrderProduct.order_pk == Order.order_pk', backref='order_products')
-
-
+    order = db.relationship("Order", back_populates="order_product")  # back_popluates 는 부모테이블에 명시된 관계 변수 이름
+    
 
 class Order(db.Model):
     __tablename__ = 'orders'
@@ -85,6 +81,8 @@ class Order(db.Model):
     order_time = db.Column(db.DateTime, index=True)
     completed = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Integer)
+
+    order_product = db.relationship('OrderProduct', cascade='all, delete, delete-orphan', backref='Order', passive_deletes=True)
 
 
 
