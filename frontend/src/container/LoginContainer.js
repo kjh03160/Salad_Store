@@ -14,15 +14,14 @@ export default function LoginContainer(){
         authenticated:state.auth.authenticated,
         user:state.auth.user
     }))
-    console.log(email,password)
-    // console.log('여기는 컨테이너', authenticated)
     
     const dispatch = useDispatch()
     const onSetDiff = (name,change) => dispatch(setDiff(name,change))
     const onSetAuthenticated = (change)=>dispatch(setAuthenticated(change))
+    
     if(authenticated && user==='admin') return(<Redirect to={{pathname:'/admin'}}/>)
     if(authenticated && user==='kitchen') return(<Redirect to={{pathname:'/kitchen'}}/>)
-    if ( authenticated) return(<Redirect to={{pathname:'/menu/1'}}/>)
+    if (authenticated) return(<Redirect to={{pathname:'/menu/1'}}/>)
     return(
         (authenticated === false)?
         (<Login 

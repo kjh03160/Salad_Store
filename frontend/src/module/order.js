@@ -1,26 +1,19 @@
-const SET_MAIN = "SET_MAIN"
-const SET_OPTION = 'SET_OPTION'
+// const SET_MAIN = "SET_MAIN"
+const SET_ORDER = 'SET_ORDER'
 
-export const setMain = (mainChosen) => ({ type:SET_MAIN,mainChosen })
-export const setOption = (optionChosen) => ({ type:SET_OPTION,optionChosen })
+// export const setMain = (mainChosen,orderId) => ({ type:SET_MAIN,mainChosen, orderId })
+export const setOrder = (menuChosen) => ({ type:SET_ORDER,menuChosen })
 
-const initialState = {
-    mainChosen:[],
-    optionChosen:[],
+const initialState = [
 
-}
+]
 export default function order(state = initialState, action){
     switch(action.type){
-        case SET_MAIN:
-            return{
+        case SET_ORDER:
+            return[
                 ...state,
-                mainChosen: [...state.mainChosen, action.mainChosen]
-            }
-        case SET_OPTION:
-            return{
-                ...state,
-                optionChosen:[...state.optionChosen, action.optionChosen]
-            }
+                action.menuChosen
+            ]
         default:
             return state
 

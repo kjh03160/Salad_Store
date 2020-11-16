@@ -77,17 +77,21 @@ export default {
     ],
         
     option:[
-        {
+        {   
+
+            id:1,
             name:"menu1의option1",
             price:4,
             isSoldOut:false
         },
         {
-            name:",enoption2",
+            id:2,
+            name:"option2",
             price:4,
             isSoldOut:false
         },
         {
+            id:3,
             name:"option3",
             price:4,
             isSoldOut:false
