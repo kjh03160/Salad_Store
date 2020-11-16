@@ -24,7 +24,7 @@ class Menu(db.Model):
     menu_name = db.Column(db.String(45))
     menu_price = db.Column(db.Integer)
     menu_soldout = db.Column(db.Integer)
-    menu_description = db.Column(db.String)
+    menu_description = db.Column(db.String(200))
     menu_image = db.Column(db.String(200))
 
     category = db.relationship('Category', primaryjoin='Menu.category_pk == Category.category_pk', backref='menus')

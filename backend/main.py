@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from database import session, Base, engine
 from flask_restful import Resource, Api
 from flask_restful import reqparse
 import models
+from models import db
 from flask_cors import CORS
 
 Base.metadata.create_all(bind=engine)
@@ -11,24 +12,37 @@ def create_app():
     app = Flask(__name__)
     db = {
         'user'     : 'root',		# 1
-        'password' : 'password',		# 2
+        'password' : 'b1234567',		# 2
         'host'     : 'localhost',	# 3
         'port'     : 3306,			# 4
         'database' : 'mysite'		# 5
         }
     DB_URL = f"mysql+mysqlconnector://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['database']}?charset=utf8"
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+    CORS(app, resources={r'*': {'origins': '*'}})
     models.db.init_app(app)
     return app
 
 app = create_app()
-CORS(app, resources={r'*': {'origins': '*'}})
 api = Api(app)
 app.secret_key = "super secret key"
+
+with app.app_context():
+    db.create_all()
+
+@app.route("/") #라우팅 설정
+def main():
+    return "Welcome"
+    return render_template('index.html')
+
+@app.route('/test')
+def test():
+    return render_template('test.html')
 
 
 class Index(Resource):
     def get(self):
+        # category에서 하나 뽑아와서
         user = models.Category(category_name="123333")  
         session.add(user)
         session.flush()
@@ -49,8 +63,67 @@ class Index(Resource):
     def delete(self):
         pass
 
+
+#request.json은 데이터 전체를 한번에 갖고 오는 거
+#reqparse.RequestParser()를 이용해서 하나하나씩 parsing 해주는 것
+class Group(Resource):
+    def get(self):
+        name = request.json
+        print(name)
+        # parser = reqparse.RequestParser()
+        # parser.add_argument('name',type=str)
+        # args = parser.parse_args()
+        # print(args['name'])
+        # return({'name':args['name']})
+        # category = models.Category.query.all()
+        # categoryDict = {}
+        # for i in range(len(category)):
+        #     categoryDict['categoryName'+str(i)] = category[i].category_name
+        #     categoryDict['categoryId'+str(i)] = category[i].category_pk
+        # return categoryDict
+    def post(self):
+        name = request.json
+        print(name)
+        # category = models.Category(name)
+        # session.add(category)
+        # session.commit()
+        pass
+    def put(self):
+        name = request.json
+        print(name)
+        parser = reqparse.RequestParser()
+        parser.add_argument('name',type=str)
+        args = parser.parse_args()
+        print(args['name'])
+        # category = models.Category.get(Category_name = name)
+        # category.name = rename
+        # session.commit()
+        pass
+    def delete(self):
+        name = request.json
+        print(name)
+        parser = reqparse.RequestParser()
+        parser.add_argument('name',type=str)
+        args = parser.parse_args()
+        print(args['name'])
+        # category = models.Category.get(Category_name = name)
+        # session.delete(category)
+        # session.commit()
+        pass
+
+class mainMenu(Resource):
+    def get(self):
+        pass
+    def post(self):
+        pass
+    def put(self):
+        pass
+    def delete(self):
+        pass
+
+api.add_resource(Group,'/group')
+
 api.add_resource(Index, '/menu')
 
 if __name__=='__main__':
-    
     app.run(debug=True)
