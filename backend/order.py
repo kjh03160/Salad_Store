@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify, request, abort, Response
 from database import session, Base, engine
 from datetime import date, datetime
 import json 
+import pandas as pd
 
 def query_to_dict(ret):
     if ret is not None:
@@ -32,30 +33,35 @@ class Order(Resource):
         data = Order.parser.parse_args()
         result = None
         if data['pk']:
-            pass
-        
-        else:
             order_sql = """
                         SELECT   
                         ORD.order_pk, DATE_FORMAT(order_time,  '%Y-%m-%d %H:%i:%s') as order_time, completed, total_price,  menu_name, quantity, option_name 
                                     FROM ORDERS ORD
                                     JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
                                     JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
-                                    JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.order_product_pk)
-                                    JOIN OPTIONS OP ON (ORD_OP.order_option_pk = OP.option_pk)
+                                    JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.product_pk)
+                                    JOIN OPTIONS OP ON (ORD_OP.option_pk = OP.option_pk)
+                                    WHERE ORD.order_pk = {pk}
+                        """.format(pk = data['pk'])
+        
+        else:
+            order_sql = """
+                        SELECT   
+                        ORD.order_pk, DATE_FORMAT(order_time,  '%Y-%m-%d %H:%i:%s') as order_time, completed, total_price,  menu_name, quantity, ORD_OP.product_pk, option_name 
+                                    FROM ORDERS ORD
+                                    JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
+                                    JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
+                                    JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.product_pk)
+                                    JOIN OPTIONS OP ON (ORD_OP.option_pk = OP.option_pk)
                                     WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
-                                    AND ORD.completed=True;
+                                    AND ORD.completed=False ORDER BY ORD.order_pk;
                         """
-            result = session.execute(order_sql).fetchall()
-            result = query_to_dict(result)
-
-            # order_list = []
-            # temp_order = {}
-            # for order in reuslt:
-            #     temp_order['orderId'] = order['order_pk']
-            #     temp_order['orderTime'] = order['order_time']
-            #     temp_order['completed'] = order['completed']
-
+        result = session.execute(order_sql).fetchall()
+        result = query_to_dict(result)
+        df = pd.DataFrame(result)
+        df.to_csv('test.csv', encoding='utf-8-sig')
+        if len(result) == 0:
+            return Response(status=404)
 
         return  {'orderList' : result}, 200
 
@@ -95,7 +101,7 @@ class Order(Resource):
                     option_id = each_option
                     product_option = models.OrderOption(product_pk=product_pk, option_pk=option_id)
                     session.add(product_option)
-                    
+
             session.commit()
 
         except Exception as err:
