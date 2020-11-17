@@ -2,27 +2,20 @@ import React from 'react'
 import { useSelector,useDispatch} from 'react-redux'
 
 export default function OrderList() {
-    const {main,optionList} = useSelector(state=>({
+    // 리덕스에서 선택 완료된 주문서들
+    // { }
+    const {main} = useSelector(state=>({
         main: state.order
-        
-
     }))
-    
-    const dispatch= useDispatch()
-    
-    
+
     return (
         <div>
             
             <ul>
             {main.map((item,index)=> 
-            
-            <li key = {index}>{item.main}
-            
-                (<ul>{item.optionList.map((item)=> <li>{item}</li>)}</ul>)
-            
+            <li key = {index}>{item.main} : {item.mainPrice}원
+                <ul>{item.optionList.map((item,index)=> <li key = {index}>{item.optionName}price:{item.optionPrice}원</li>)}</ul>
             </li>)}
-            {/* {optionChosen.map((name,index)=><li key ={index}>{name}</li>)} */}
             </ul>
         </div>
     )

@@ -18,30 +18,33 @@ export default {
             id : 1,
             categoryPk:1,
             name:'경욱샐러드',
-            price:4,
+            price:40000,
             isSoldOut:false,
+            image:'image',
             descriptionText:"바보",
-            image:'asdasd'
+            
             
         },
         {
             id : 2,
             categoryPk:1,
             name:'바보샐러드',
-            price:3,
+            price:30000,
             isSoldOut:false,
+            image:'image',
             descriptionText:"ㅁ낭만ㅇㅁㄴ",
-            image:'asdasd'
+            
             
         },
         {
             id : 3,
             categoryPk:1,
             name:'영택샐러드',
-            price:4,
+            price:40000,
             isSoldOut:false,
+            image:'image',
             descriptionText:"바보",
-            image:'asdasd'
+            
             
         },
         {
@@ -50,8 +53,9 @@ export default {
             name:'콜라',
             price:4,
             isSoldOut:false,
+            image:'image',
             descriptionText:"바보",
-            image:'asdasd'
+            
             
         },
         {
@@ -60,8 +64,9 @@ export default {
             name:'사이다',
             price:4,
             isSoldOut:false,
+            image:'image',
             descriptionText:"바보",
-            image:'asdasd'
+            
             
         },
         {
@@ -70,8 +75,9 @@ export default {
             name:'경욱포케',
             price:4,
             isSoldOut:false,
+            image:'image',
             descriptionText:"바보",
-            image:'asdasd'
+            
             
         },
     ],
@@ -81,22 +87,36 @@ export default {
 
             id:1,
             name:"menu1의option1",
-            price:4,
+            price:500,
             isSoldOut:false
         },
         {
             id:2,
             name:"option2",
-            price:4,
+            price:600,
             isSoldOut:false
         },
         {
             id:3,
             name:"option3",
-            price:4,
+            price:700,
             isSoldOut:false
         },
     ],
+categoryPk:[
+        {
+          id:1,
+          name:'샐러드'
+        },
+        {
+          id:2,
+          name:'포케'
+        },
+        {
+          id:3,
+          name:'음료수'
+        },
+      ]
     // main:[
     //     {
     //         name:'영택샐러드'

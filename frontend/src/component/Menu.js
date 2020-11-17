@@ -1,38 +1,51 @@
 import {Link, Redirect, Route} from 'react-router-dom'
 import React, {useRef} from 'react'
 
+import './menu.css'
 
 export default function Menu(props){
-    // 메인메뉴 데이터 받아서 props.match.params.categoryPk 로 걸러서 보여주기 
-    // 메인 메뉴 데이터 {카테고리, 메인메뉴 정보들}
-    const {nextId, menuData, orderList,setOrderList} = props.data
-    // console.log(props.match.params.categoryPk)
+    // 컨테이터에서 메뉴 데이터 받아서 props.match.params.categoryPk 로 걸러서 보여주기 
     
+    // 패키지 뜯기
+    const {nextId, menuData, orderList,setOrderList} = props.data
+    
+    // 장바구니 담기
     function handleClick(e){
+        let mainPrice = 0
+        let main = ''
+        menuData.main.forEach((item,index)=> {    
+            if (item.id == e.currentTarget.id){
+                mainPrice =item.price
+                main = item.name
+            }
+        })
         setOrderList(
             {
                 orderId:nextId.current,
-                main:e.target.innerText,
+                main:main,
+                mainQuantity:1,
+                mainPrice:mainPrice,
                 optionList:[]       
             }
         )
     }
-    
-    
     return(
-        <div >
+    <>    
             {menuData.main.map(
                 (menu,index)=>{
-                    // console.log(menu)
                     if (menu.categoryPk==props.match.params.categoryPk){
                         return(
-                        <Link to ={`/menu/${menu.categoryPk}/${menu.id}`} key = {index} onClick={handleClick}>{menu.name} </Link>
+                        <Link to ={`/menu/${menu.categoryPk}/${menu.id}`} id = {menu.id}key = {menu.id} onClick={handleClick}>
+                        <div className="itemBox">
+                        <div className="imageBox">{menu.image}</div>
+                        <span>{menu.name}</span><span>{menu.price}</span>
+                        
+                        </div>
+                        </Link>
                                 )
                     }
                 }
             )}
-
-        </div>
+        </>
     )
-
 }
