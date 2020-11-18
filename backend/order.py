@@ -6,33 +6,88 @@ from datetime import date, datetime
 import json 
 import pandas as pd
 
+# SQLAlchemy query proxy to dictionary
 def query_to_dict(ret):
     if ret is not None:
         return [{key: value for key, value in row.items()} for row in ret if row is not None]
     else:
         return [{}]
 
-def many_to_one(menu):
-    pass
+# N * M * K rows SQL query to N rows list 
+def many_to_one(data):
+    df = pd.DataFrame(data)
+    orders = map(int, df['order_pk'].unique())
+    order_list = []
+    for order in orders:
+        order_df = df[df['order_pk'] == order]
+        order_dict = {'order_pk' : order, 'order_time' : order_df.iloc[0]['order_time'], 'menus' : []}
+        products = map(int, order_df['product_pk'].unique())
+        for product in products:
+            product_df = order_df[order_df['product_pk'] == product]
+            product_dict = {'product_pk' : product, 'menu_name' : product_df.iloc[0]['menu_name'], 'quantity' : int(product_df.iloc[0]['quantity']),
+                            'options' : product_df['option_name'].values.tolist()}
+            order_dict['menus'].append(product_dict)
+        order_list.append(order_dict)
 
-# from main import api
+    return order_list
+
+
 class Order(Resource):
+    # Order 클래스에서 받을 수 있는 파라미터 설정
     parser = reqparse.RequestParser()
-    parser.add_argument('data', 
-        action='append', 
-        required=False,
-        help = 'Order information to insert OrderDB'
-        )
+
+    # [GET, DELETE, PUT] 에서 특정 행을 조회할 때 필요한 pk 파라미터
+    """
+    [
+        {'order_pk': int,
+         'order_time' : str,
+         'menus': [
+             {'product_pk': int, 
+              'menu_name': str, 
+              'quantity': str, 
+              'options': [str(option_name), str, ....]},
+              ....
+              ]
+        },
+
+        {'order_pk': int,
+            ....
+        },
+
+        ...
+    ]
+    """
     parser.add_argument('pk',
         type=int,
         required = False,
         help = 'if you want to get specific order, give the pk as a parameter'
         )
 
+
+    # POST에서 주문 정보를 받기 위한 파라미터
+    """
+    [
+        'total_price' : int,
+        'menus' : [
+            {'menu_pk': int,
+             'options' : [
+                     int(option_pk), int(option_pk), ...
+                    ]      
+            }
+        ]
+    ]
+    """
+    parser.add_argument('data', 
+        action='append', 
+        required=False,
+        help = 'Order information to insert OrderDB'
+        )
+
+
     def get(self):
         data = Order.parser.parse_args()
         result = None
-        if data['pk']:
+        if data['pk']:  # 만약 특정 pk 쿼리라면
             order_sql = """
                         SELECT   
                         ORD.order_pk, DATE_FORMAT(order_time,  '%Y-%m-%d %H:%i:%s') as order_time, completed, total_price,  menu_name, quantity, option_name 
@@ -48,109 +103,91 @@ class Order(Resource):
             order_sql = """
                         SELECT   
                         ORD.order_pk, DATE_FORMAT(order_time,  '%Y-%m-%d %H:%i:%s') as order_time, completed, total_price,  menu_name, quantity, ORD_OP.product_pk, option_name 
-                                    FROM ORDERS ORD
-                                    JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
-                                    JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
-                                    JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.product_pk)
-                                    JOIN OPTIONS OP ON (ORD_OP.option_pk = OP.option_pk)
-                                    WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
-                                    AND ORD.completed=False ORDER BY ORD.order_pk;
+                                FROM ORDERS ORD
+                                JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
+                                JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
+                                JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
+                                JOIN OPTIONS USING (option_pk)
+                                WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 10 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
+                                AND ORD.completed=False ORDER BY ORD.order_pk, M.menu_pk;
                         """
         result = session.execute(order_sql).fetchall()
         result = query_to_dict(result)
-        df = pd.DataFrame(result)
-        df.to_csv('test.csv', encoding='utf-8-sig')
         if len(result) == 0:
             return Response(status=404)
-
+        result = many_to_one(result)
         return  {'orderList' : result}, 200
 
-    # result = s.execute('SELECT * FROM my_table WHERE my_column = :val', {'val': 5})
 
-    # https://www.daleseo.com/python-datetime/
     def post(self):
         args = Order.parser.parse_args()
 
-        data = json.loads(args['data'][0].replace("\'", "\""))
-        print(data)
-        # 주문 번호 생성
+        data = json.loads(args['data'][0].replace("\'", "\""))  # json 형식에 맞게 작은따옴표를 쌍따옴표로 바꾸고 dictionary화
+
+        # Orders Table
+        # 총 금액
         total_price = data['totalPrice']
         try:
-            order_time = datetime.now()
-            order = models.Order(order_time = order_time, completed = False, total_price = total_price)
+            order_time = datetime.now() # 주문 시각
+            order = models.Order(order_time = order_time, completed = False, total_price = total_price) # 주문 행 생성
             session.add(order)
-            session.flush()
+            session.flush() # 주문 메뉴 연결하기 위해 pk 생성 필요
 
-            # 주문 메뉴 생성
+            # 넘겨받은 주문 메뉴 리스트
             menu_list = data['menus']
 
             for each in menu_list:
-                order_menu_pk = each['menuId']
-                quantity = each['quantity']
+                # Products Table
+                # 주문 메뉴 1개에 대한 Product Table 레코드 생성
+                order_menu_pk = each['menuId']  # 메뉴 pk
+                quantity = each['quantity'] # 수량
                 product = models.OrderProduct(order_pk = order.order_pk, 
                                                 order_menu_pk = order_menu_pk, quantity = quantity)
                 session.add(product)
-                session.flush()
+                session.flush() # 주문 옵션을 연결하기 위해 pk 생성 필요
                 product_pk = product.product_pk
 
-            
-                # 주문 옵션 연결
-                # https://gungadinn.github.io/data/2019/07/09/ORM/
 
+                # Order_options Table
+                # 주문 옵션 리스트
                 for each_option in each['options']:
-                    option_id = each_option
-                    product_option = models.OrderOption(product_pk=product_pk, option_pk=option_id)
+                    option_id = each_option # 옵션 pk
+                    product_option = models.OrderOption(product_pk=product_pk, option_pk=option_id) # 주문 메뉴와 연결
                     session.add(product_option)
 
-            session.commit()
+            session.commit()    # 아무 문제 없으면 DB 반영
 
         except Exception as err:
             print(err)
-            session.rollback()
-            return Response(status=400)
-        # order_sql = """
-        #             SELECT   
-        #             ORD.order_pk, order_time, completed, total_price,  menu_name, quantity, option_name 
-        #                         FROM ORDERS ORD
-        #                         JOIN ORDER_PRODUCTS ORD_PRD ON(ORD.order_pk = ORD_PRD.order_pk)
-        #                         JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
-        #                         JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.product_pk and ORD_PRD.order_pk = ORD_OP.order_pk)
-        #                         JOIN OPTIONS OP ON (ORD_OP.option_pk = OP.option_pk)
-        #                         WHERE ORD.completed=False;
-        #             """
-        
-        # result = session.execute(order_sql).fetchall()
+            session.rollback()  # 에러 시 rollback
+            return Response(status=400) # 에러코드 전송
 
-        # print(result[0])
-        return Response(status=201)
+        # 문제 없다면
+        return Response(status=201) # CREATED 코드 전송
 
-    def put(self):
+
+    # completed 완료 요청
+    def patch(self):
         data = Order.parser.parse_args()
-        print(data)
-        return Response(status=204)
+        if data['pk']:
+            instance = session.query(models.Order).get(data['pk'])
+            instance.completed = True
+            session.commit()
+        else:
+            Response(status=400)    # pk 값 없음 에러 전달
+        return Response(status=204) # 처리 완료 코드 전달
 
-    def delete(self):
+
+    def delete(self):   # 주문 삭제 -> 거의 사용할 일 없을 것임.
         data = Order.parser.parse_args()
-        # session.execute("DELETE FROM ORDERS WHERE ORDERS.order_pk = %d" % data['pk'])
+        # Orders Table에서 삭제할 레코드 pk 조회
         instance = session.query(models.Order).get(data['pk'])
         
+        # 해당 값이 없다면
         if instance is None:
-            return Response(status = 404)
+            return Response(status = 404)   # Not Found 에러 코드 전송
         
+        # 행 삭제 및 commit
         session.delete(instance)
         session.commit()
-        return Response(status=204)
-
-# class Test(Resource):
-#     def get(self):
-#         x = session.query(models.Menu).get([1, 1])
-#         print(x.menu_name)
-#         print(x.options)
-#         for i in x.options:
-#             print(i.option_name)
-
-#         product = models.OrderProduct()
-#         option = session.query(models.Option).get(1)
-#         product.options.append(option)
-#         print(product.options, option)
-#         return 200
+        return Response(status=204) # 처리 완료 코드 전송
