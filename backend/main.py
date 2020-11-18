@@ -5,6 +5,8 @@ from flask_restful import reqparse
 import models
 from models import db
 from flask_cors import CORS
+import os
+from werkzeug.utils import secure_filename
 
 Base.metadata.create_all(bind=engine)
 
@@ -38,6 +40,8 @@ def main():
 @app.route('/test')
 def test():
     return render_template('test.html')
+
+imgDir = os.path.join(app.root_path,'img/')
 
 
 class Index(Resource):
@@ -84,10 +88,14 @@ class Group(Resource):
         # data = Group.parser.parse_args()
         # print(
         # print(request.files['text1'])
-        a = request.form
-        print(a)
+        data = request.form
+        # for i in data.values():
+        #     print(i)
+        print(imgDir)
         if 'image' in request.files:
-            print(request.files['image'])
+            image = request.files['image']
+            image.save(os.path.join(imgDir,'main/',secure_filename(image.filename)))
+            
 
         # data =  Group.parser.parse_args()
         # print(data['data'])
