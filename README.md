@@ -12,55 +12,57 @@
 ---
 ### 사용 예제
 
-#### GET
-1. 특정 주문 데이터 조회 (completed가 False 인 것만) : 
+#### GET (return status 200 / 404)
+1. 특정 주문 데이터 조회 (completed가 False 인 것만), (pk 값 없으면 404 에러) : 
 
 ```js
 axios.get("/orders", {params:{pk:int}})
 ```
 
 
-2. 전체 주문 데이터 조회 (completed가 False 인 것만) : 
+2. 전체 주문 데이터 조회 (completed가 False 인 것만, 당일 주문만) : 
 ```js
 axios.get("/orders")
 ```
 
 
-#### POST
+#### POST (return status 201 / 400)
 - 주문 데이터 삽입 (totalPrice는 꼭 리액트에서 계산해서!)
-    - 데이터 예시 
+    - 데이터 예시 (형식 안맞으면 400 에러)
+    
     ```json
-{
-   "menus":[
-              {
-                 "menuId":3,
-                 "options":[1, 3],
-                 "quantity":1
-              },
-              {
-                 "menuId":1,
-                 "options":[],
-                 "quantity":2
-              }
-           ],
-   "totalPrice":10000
-}
-    ```
+        {
+           "menus":[
+                      {
+                         "menuId":3,
+                         "options":[1, 3],
+                         "quantity":1
+                      },
+                      {
+                         "menuId":1,
+                         "options":[],
+                         "quantity":2
+                      }
+                   ],
+           "totalPrice":10000
+        }
+        
+         
 - **API 콜**
 ```js
 axios.post('/orders', {data:data})
 ```
 
-#### PATCH
-- 조리 완료 (completed = True)
+#### PATCH (return status 204 / 404)
+- 조리 완료 (completed = True), (pk 값 없으면 404 에러)
     - **`orderPK(int)`는 필수로!**
     
 ```js
 axios.patch('/orders', {pk:orderPk})
 ```
 
-#### DELETE
-- 주문 데이터 삭제 (일단 만들기 했지만, 사용 X)
+#### DELETE (return status 204)
+- 주문 데이터 삭제 (일단 만들기 했지만, 사용 X), (pk 값 없으면 404 에러)
 ```js
 axios.delete('/orders', {params:{pk:orderPk}})
 ```
