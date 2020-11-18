@@ -81,9 +81,11 @@ class Group(Resource):
             pass
 
     def post(self):
-        data = Group.parser.parse_args()
-        print(
+        # data = Group.parser.parse_args()
+        # print(
         # print(request.files['text1'])
+        a = request.form
+        print(a)
         if 'image' in request.files:
             print(request.files['image'])
 
