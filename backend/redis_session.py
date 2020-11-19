@@ -22,7 +22,7 @@ class RedisSession():
     # 신규 세션 요청 시 세션 값을 만들어서 리턴
     def save_session(self, user_name):
         session_key = str(uuid4())
-        self.db.setex(self.prefix+session_key, user_name, self.timeout)
+        self.db.setex(self.prefix+session_key, self.timeout, user_name)
 
         return session_key
 

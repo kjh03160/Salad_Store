@@ -1,6 +1,7 @@
 import models
 from flask_restful import Resource, Api, reqparse
-from flask import Flask, request, jsonify, abort, session
+from flask import Flask, request, jsonify, abort
+import flask
 from uuid import uuid4
 from database import session, Base, engine
 import models
@@ -36,12 +37,13 @@ class Signup(Resource):
 
 
 class Login(Resource):
-    # def get(self):
-    #     if 'session_key' in session:
-    #         del session['session_key']
-    #         return 200
-    #     else:
-    #         abort(404)
+    def get(self):
+        # print(flask.session['session_key'])
+        if 'session_key' in flask.session:
+            user = 'logged_in'
+        else:
+            user = 'null'
+        return {'user' : user}, 200
 
     def post(self):
         arg = request.json
@@ -49,7 +51,8 @@ class Login(Resource):
         if user_in_db:
             if user_in_db.check_password(arg['password']):
                 session_key = redis_session.save_session(arg['usr_id'])
-                session['session_key'] = session_key
+                print(session_key)
+                flask.session['session_key'] = session_key
                 return 200
             else:
                 abort(404)

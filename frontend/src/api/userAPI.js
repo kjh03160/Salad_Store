@@ -13,5 +13,9 @@ export default {
     loginUser(data) {
         console.log(data);
         return axios.post("/login", data)
+    },
+
+    checkUser() {
+        return axios.get("/login");
     }
 }
