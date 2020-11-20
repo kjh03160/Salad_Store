@@ -63,8 +63,8 @@ class Statistic(Resource):
         return {'data' : result}, 200  
         
     def post(self):
-        pass
+        return Response(status= 405)
     def put(self):
-        pass
+        return Response(status= 405)
     def delete(self):
-        pass
+        return Response(status= 405)
