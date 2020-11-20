@@ -21,8 +21,8 @@ export default function App() {
     }
     // let result2 = await api.getMain();
     // let result2 = await api.newMain({'text1' : usertext1, 'text2' : usertext2, 'image':img});
-    let result2 = await api.newMain(form)
-    // let result2 = await api.reviseMain(1);
+    // let result2 = await api.newMain(form)
+    let result2 = await api.reviseMain(form);
     // let result2 = await api.deleteMain(1);
 
     console.log(result2)
@@ -51,6 +51,7 @@ export default function App() {
           <input type = "text"  name = "text2" onChange = {setText2}/>
           <input type="file" name="file" id="" onChange = {onChange} />
           <button onClick={save} value = "ok"/>
+          <img src = "http://localhost:5000/static/images/main/img1.jpg"></img>
       </>
   );
 }

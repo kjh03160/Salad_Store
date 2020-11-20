@@ -11,14 +11,15 @@ export default {
 
     
     newMain(data) {
-        for (var key of data.values()){
-          console.log(key);
+      
+      for (var key of data.values()){
+        console.log(key);
+      }
+      let status = async () => { await axios.post('/group', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-        let status = async () => { await axios.post('/group', data, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })}
+      })}
         // catch ((e) => { 
         //   if (e.response) {
         //     console.log(e.response.data);
@@ -50,10 +51,16 @@ export default {
 
     },
 
-    reviseMain(orderPk){
-    let status = axios.put('/group', {pk:orderPk})
-
-    return status
+    reviseMain(data){
+      for (var key of data.values()){
+        console.log(key);
+      }
+      let status = async () => { await axios.put('/group', {params:{data}, 
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })}
+      status()
     },
 
     deleteMain(orderPk){

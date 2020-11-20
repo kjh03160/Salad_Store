@@ -41,7 +41,9 @@ def main():
 def test():
     return render_template('test.html')
 
-imgDir = os.path.join(app.root_path,'img/')
+saveImgDir = os.path.join(app.root_path,'static','images')
+
+sendImgDir = os.path.join('http://localhost:5000/','static','images')
 
 
 class Index(Resource):
@@ -85,62 +87,30 @@ class Group(Resource):
             pass
 
     def post(self):
+        print(1)
         # data = Group.parser.parse_args()
-        # print(
         # print(request.files['text1'])
         data = request.form
         # for i in data.values():
         #     print(i)
-        print(imgDir)
-        if 'image' in request.files:
-            image = request.files['image']
-            image.save(os.path.join(imgDir,'main/',secure_filename(image.filename)))
-            
-
-        # data =  Group.parser.parse_args()
-        # print(data['data'])
-        # if (data['data'] != None):
-
-     # name = request.json
-        # print(name)
-        # parser = reqparse.RequestParser()
-        # parser.add_argument('name',type=str)
-        # args = parser.parse_args()
-        # print(args['name'])
-        # return({'name':args['name']})
-        # category = models.Category.query.all()
-        # categoryDict = {}
-        # for i in range(len(category)):
-        #     categoryDict['categoryName'+str(i)] = category[i].category_name
-        #     categoryDict['categoryId'+str(i)] = category[i].category_pk
-        # return categoryDict
-
-    # def post(self):
-    #     name = request.json
-    #     print(name)
-    #     # category = models.Category(name)
-    #     # session.add(category)
-    #     # session.commit()
-    #     pass
+        # if 'image' in request.files:
+            # image = request.files['image']
+            # path = os.path.join(saveImgDir,'main/',secure_filename(image.filename))
+            # image.save(path)
 
     def put(self):
-        data = Group.parser.parse_args()
-        if data['pk'] == None:
-            print(1)
-            pass
-            #여기선 뭘하냐 전체를 갖다 바친다
-        else:
-            print(2)
-            #여기선 뭘 하냐 pk를 갖다 바친다
-            pass
-        # parser = reqparse.RequestParser()
-        # parser.add_argument('name',type=str)
-        # args = parser.parse_args()
-        # print(args['name'])
-        # category = models.Category.get(Category_name = name)
-        # category.name = rename
-        # session.commit()
+        print(2)
+        data = request.form
+        print(data)
+        print(request.files['image'])
+        if 'image' in request.files:
+            print(request.files['image'])
+            # image = request.files['image']
+            # path = os.path.join(saveImgDir,'main/',secure_filename(image.filename))
+            
+            # image.save(path)
         pass
+
     def delete(self):
         data = Group.parser.parse_args()
         if data['pk'] == None:
