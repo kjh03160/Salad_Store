@@ -14,9 +14,8 @@ export default function Login(){
 
     const loginUser = async () => {
         let result = await api.loginUser({"usr_id" : userId, "password" :  userPw});
-        console.log(result.data)
         setKey(result.data)
-        console.log(result);
+        // console.log(result);
     }
     const setId = (e) => {
         setUserId(e.target.value);

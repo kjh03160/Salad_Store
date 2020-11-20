@@ -16,8 +16,8 @@ export default {
     },
 
     async checkUser(key) {
-        console.log(key)
-        return await axios.get("/login", {params : {key : key}}, { withCredentials: true } )
+        // console.log(key)
+        return await axios.post("/cookie", {key : key}, { withCredentials: true } )
         
     }
 }

@@ -1,7 +1,6 @@
 import models
 from flask_restful import Resource, Api, reqparse
 from flask import Flask, request, jsonify, abort, Response, make_response
-import flask
 from uuid import uuid4
 from database import session, Base, engine
 import models
@@ -37,29 +36,12 @@ class Signup(Resource):
 
 
 class Login(Resource):
-    def get(self, response):
-        # print(flask.session['session_key'])
-        # if 'session_key' in flask.session:
-        #     user = 'logged_in'
-        # else:
-        #     user = 'null'
-        
-        parser = reqparse.RequestParser()
-        parser.add_argument('key', required=True)
-
-        data = parser.parse_args()
-        # data = request.json()['params']['key']
-        # res = make_response('coookie')
-        # result = redis_session.retrieve_session(data['key']).decode()
-
-        # res.set_cookie('dadfads')
-
-        print(data)
-        return Response('', 200, {'Set-Cookie':'mycookie=dd'})
+    def get(self):
+        pass
 
     def post(self):
         arg = request.json
-        print(arg)
+        # print(arg)
         user_in_db = models.User.query.filter_by(user_id = arg['usr_id']).first()
         if user_in_db:
             if user_in_db.check_password(arg['password']):
@@ -85,3 +67,17 @@ class Login(Resource):
 #             del session['session_key']
 
 #         return 200, { "logged_in" : True }
+
+class SetCookie(Resource):
+    def get(self):
+        pass
+
+    def post(self):
+        arg = request.json
+        result = redis_session.retrieve_session(arg['key'])
+
+        # result = redis_session.retrieve_session(data['key']).decode()
+
+        print(result)
+        # return Response('', 200, {'Set-Cookie':'mycookie=dd; httponly=True; domain=127.0.0.1; sameSite=False'})
+        return Response('', 200, {'Set-Cookie':result})
