@@ -1,23 +1,30 @@
+
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+
 const SUCCESS = "SUCCESS"
 const ERROR = "ERROR"
 const LOADING = "LOADING"
 
-export const setSuccess = () =>({type: SUCCESS, data:{a:1}})
+export const setSuccess = (data) =>({type: SUCCESS,data})
 export const setError = () =>({type: ERROR, error: 'error'})
 export const setLoading = () =>({type: LOADING})
 
+
+
+
 const initialState = {
-    loading:false,
-    data:null,
+    loading:true,
+    data:[],
     error:false
 }
 
-export default function (state = initialState, action){
+export default function dataSet(state = initialState, action){
     switch(action.type){
         case LOADING:
             return {
                 loading:true,
-                data:null,
+                data:{},
                 error:null
             }
         case SUCCESS:
@@ -29,12 +36,14 @@ export default function (state = initialState, action){
         case ERROR:
             return{
                 loading:false,
-                data:null,
+                data:{},
                 error: action.error
             }
         default:
-            throw new Error(`unhandled action type: ${action.type} `)
+            return state
     }
 
 }
+
+
 

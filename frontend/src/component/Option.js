@@ -5,11 +5,12 @@ export default function Option(props){
     const {nextId, menuData, orderList,setOrderList, onSetOrder} = props.data
     // console.log(`${props.match.params.selectedMain} 이걸봐`)
     function handleClick(event){
-        let optionPrice =  0 
+        let optionPrice =  0
+        let optionId = 0
         menuData.option.forEach((item,index)=> { 
-            console.log(event)
             if (item.name == event.target.innerText){
-                return optionPrice =  item.price
+                optionId = item.id
+                optionPrice =  item.price
             }
         })
 
@@ -19,6 +20,7 @@ export default function Option(props){
                 optionList:[
                     ...orderList.optionList, 
                     {
+
                         optionName:event.target.innerText,
                         optionPrice:optionPrice
                     }
@@ -35,8 +37,8 @@ export default function Option(props){
     }
 
     // 옵션 다선택시 뒤로 돌아가기 (메인메뉴 비운다는 조건)
-    if (orderList.main)
-    {return(
+    if (orderList.main){
+    return(
         <div>
             <ul>
                 {/* {main.map((name)=>{return (<li>{name.name}</li>)})} */}

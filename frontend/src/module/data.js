@@ -49,6 +49,50 @@ export default {
         },
         {
             id : 4,
+            categoryPk:1,
+            name:'준하샐러드',
+            price:40000,
+            isSoldOut:false,
+            image:'image',
+            descriptionText:"바보",
+            
+            
+        },
+        {
+            id : 5,
+            categoryPk:1,
+            name:'주은샐러드',
+            price:40000,
+            isSoldOut:false,
+            image:'image',
+            descriptionText:"바보",
+            
+            
+        },
+        {
+            id : 6,
+            categoryPk:1,
+            name:'정엽샐러드',
+            price:40000,
+            isSoldOut:false,
+            image:'image',
+            descriptionText:"바보",
+            
+            
+        },
+        {
+            id : 7,
+            categoryPk:1,
+            name:'주현샐러드',
+            price:40000,
+            isSoldOut:false,
+            image:'image',
+            descriptionText:"바보",
+            
+            
+        },
+        {
+            id : 8,
             categoryPk:3,
             name:'콜라',
             price:4,
@@ -59,7 +103,7 @@ export default {
             
         },
         {
-            id : 5,
+            id : 9,
             categoryPk:3,
             name:'사이다',
             price:4,
@@ -70,9 +114,20 @@ export default {
             
         },
         {
-            id : 6,
+            id : 10,
             categoryPk:2,
             name:'경욱포케',
+            price:4,
+            isSoldOut:false,
+            image:'image',
+            descriptionText:"바보",
+            
+            
+        },
+        {
+            id : 11,
+            categoryPk:2,
+            name:'멋사포케',
             price:4,
             isSoldOut:false,
             image:'image',
@@ -86,7 +141,7 @@ export default {
         {   
 
             id:1,
-            name:"menu1의option1",
+            name:"option1",
             price:500,
             isSoldOut:false
         },

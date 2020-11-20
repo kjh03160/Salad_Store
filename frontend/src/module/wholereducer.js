@@ -6,6 +6,7 @@ import storageSession from 'redux-persist/lib/storage/session'
 
 import auth from './auth'
 import order from './order'
+import dataSet from './dataSet'
 
 
 const persistConfig ={
@@ -16,7 +17,9 @@ const persistConfig ={
 const rootReducer = combineReducers(
     {
         auth,
-        order
+        order,
+        dataSet
+
 
     }
 )

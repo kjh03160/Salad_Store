@@ -5,30 +5,26 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import {BrowserRouter as Router} from 'react-router-dom'
-import {createStore} from 'redux'
+import {applyMiddleware, createStore} from 'redux'
 import rootReducer from './module/wholereducer'
 import {Provider} from 'react-redux'
 import {persistStore} from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react';
-// import logger from 'redux-logger'
-// import { composeWithDevTools} from 'redux-devtools-extensions'
-import StateProvider from './context';
+import logger from 'redux-logger'
+import { composeWithDevTools} from 'redux-devtools-extension'
 
 
-const store = createStore(rootReducer)
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)))
 const persistor = persistStore(store)
-console.log(store.getState())
-console.log(store)
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Provider store={store}>
           <PersistGate persistor={persistor}>
-            {/* <StateProvider> */}
-        <App />
-
-        {/* </StateProvider> */}
-        </PersistGate>
+              <App />
+          </PersistGate>
       </Provider>
     </Router>
   </React.StrictMode>,

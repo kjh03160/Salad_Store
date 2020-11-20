@@ -21,8 +21,8 @@ function App() {
         {/* <Route exact path='/' component ={Home}/> */}
         <Route exact path='/' component={Login}/>
         <Route  path='/menu' component = {MenuPage}/>
-        <Route exact path='/kitchen' component = {Kitchen}/>
-        <Route exact path ='/admin' component={Admin}/>
+        <Route  path='/kitchen' component = {Kitchen}/>
+        <Route path ='/admin' component={Admin}/>
         <Route component={Error}/>
       </Switch>
     </>

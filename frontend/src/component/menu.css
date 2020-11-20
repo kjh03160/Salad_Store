@@ -8,6 +8,8 @@
 }
 .menuPick a {
     margin: 25px 0 0 30px;
+    width:280px;
+    height:250px;
 }
 .imageBox{
     width:100%;

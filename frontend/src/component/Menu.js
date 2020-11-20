@@ -13,15 +13,19 @@ export default function Menu(props){
     function handleClick(e){
         let mainPrice = 0
         let main = ''
+        let mainId = 0
         menuData.main.forEach((item,index)=> {    
             if (item.id == e.currentTarget.id){
                 mainPrice =item.price
                 main = item.name
+                mainId = item.id
+                
             }
         })
         setOrderList(
             {
                 orderId:nextId.current,
+                mainId : mainId,
                 main:main,
                 mainQuantity:1,
                 mainPrice:mainPrice,
@@ -38,8 +42,7 @@ export default function Menu(props){
                         <Link to ={`/menu/${menu.categoryPk}/${menu.id}`} id = {menu.id}key = {menu.id} onClick={handleClick}>
                         <div className="itemBox">
                         <div className="imageBox">{menu.image}</div>
-                        <span>{menu.name}</span><span>{menu.price}</span>
-                        
+                        <span>{menu.name}</span><span>{menu.price}원</span>
                         </div>
                         </Link>
                                 )
