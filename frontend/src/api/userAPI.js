@@ -15,7 +15,9 @@ export default {
         return axios.post("/login", data)
     },
 
-    checkUser() {
-        return axios.get("/login");
+    async checkUser(key) {
+        console.log(key)
+        return await axios.get("/login", {params : {key : key}}, { withCredentials: true } )
+        
     }
 }

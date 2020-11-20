@@ -20,7 +20,7 @@ def create_app():
         }
     DB_URL = f"mysql+pymysql://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['database']}?charset=utf8"
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-    CORS(app, resources={r'*': {'origins': '*'}})
+    CORS(app, resources={r'*': {'origins': 'http://127.0.0.1:3000'}}, expose_headers =['*'], support_credentials = True)
     models.db.init_app(app)
     return app
 

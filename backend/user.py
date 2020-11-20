@@ -1,6 +1,6 @@
 import models
 from flask_restful import Resource, Api, reqparse
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, Response, make_response
 import flask
 from uuid import uuid4
 from database import session, Base, engine
@@ -37,23 +37,37 @@ class Signup(Resource):
 
 
 class Login(Resource):
-    def get(self):
+    def get(self, response):
         # print(flask.session['session_key'])
-        if 'session_key' in flask.session:
-            user = 'logged_in'
-        else:
-            user = 'null'
-        return {'user' : user}, 200
+        # if 'session_key' in flask.session:
+        #     user = 'logged_in'
+        # else:
+        #     user = 'null'
+        
+        parser = reqparse.RequestParser()
+        parser.add_argument('key', required=True)
+
+        data = parser.parse_args()
+        # data = request.json()['params']['key']
+        # res = make_response('coookie')
+        # result = redis_session.retrieve_session(data['key']).decode()
+
+        # res.set_cookie('dadfads')
+
+        print(data)
+        return Response('', 200, {'Set-Cookie':'mycookie=dd'})
 
     def post(self):
         arg = request.json
+        print(arg)
         user_in_db = models.User.query.filter_by(user_id = arg['usr_id']).first()
         if user_in_db:
             if user_in_db.check_password(arg['password']):
                 session_key = redis_session.save_session(arg['usr_id'])
-                print(session_key)
-                flask.session['session_key'] = session_key
-                return 200
+                # print(redis_session.db)
+                # print(session_key)
+                # flask.session['session_key'] = session_key
+                return session_key, 200
             else:
                 abort(404)
         abort(404)
