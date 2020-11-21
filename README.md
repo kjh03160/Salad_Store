@@ -1,6 +1,14 @@
 # REST API 사용법
+-----
 
-## 주문 API (**`pip install pandas` 선행!**)
+## API List
+- [주문API](#주문API)
+- [매출통계 API](#매출API)
+
+
+-----
+
+## 주문API (**`pip install pandas` 선행!**)
 
 | Request type  | Description |
 |---------------|-------------|
@@ -67,6 +75,34 @@ axios.patch('/orders', {pk:orderPk})
 axios.delete('/orders', {params:{pk:orderPk}})
 ```
 
+------
+## 매출API
+
+| Request type  | Description |
+|---------------|-------------|
+| **`GET`**         | 매출 데이터 얻기 |
+
+#### GET (return status 200)
+- completed가 True 인 것만
+- **날짜 범위 맞지 않는 것은 리액트에서 처리해서!**
+
+
+1. 전체 매출 데이터 조회: 
+
+```js
+axios.get("/statistics", {params:{startDate : startDate, endDate : endDate})
+```
+
+
+2. 메뉴 매출 데이터 조회: 
+```js
+axios.get("/statistics", {params:{startDate : startDate, endDate : endDate, menu : true})
+```
+
+3. 옵션 매출 데이터 조회
+```js
+axios.get("/statistics", {params:{startDate : startDate, endDate : endDate, option : true})
+```
 
 
 ------------
