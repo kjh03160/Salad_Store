@@ -12,13 +12,52 @@ import Option from '../component/Option'
 import Menu from '../component/Menu'
 import OrderList from '../component/OrderList'
 
-import './menuContainer.css';
+
+import styled from 'styled-components'
+import { makeStyles } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+const WrapperSection = styled.section`
+    width:1200px;
+    height:100vh;
+    border:1px solid black;
+    display:flex;
+    flex-wrap: wrap;
+    `;
+    const CategorySection =styled.div`
+    width:20%;
+    height:80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border:1px solid black;
+    `
+    const MenuSection = styled.div`
+    width: 80%;
+    height:80%;
+    display: flex;  
+    flex-wrap: wrap;
+    border:1px solid black;
+    overflow-y: scroll;
+    `
+    const OrderListSection = styled.div`
+    width:100%;
+    height:20%;
+    border:1px solid black;
+    overflow-y: scroll;
+    `
 
 // 컨테이너에서 상태, 데이터 다 관리하고 컴포넌트에 뿌려주기
 export default function MenuContainer(props) {
-    const {dataSet:{loading,data,error}} = useSelector(state =>({
+    const {dataSet:{loading,data,error}, selectedMenu} = useSelector(state =>({
         dataSet:state.dataSet,
+        selectedMenu:state.order
     }))
+    
     
     // 장바구니
     const [orderList, setOrderList] = useState({})
@@ -40,34 +79,39 @@ export default function MenuContainer(props) {
             const response = await axios.get(
                 `https://jsonplaceholder.typicode.com/users`
             )
+            console.log(response)
             onSetSuccess(response.data)
     }
         fetchData()
     }
     , [])
 
+    
+
     //컴포넌트에 넘겨줄 패키지들
     const menuComData = {nextId, menuData, orderList ,setOrderList, onSetOrder}
     const optionComData = { nextId, menuData,orderList,setOrderList, onSetOrder}
-    
     if(loading) return <div>로딩중</div>
     return (
         
-        <div className='wrapper'>
-            <section className="category">
+        
+        <WrapperSection>
+            <CategorySection>
                 {menuData.categoryPk.map((item,index)=>
-                (<Link to ={`/menu/${item.id}`} key = {index} >{item.name}</Link>
+                (<Link to ={`/menu/${item.id}`} key = {index} ><Typography>{item.name}</Typography></Link>
                 ))}
-            </section>
-            <section className="menuPick">
+            </CategorySection>
+            <MenuSection>
                 <Route exact path='/menu/:categoryPk' render={(props)=><Menu {...props} data = {menuComData}/>}/>
                 <Route path='/menu/:categoryPk/:selectedMain' render={(props)=><Option {...props} data = {optionComData}/>}/>
-            </section>
-            <section className='orderList'>
-                <OrderList/>
+            </MenuSection>
+            <OrderListSection>
+                <OrderList selectedMenu = {selectedMenu}/>
                 {/* {data.map((item)=> <div>{item.name}</div>)} */}
-            </section>
+                </OrderListSection>
 
-        </div>
+        // </WrapperSection>
     )
 }
+
+
