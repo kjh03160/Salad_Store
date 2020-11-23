@@ -109,7 +109,22 @@ class Group(Resource):
             # path = os.path.join(saveImgDir,'main/',secure_filename(image.filename))
             
             # image.save(path)
+            
         pass
+
+    def patch(self):
+        data= request.form
+        for i in data.keys():
+            print(i)
+        if 'image' in request.files:
+            # db에서 갖고 온 이미지 주소 중 마지막 부분인 파일을 떼오고
+            # 이것을 이용해서 파일이 존재하는 지 확인한다
+            # os.path.exists(file_path)
+            # 파일이 있다면 해당 파일을 지우고 
+            # 없으면 바로 저장한다
+            print(request.files['image'])
+            image = request.files['image']
+            os.remove(os.path.join(saveImgDir,'main/','img1.jpg'))
 
     def delete(self):
         data = Group.parser.parse_args()

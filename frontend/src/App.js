@@ -22,7 +22,9 @@ export default function App() {
     // let result2 = await api.getMain();
     // let result2 = await api.newMain({'text1' : usertext1, 'text2' : usertext2, 'image':img});
     // let result2 = await api.newMain(form)
+    // let result2 = await api.changeMain(form);
     let result2 = await api.reviseMain(form);
+
     // let result2 = await api.deleteMain(1);
 
     console.log(result2)

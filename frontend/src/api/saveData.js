@@ -51,17 +51,30 @@ export default {
 
     },
 
-    reviseMain(data){
+    changeMain(data){
       for (var key of data.values()){
         console.log(key);
       }
-      let status = async () => { await axios.put('/group', {params:{data}, 
+      let status = async () => { await axios.put('/group', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })}
       status()
     },
+
+    reviseMain(data){
+      for (var key of data.values()){
+        console.log(key);
+      }
+      let status = async () => { await axios.patch('/group', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })}
+      status()
+    },
+
 
     deleteMain(orderPk){
       console.log(orderPk)
