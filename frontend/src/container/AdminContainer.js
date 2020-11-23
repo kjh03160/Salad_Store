@@ -1,17 +1,18 @@
-import React from 'react'
-import Menuadmin from '../component/Menuadmin'
-import { Route,Link, StaticRouter } from 'react-router-dom'
-import Navbar from '../component/navbar/navbar'
-import MenuStat from '../component/MenuStat'
-import OptionStat from '../component/OptionStat'
-import AdminMain from '../component/AdminMain'
+import React from 'react';
+import Menuadmin from '../component/MenuAdmin/MenuAdmin';
+import { Route,Link, StaticRouter } from 'react-router-dom';
+import Navbar from '../component/navbar/navbar';
+import MenuStat from '../component/MenuStat/MenuStat';
+import OptionStat from '../component/OptionStat/OptionStat';
+import AdminMain from '../component/AdminMain/AdminMain';
+import styles from './AdminContainer.module.css';
 
 export default function AdminContainer() {
     return (
         <>
         <div>
             <Navbar/>
-            <div className="content">
+            <div className={styles.content}>
             <Route exact path='/admin/' component = {AdminMain}/>
             <Route path='/admin/menustat' component = {MenuStat}/>
             <Route path='/admin/optionstat' component = {OptionStat}/>
