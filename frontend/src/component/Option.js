@@ -13,7 +13,6 @@ export default function Option(props){
                 optionPrice =  item.price
             }
         })
-
         setOrderList(
             {
                 ...orderList,

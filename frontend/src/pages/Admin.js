@@ -1,9 +1,12 @@
 import React from 'react'
+import AdminContainer from '../container/AdminContainer'
 
 export default function Admin() {
     return (
         <div>
-            관리자 페이지sadasdas
+            <AdminContainer/>
         </div>
     )
 }
+
+

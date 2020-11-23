@@ -22,6 +22,7 @@ export default function MenuContainer(props) {
     
     // 장바구니
     const [orderList, setOrderList] = useState({})
+    
     // order당 구분 위한 ID (나중에 수량변경, 삭제 위해서)
     const nextId = useRef(0)
     
@@ -44,7 +45,7 @@ export default function MenuContainer(props) {
         fetchData()
     }
     , [])
-    
+
     //컴포넌트에 넘겨줄 패키지들
     const menuComData = {nextId, menuData, orderList ,setOrderList, onSetOrder}
     const optionComData = { nextId, menuData,orderList,setOrderList, onSetOrder}
