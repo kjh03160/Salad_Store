@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React, { useState, Component, useEffect} from 'react';
 import api from './api/orderAPI'
+import sapi from './api/statisticAPI'
 
 function App() {
   const [startDate, setStartDate] = useState();
@@ -17,12 +18,15 @@ function App() {
   console.log(startDate, endDate)
   const getOrders = async () =>{
     let result2 = await api.getOrders();
-    // let result2 = await api.test();
+    // let result2 = await sapi.test();
     // let result2 = await api.makeOrders(startDate);
-    // let result2 = await api.setComplete(15)
+    // let result2 = await api.setComplete(42)
     // let result2 = await api.deleteOrder(41)
 
     // let result2 = await api.makeOrders({'menus' : [{'menuId' : 3, 'options' :[1, 3], 'quantity' : 1}, {'menuId' : 1, 'options' : [], 'quantity' : 1}], 'totalPrice' : 10000})
+    
+    
+    // let result2 = await sapi.getOrders(startDate, endDate)
     console.log(result2)
   }
 
