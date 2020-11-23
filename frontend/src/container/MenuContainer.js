@@ -14,11 +14,11 @@ import OrderList from '../component/OrderList'
 
 
 import styled from 'styled-components'
-import { makeStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+// import { makeStyles } from '@material-ui/core/styles';
+// import Tabs from '@material-ui/core/Tabs';
+// import Tab from '@material-ui/core/Tab';
+// import Typography from '@material-ui/core/Typography';
+// import Box from '@material-ui/core/Box';
 
 const WrapperSection = styled.section`
     width:1200px;
@@ -98,7 +98,7 @@ export default function MenuContainer(props) {
         <WrapperSection>
             <CategorySection>
                 {menuData.categoryPk.map((item,index)=>
-                (<Link to ={`/menu/${item.id}`} key = {index} ><Typography>{item.name}</Typography></Link>
+                (<Link to ={`/menu/${item.id}`} key = {index} >{item.name}</Link>
                 ))}
             </CategorySection>
             <MenuSection>
