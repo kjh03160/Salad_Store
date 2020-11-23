@@ -8,7 +8,7 @@ export default function Login(){
     const checkUser = async () => {
         // console.log(key)
         let result = await api.checkUser(key);
-        console.log(result.headers)
+        // console.log(result.headers)
         console.log(`cookie: ${document.cookie}`)
     } 
 

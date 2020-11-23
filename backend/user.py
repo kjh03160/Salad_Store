@@ -1,7 +1,7 @@
 import models
 from flask_restful import Resource, Api, reqparse
-from flask import Flask, request, jsonify, abort, Response, make_response
-from uuid import uuid4
+from flask import Flask, request, jsonify, Response, make_response
+from flask import session as f_session
 from database import session, Base, engine
 import models
 from redis_session import *
@@ -11,12 +11,7 @@ redis_session = RedisSession()
 class Signup(Resource):
 
     def get(self):
-        # parser = reqparse.RequestParser()
-        # parser.add_argument('usr_id', type = str, required = True)
-        # parser.add_argument('password', type = str, required = True)
-        # arg = parser.parse_args()
-        pass
-        # return 200 ,{'id':user.user_id, "password":user.password, "is_super":user.is_super }
+        return Response(status = 405)
     def post(self):
         arg = request.json
         duplicated_user = models.User.query.filter_by(user_id = arg['usr_id']).first()
@@ -25,59 +20,50 @@ class Signup(Resource):
             user.set_password(arg['password'])
             session.add(user)
             session.commit()
-            return 200
+            return 201
         else:
-            abort(404)
+            return Response(status = 409)
+
     def put(self):
         # request.json
-        pass
+        return Response(status = 405)
     def delete(self):
-        pass
+        return Response(status = 405)
 
 
 class Login(Resource):
     def get(self):
-        pass
+        if 'usr' in f_session:
+            print('hhhh')
+        else:
+            print('ddddd')
+        print(f_session)
+        return Response('', 200)
 
     def post(self):
         arg = request.json
-        # print(arg)
         user_in_db = models.User.query.filter_by(user_id = arg['usr_id']).first()
         if user_in_db:
             if user_in_db.check_password(arg['password']):
                 session_key = redis_session.save_session(arg['usr_id'])
+                # f_session.permanent = True
+                f_session['usr'] = session_key
+                print(f_session)
                 # print(redis_session.db)
-                # print(session_key)
-                # flask.session['session_key'] = session_key
-                return session_key, 200
+                cookie = 'user=' + session_key
+                resp = Response('', 200, {'Set-Cookie': cookie})
+                # resp.headers['Access-Control-Allow-Credentials'] = 'true'
+                resp.headers.add('Access-Control-Allow-Headers',
+                         "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+                return resp
             else:
-                abort(404)
-        abort(404)
+                return Response(status = 401)
+        return Response(status = 401)
 
-# class VerifyUser(Resource):
-#     def get(self):
-#         if 'session_key' not in session:
-#             return 200, { "logged_in" : False }
-
-#         session_key = session['session_key']
-#         user_name = redis_session().open_session(session_key)
-
-#         # key 관리 db 에서 세션이 유효하지 않으면 세션 삭제
-#         if user_name is None :
-#             del session['session_key']
-
-#         return 200, { "logged_in" : True }
-
-class SetCookie(Resource):
-    def get(self):
-        pass
-
+class Test(Resource):
     def post(self):
-        arg = request.json
-        result = redis_session.retrieve_session(arg['key'])
-
-        # result = redis_session.retrieve_session(data['key']).decode()
-
-        print(result)
-        # return Response('', 200, {'Set-Cookie':'mycookie=dd; httponly=True; domain=127.0.0.1; sameSite=False'})
-        return Response('', 200, {'Set-Cookie':result})
+        if 'usr' in f_session:
+            print('hhhh')
+        else:
+            print('ddddd')
+        return 200

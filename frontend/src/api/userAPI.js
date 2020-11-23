@@ -1,23 +1,27 @@
 import axios from "axios"
 
-axios.defaults.baseURL = "http://127.0.0.1:5000"
-// axios.defaults.header = {}
 
+const instance = axios.create({
+    withCredentials: true
+  })
+  instance.defaults.baseURL = "http://127.0.0.1:5000"
+// axios.defaults.header = {}
+// ,  {key : key}, {credentials: 'include', withCredentials: true }
 
 export default {
     signupUser(data) {
         console.log(data);
-        return axios.post("/signup", data)
+        return instance.post("/signup", data)
     },
 
     loginUser(data) {
         console.log(data);
-        return axios.post("/login", data)
+        return instance.post("/login", data, {withCredentials: true } )
     },
 
     async checkUser(key) {
-        // console.log(key)
-        return await axios.post("/cookie", {key : key}, { withCredentials: true } )
+        console.log(key)
+        return await instance.get("/login" )
         
     }
 }

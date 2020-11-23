@@ -20,7 +20,7 @@ def create_app():
         }
     DB_URL = f"mysql+pymysql://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['database']}?charset=utf8"
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-    CORS(app, resources={r'*': {'origins': 'http://127.0.0.1:3000'}}, expose_headers =['*'], supports_credentials = True)
+    CORS(app, resources={r'*': {'origins': 'http://127.0.0.1:3000'}}, expose_headers =['*'], supports_credentials = True, credientials = True)
     models.db.init_app(app)
     return app
 
@@ -58,7 +58,7 @@ class Index(Resource):
 api.add_resource(Index, '/menu')
 api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')
-api.add_resource(SetCookie, '/cookie')
+api.add_resource(Test, '/test')
 # api.add_resource(VerifyUser, '/check')
 
 if __name__=='__main__':
