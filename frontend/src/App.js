@@ -1,44 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useState, Component, useEffect} from 'react';
-import api from './api/orderAPI'
+import React from 'react';
+import {useSelector,useDispatch} from 'react-redux'
+import {Redirect} from 'react-router-dom'
+
+import { Switch,Route,Link } from 'react-router-dom';
+
+
+import MenuPage from './pages/MenuPage'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Error from './pages/Error'
+import Kitchen from './pages/Kitchen'
+import Admin from './pages/Admin'
 
 function App() {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-
   
-  const onChangeStart = (e) => {
-    setStartDate(e.target.value)
-  }
-  const onChangeEnd = (e) => {
-    setEndDate(e.target.value)
-  }
-  console.log(startDate, endDate)
-  const getOrders = async () =>{
-    let result2 = await api.getOrders();
-    // let result2 = await api.test();
-    // let result2 = await api.makeOrders(startDate);
-    // let result2 = await api.setComplete(15)
-    // let result2 = await api.deleteOrder(41)
-
-    // let result2 = await api.makeOrders({'menus' : [{'menuId' : 3, 'options' :[1, 3], 'quantity' : 1}, {'menuId' : 1, 'options' : [], 'quantity' : 1}], 'totalPrice' : 10000})
-    console.log(result2)
-  }
-
   return (
-    <div className="App">
-      시작날짜
-      <input type='date' name={"startDate"} onChange={onChangeStart}
-            value={startDate}></input><br>
-      </br>
-      끝날짜
-      <input type='date' name={"endDate"} onChange={onChangeEnd}
-            value={endDate}></input><br>
-      </br>
-
-      <button onClick={getOrders}>ㅇㅋ</button>
-    </div>
+    
+    <>
+      <Switch>
+        {/* <Route exact path='/' component ={Home}/> */}
+        <Route exact path='/' component={Login}/>
+        <Route  path='/menu' component = {MenuPage}/>
+        <Route  path='/kitchen' component = {Kitchen}/>
+        <Route path ='/admin' component={Admin}/>
+        <Route component={Error}/>
+      </Switch>
+    </>
+      
+      
+      
+      
+      
+    
   );
 }
 
