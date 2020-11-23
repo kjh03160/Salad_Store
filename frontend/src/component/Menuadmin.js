@@ -1,9 +1,13 @@
 import React from 'react'
 
-export default function Menuadmin() {
-    return (
+const Menuadmin = (props) => {
+    return(
         <div>
-            메뉴 관리
+            메뉴관리
+            입니다ㅏ앙
+            아아아
         </div>
-    )
-}
+    );
+};
+
+export default Menuadmin;
