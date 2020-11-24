@@ -3,13 +3,17 @@ import Mains from '../Mains';
 import styles from './Category.module.css';
 
 const Category = (props) => {
-    const { optionRelation, main, option, categoryPk, name } = props;
+    const { optionRelation, main, option, categoryPk, category, name } = props;
+    
+    const handleCategoryDelete = () => {
+        props.onCatDel(category);
+    };
 
     return (
         <div className={styles.container}>
             <div className="name">
                 <h2>{name}</h2>
-                <button onClick={props.onCatDel}>❌</button>
+                <button onClick={handleCategoryDelete}>❌</button>
             </div>
             <div className="menus">
                 <Mains
