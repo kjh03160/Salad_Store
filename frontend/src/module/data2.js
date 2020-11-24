@@ -1,6 +1,7 @@
 
 export default {
     optionRelation: [
+        // 5,6,7 -> 드레싱
         {
             pk: 0,
             main_id: 1,
@@ -13,8 +14,33 @@ export default {
         },
         {
             pk: 2,
+            main_id: 1,
+            option_id: 5
+        },
+        {
+            pk: 3,
             main_id: 2,
-            option_id: 3
+            option_id: 6
+        },
+        {
+            pk: 4,
+            main_id: 2,
+            option_id: 7
+        },
+        {
+            pk: 5,
+            main_id: 3,
+            option_id: 5
+        },
+        {
+            pk: 6,
+            main_id: 3,
+            option_id: 5
+        },
+        {
+            pk: 7,
+            main_id: 4,
+            option_id: 6
         },
     ],
     main: [
@@ -145,20 +171,44 @@ export default {
         {
 
             id: 1,
-            name: "option1",
+            name: "양배추 추가",
             price: 500,
             isSoldOut: false
         },
         {
             id: 2,
-            name: "option2",
+            name: "올리브 추가",
             price: 600,
             isSoldOut: false
         },
         {
             id: 3,
-            name: "option3",
+            name: "빵 추가",
             price: 700,
+            isSoldOut: false
+        },
+        {
+            id: 4,
+            name: "연어 추가",
+            price: 1000,
+            isSoldOut: false
+        },
+        {
+            id: 5,
+            name: "오리엔탈 드레싱",
+            price: 0,
+            isSoldOut: false
+        },
+        {
+            id: 6,
+            name: "유자 드레싱",
+            price: 0,
+            isSoldOut: false
+        },
+        {
+            id: 7,
+            name: "발사믹 드레싱",
+            price: 0,
             isSoldOut: false
         },
     ],
