@@ -5,6 +5,10 @@ import MainAddForm from './MainAddForm';
 const Mains = (props) => {
     const { optionRelation, main, option } = props;
 
+    const handleMenuDelete = (menu) => {
+        props.onMenDel(menu);
+    };
+
     return (
         <div>
             <MainAddForm/>
@@ -15,11 +19,17 @@ const Mains = (props) => {
                 <Main
                     key={menu.id}
                     id={menu.id}
+                    menu={menu}
                     name={menu.name}
                     price={menu.price}
                     img={menu.img}
                     optionRelation={optionRelation} // 관계 필요한지 모르겠음
                     option={option}
+                    // onMenAdd={handleMenuAdd}
+                    onMenDel={handleMenuDelete}
+                    // onImgAdd={handleImageAdd}
+                    // onOptAdd={handleOptionAdd}
+                    // onOptDel={handleOptionDelete}
                 />
                 <br/>
                 </>

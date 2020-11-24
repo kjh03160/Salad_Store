@@ -26,7 +26,8 @@ const MenuAdmin = (props) => {
     };
 
     const handleMenuDelete = menu => {
-
+        const main = state.main.filter(item => item.id !== menu.id)
+        setState({ ...state, main});
     };
 
     const handleImageAdd = menu => {
