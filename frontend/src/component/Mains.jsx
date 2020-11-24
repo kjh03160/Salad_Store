@@ -9,6 +9,10 @@ const Mains = (props) => {
         props.onMenDel(menu);
     };
 
+    const handleOptionDelete = (option) => {
+        props.onOptDel(option);
+    };
+    
     return (
         <div>
             <MainAddForm/>
@@ -29,7 +33,7 @@ const Mains = (props) => {
                     onMenDel={handleMenuDelete}
                     // onImgAdd={handleImageAdd}
                     // onOptAdd={handleOptionAdd}
-                    // onOptDel={handleOptionDelete}
+                    onOptDel={handleOptionDelete}
                 />
                 <br/>
                 </>

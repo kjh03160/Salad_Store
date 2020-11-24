@@ -13,6 +13,10 @@ const Category = (props) => {
         props.onMenDel(menu);
     }
 
+    const handleOptionDelete = (option) => {
+        props.onOptDel(option);
+    };
+
     return (
         <div className={styles.container}>
             <div className="name">
@@ -25,11 +29,11 @@ const Category = (props) => {
                     optionRelation={optionRelation}
                     main={main}
                     option={option}
-                    onMenAdd={props.handleMenuAdd}
+                    // onMenAdd={props.handleMenuAdd}
                     onMenDel={handleMenuDelete}
-                    onImgAdd={props.handleImageAdd}
-                    onOptAdd={props.handleOptionAdd}
-                    onOptDel={props.handleOptionDelete}
+                    // onImgAdd={props.handleImageAdd}
+                    // onOptAdd={props.handleOptionAdd}
+                    onOptDel={handleOptionDelete}
                 />
             </div>
         </div>

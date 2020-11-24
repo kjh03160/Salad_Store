@@ -34,12 +34,13 @@ const MenuAdmin = (props) => {
 
     };
 
-    const handleOptionAdd = option => {
+    const handleOptionAdd = opt => {
 
     };
 
-    const handleOptionDelete = option => {
-
+    const handleOptionDelete = opt => {
+        const option = state.option.filter(item => item.id !== opt.id)
+        setState({ ...state, option});
     };
 
     return(

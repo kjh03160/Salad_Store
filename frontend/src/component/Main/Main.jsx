@@ -12,6 +12,10 @@ const Main = (props) => {
         props.onMenDel(menu);
     };
 
+    const handleOptionDelete = (option) => {
+        props.onOptDel(option);
+    };
+
     return (
         <div className={styles.container}>
             <div className="name">
@@ -23,10 +27,10 @@ const Main = (props) => {
                 <OptionMenus
                     key={id}
                     options={subOption}
-                    onMenAdd={props.handleMenuAdd}
-                    onImgAdd={props.handleImageAdd}
-                    onOptAdd={props.handleOptionAdd}
-                    onOptDel={props.handleOptionDelete}
+                    // onMenAdd={props.handleMenuAdd}
+                    // onImgAdd={props.handleImageAdd}
+                    // onOptAdd={props.handleOptionAdd}
+                    onOptDel={handleOptionDelete}
                 />
             </div>
         </div>
