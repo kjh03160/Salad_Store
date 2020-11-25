@@ -14,7 +14,7 @@ export const setLoading = () =>({type: LOADING})
 
 
 const initialState = {
-    loading:true,
+    loading:false,
     data:[],
     error:false
 }

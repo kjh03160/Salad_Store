@@ -141,19 +141,19 @@ export default {
         {   
 
             id:1,
-            name:"option1",
+            name:"소수 추가",
             price:500,
             isSoldOut:false
         },
         {
             id:2,
-            name:"option2",
+            name:"샐러드 추가",
             price:600,
             isSoldOut:false
         },
         {
             id:3,
-            name:"option3",
+            name:"콘샐러드 추가",
             price:700,
             isSoldOut:false
         },

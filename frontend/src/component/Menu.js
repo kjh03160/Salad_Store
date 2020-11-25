@@ -1,6 +1,7 @@
 import {Link, Redirect, Route} from 'react-router-dom'
 import React, {useRef} from 'react'
 
+import Button from '@material-ui/core/Button';
 import styled from 'styled-components'
 const MainMenuCotainer = styled.div`
 display: flex;
@@ -32,30 +33,19 @@ export default function Menu(props){
     
     // 패키지 뜯기
     const {nextId, menuData, orderList,setOrderList} = props.data
-    
     // 장바구니 담기
-    function handleClick(e){
-        let mainPrice = 0
-        let main = ''
-        let mainId = 0
-        menuData.main.forEach((item,index)=> {    
-            if (item.id == e.currentTarget.id){
-                mainPrice =item.price
-                main = item.name
-                mainId = item.id
-                
-            }
-        })
+    function handleClick(event, id, name, price){
         setOrderList(
             {
                 orderId:nextId.current,
-                mainId : mainId,
-                main:main,
+                mainId : id,
+                main:name,
                 mainQuantity:1,
-                mainPrice:mainPrice,
+                mainPrice:price,
                 optionList:[]       
             }
         )
+        nextId.current+=1
     }
     return(
     <>    
@@ -63,7 +53,7 @@ export default function Menu(props){
                 (menu,index)=>{
                     if (menu.categoryPk==props.match.params.categoryPk){
                         return(
-                            <Link to ={`/menu/${menu.categoryPk}/${menu.id}`} id = {menu.id}key = {menu.id} onClick={handleClick}>
+                            <Link style={{textDecoration:"none"}}to ={`/menu/${menu.categoryPk}/${menu.id}`}key = {menu.id} onClick={(event)=>handleClick(event, menu.id,menu.name,menu.price)}>
                         <MainMenuCotainer>
                             <ImageBox>{menu.image}</ImageBox>
                             <Description>{menu.name}</Description><Description>{menu.price}원</Description>
