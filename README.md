@@ -64,10 +64,11 @@ status가 400 줄 값 없음 이라는 뜻이니 처리
   //폼에 추가
   form.append('key name', value);
   //폼데이터로 넘겨줘야 파일도 받을 수 있어서 메인은 다 폼으로 부탁드려요 
-<pre><code>
+</code></pre>
+
 사용할 수 있는 키의 종류 
  menu_pk, category_pk, menu_name, menu_price, menu_soldout, menu_description, menu_image 
-</code></pre>
+
 
 ## code
 <pre><code>
