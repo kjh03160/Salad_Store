@@ -18,15 +18,16 @@ export default function App() {
     // // dictionary 형태로 한번에 담아서 보내기
     // // console.log(img.name)
     form.append('category_pk', 14);
+    form.append('menu_pk',3)
     form.append('menu_name', usertext2);
-    form.append('menu_price', 20);
+    form.append('menu_price', 30);
     form.append('menu_soldout', 1);
     form.append('menu_description', usertext5);
     form.append('image',img)
     for (var key of form.values()){
       console.log(key);
     }
-    let result2 = await api.getMain({'pk':3});
+    // let result2 = await api.getMain({'pk':3});
     // let result2 = await api.newMain({'text1' : usertext1, 'text2' : usertext2, 'image':img});
     // let result2 = await api.newMain(form)
     // let result2 = await api.changeMain(form);
@@ -36,7 +37,7 @@ export default function App() {
     // let result2 = await api.getCategory({'pk':4})
     // let result2 = await api.deleteCategory({'pk': 4})
 
-    // let result2 = await api.deleteMain(1);
+    let result2 = await api.deleteMain({'pk':3});
 
     console.log(result2)
 

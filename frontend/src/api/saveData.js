@@ -9,7 +9,6 @@ export default {
     },
     
     newMain(data) {
-      
       for (var key of data.values()){
         console.log(key);
       }
@@ -18,6 +17,7 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       })
+      return status
         // catch ((e) => { 
         //   if (e.response) {
         //     console.log(e.response.data);
@@ -32,7 +32,7 @@ export default {
         //  }
         //  console.log(e.config);
         //  }) }
-      return status
+
         
         // for (var key of data.values()){
         //   console.log(key);
@@ -50,9 +50,6 @@ export default {
     },
 
     reviseMain(data){
-      for (var key of data.values()){
-        console.log(key);
-      }
       let status = axios.patch('/menu', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -62,10 +59,8 @@ export default {
     },
 
 
-    deleteMain(orderPk){
-      console.log(orderPk)
-      let status = axios.delete('/menu', {params:{pk:orderPk}})
-
+    deleteMain(data){
+      let status = axios.delete('/menu', {params:data})
       return status
     },
 
