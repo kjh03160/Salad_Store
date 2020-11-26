@@ -4,6 +4,12 @@
 
 아~ 귀찮다
 
+## data
+<pre><code>
+data = {'pk' : ...}로 넣어주면 get과 delete 가능
+data = {'name' : ...}로 넣어주면 post 가능
+data = {'pk' : ..., 'name" ...}로 넣어주면 patch 가능
+</code></pre>
 
 # 카테고리 
 
