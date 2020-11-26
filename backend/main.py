@@ -322,8 +322,7 @@ class Option(Resource):
 
 
 
-
-api.add_resource(Group,'/group')
+api.add_resource(Option,'/option')
 api.add_resource(Category,'/category')
 api.add_resource(Menu, '/menu')
 
