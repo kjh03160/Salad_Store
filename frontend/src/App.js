@@ -32,12 +32,12 @@ export default function App() {
     // let result2 = await api.newMain(form)
     // let result2 = await api.changeMain(form);
     // let result2 = await api.reviseMain(form);
-    // let result2 = await api.addCategory({'name': "category4"})
+    let result2 = await api.addCategory({'name': "cibal"})
     // let result2 = await api.changeCategory({'name': "change", 'pk' : 4})
     // let result2 = await api.getCategory({'pk':4})
     // let result2 = await api.deleteCategory({'pk': 4})
 
-    let result2 = await api.deleteMain({'pk':3});
+    // let result2 = await api.deleteMain({'pk':3});
 
     console.log(result2)
 

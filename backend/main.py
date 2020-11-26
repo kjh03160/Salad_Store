@@ -72,7 +72,8 @@ class Category(Resource):
         request = Category.parser.parse_args()
         if request['name'] == None:
             return Response(status = 400)
-        elif session.query(models.Category).filter(models.Category.category_name == request['name']):
+            print("wehre")
+        elif session.query(models.Category).filter(models.Category.category_name == request['name']).count() > 0:
             return Response(status = 400)
         category = models.Category(category_name = request['name'])
         session.add(category)
