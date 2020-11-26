@@ -13,7 +13,21 @@ export const deleteOption = (orderId, optionId) => ({type:DELETE_OPTION, orderId
 export const deleteOrder = (orderId)=> ({type:DELETE_ORDER, orderId})
 
 const initialState = [
-
+    // 데이터 형식
+    // {
+    //     orderId:1,
+    //     mainId : id,
+    //     main:name,
+    //     mainQuantity:1,
+    //     mainPrice:price,
+        // optionList:[
+        //     {
+        //         optionId:id,
+        //         optionName:name,
+        //         optionPrice:optionPrice
+        //     }
+        // ]       
+    // }
 ]
 export default function order(state = initialState, action){
     switch(action.type){
@@ -42,8 +56,7 @@ export default function order(state = initialState, action){
                         (order.orderId === action.orderId)?
                         ({...order, optionList: order.optionList.filter(function
                             (option) {return option.optionId!=action.optionId}
-                        )}):(order) 
-                    
+                        )}):(order)    
                 )
             )
         case DELETE_ORDER:

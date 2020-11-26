@@ -28,14 +28,16 @@ const WrapperSection = styled.section`
     border:1px solid black;
     display:flex;
     flex-wrap: wrap;
+    
     `;
     const CategorySection =styled.div`
-    width:20%;
+    width:15%;
     height:80%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    margin:auto;
     border:1px solid black;
     `
     const MenuSection = styled.div`
@@ -45,12 +47,14 @@ const WrapperSection = styled.section`
     flex-wrap: wrap;
     border:1px solid black;
     overflow-y: scroll;
+    margin:auto;
     `
     const OrderListSection = styled.div`
-    width:100%;
-    height:20%;
+    width:97%;
+    height:15%;
     border:1px solid black;
     overflow-y: scroll;
+    margin:auto;
     `
 
 // 컨테이너에서 상태, 데이터 다 관리하고 컴포넌트에 뿌려주기
@@ -59,14 +63,10 @@ export default function MenuContainer(props) {
         dataSet:state.dataSet,
         selectedMenu:state.order
     }))
-    
-    
     // 한 단위의 장바구니
     const [orderList, setOrderList] = useState({})
     
-    
     // order당 구분 위한 ID (나중에 수량변경, 삭제 위해서)
-    
     const nextId = useRef(0)
     
     //리덕스 관련 
@@ -81,9 +81,6 @@ export default function MenuContainer(props) {
     //api 데이터 받아오기
     let menuData = wholeData        // 더미
     useEffect(()=>{
-        
-    
-        
     //     // const fetchData = async () =>{
     //     //     onSetLoading()
     //     //     const response = await axios.get(
@@ -108,19 +105,19 @@ export default function MenuContainer(props) {
         <WrapperSection>
             <CategorySection>
                 {menuData.categoryPk.map((item,index)=>
-                (<Link to ={`/menu/${item.id}`} key = {index} >{item.name}</Link>
+                (<Link style ={{textDecoration:"none",}} to ={`/menu/${item.id}`} key = {index} >{item.name}</Link>
                 ))}
             </CategorySection>
             <MenuSection>
                 <Route exact path='/menu/:categoryPk' render={(props)=><Menu {...props} data = {menuComData}/>}/>
-                <Route path='/menu/:categoryPk/:selectedMain' render={(props)=><Option {...props} data = {optionComData}/>}/>
+                <Route path='/  menu/:categoryPk/:selectedMain' render={(props)=><Option {...props} data = {optionComData}/>}/>
             </MenuSection>
             <OrderListSection>
                 <OrderList data ={orderComData} />
                 {/* {data.map((item)=> <div>{item.name}</div>)} */}
                 </OrderListSection>
 
-        // </WrapperSection>
+        </WrapperSection>
     )
 }
 

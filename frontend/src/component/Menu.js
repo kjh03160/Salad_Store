@@ -10,6 +10,7 @@ width:280px;
 height:250px;
 border : 1px solid black;
 margin: 25px 0 0 30px;
+
 `
 const ImageBox = styled.div`
 width:100%;
@@ -24,13 +25,8 @@ display: flex;
 justify-content: center;
 align-items: center;
 `
-
-
 export default function Menu(props){
-
-
     // 컨테이터에서 메뉴 데이터 받아서 props.match.params.categoryPk 로 걸러서 보여주기 
-    
     // 패키지 뜯기
     const {nextId, menuData, orderList,setOrderList} = props.data
     // 장바구니 담기
@@ -59,7 +55,6 @@ export default function Menu(props){
                             <Description>{menu.name}</Description><Description>{menu.price}원</Description>
                         </MainMenuCotainer>
                         </Link>
-                        
                                 )
                     }
                 }
