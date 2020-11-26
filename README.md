@@ -5,7 +5,7 @@
 아~ 귀찮다
 
 
-#카테고리 
+# 카테고리 
 
 <pre><code>
 //조회
@@ -39,3 +39,11 @@
       return status
     }
 </code></pre>
+
+## return
+<pre><code>
+{'data' : {'categoryPk' : ..., 'categoryName' : ...}, 'status' : 200}
+</code></pre>
+status가 404 요청한 값 상태 안 좋음
+status가 400 줄 값 없음 이라는 뜻이니 처리 
+
