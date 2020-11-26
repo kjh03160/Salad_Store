@@ -59,11 +59,11 @@ class Category(Resource):
             if category == None:
                 return Response(status = 404)
             for i in category:
-                return_list.append({'category_pk':i.category_pk, 'category_name': i.category_name})
+                return_list.append({'categoryPk':i.category_pk, 'categoryName': i.category_name})
         else:
             try:
                 category = session.query(models.Category).filter(models.Category.category_pk == request['pk']).first()
-                return_list.append({'category_pk' : category.category_pk, 'category_name': category.category_name})
+                return_list.append({'categoryPk' : category.category_pk, 'categoryName': category.category_name})
             except:
                 return Response (status = 404)
         return {'data' : return_list}, 200
@@ -113,25 +113,25 @@ class Menu(Resource):
                 return Response(status = 404)
             for menu in menus:
                 return_list.append({
-                'menu_pk' : menu.menu_pk,
-                'category_pk': menu.category_pk,
-                'menu_name' : menu.menu_name,
-                'menu_price' : menu.menu_price,
-                'menu_soldout' : menu.menu_soldout,
-                'menu_description' : menu.menu_description,
-                'menu_image' : menu.menu_image
+                'menuPk' : menu.menu_pk,
+                'categoryPk': menu.category_pk,
+                'menuName' : menu.menu_name,
+                'menuPrice' : menu.menu_price,
+                'menuSoldout' : menu.menu_soldout,
+                'menuDescription' : menu.menu_description,
+                'menuImage' : menu.menu_image
                 })
         else:
             try:
                 menu = session.query(models.Menu).filter(models.Menu.menu_pk == request['pk']).first()
                 return_list.append({
-                'menu_pk' : menu.menu_pk,
-                'category_pk': menu.category_pk,
-                'menu_name' : menu.menu_name,
-                'menu_price' : menu.menu_price,
-                'menu_soldout' : menu.menu_soldout,
-                'menu_description' : menu.menu_description,
-                'menu_image' : menu.menu_image
+                'menuPk' : menu.menu_pk,
+                'categoryPk': menu.category_pk,
+                'menuName' : menu.menu_name,
+                'menuPrice' : menu.menu_price,
+                'menuSoldout' : menu.menu_soldout,
+                'menuDescription' : menu.menu_description,
+                'menuImage' : menu.menu_image
                 })
             except:
                 return Response (status = 404)
@@ -221,7 +221,86 @@ class Menu(Resource):
         session.commit()
         return Response(status = 200)
 
+class Option(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('data', required = False, help = 'no name')
+    parser.add_argument('pk', required = False, help = 'show me valid pk')
 
+    def get(self):
+        request = Option.parser.parse_args()
+        return_list = []
+        if request['pk'] == None:
+            option = session.query(models.Option).all()
+            if option == None:
+                return Response(status = 404)
+            for i in option:
+                return_list.append({
+                'optionPK' : i.option_pk,
+                'optionName' : i.option_name,
+                'optionPrice' : i.option_price,
+                'optionSoldout' : i.option_soldout})
+        else:
+            try:
+                option = session.query(models.Option).filter(models.Option.option_pk == request['pk']).first()
+                return_list.append({
+                'optionPK' : option.option_pk,
+                'optionName': option.option_name,
+                'optionPrice' : option.option_price,
+                'optionSoldout' : option.option_soldout
+                })
+            except:
+                return Response (status = 404)
+        return {'data' : return_list}, 200
+
+    def post(self):
+        request = Option.parser.parse_args()
+
+        if request['data'] == None:
+            return Response(status = 400)
+
+        option_menu = models.Option()
+
+        for i in request['data'].keys():
+            if i == 'option_name':
+                option_menu.option_name = data['option_name']
+            elif i == 'option_price':
+                option_menu.option_price = data['option_price']
+            elif i == 'option_soldout':
+                option_menu.option_soldout = data['option_soldout']
+        
+        session.add(option_menu)
+        session.flush()
+        session.commit()
+        return Response(status = 201)
+
+    def patch(self):
+        request = Option.parser.parse_args()
+        if request['pk'] == None:
+            return Response(status = 400)
+        option = session.query(models.Option).filter(models.Option.option_pk == request['pk']).first()
+        
+        for i in request['data'].keys():
+            if i == 'option_name':
+                option.option_name = data['option_name']
+            elif i == 'option_price':
+                option.option_price = data['option_price']
+            elif i == 'option_soldout':
+                option.option_soldout = data['option_soldout']
+
+        session.commit()
+        return Response(status = 204)
+
+    def delete(self):
+        request = Option.parser.parse_args()
+
+        if request['pk'] == None:
+            return Response(status = 400)
+
+        option = session.query(models.Option).filter(models.Option.option_pk == request['pk']).first()
+        session.delete(option)
+        session.commit()
+
+        return Response(stauts = 200) 
 
 
 
@@ -250,3 +329,5 @@ api.add_resource(Menu, '/menu')
 
 if __name__=='__main__':
     app.run(debug=True)
+
+
