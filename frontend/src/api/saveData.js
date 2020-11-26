@@ -4,22 +4,20 @@ axios.defaults.baseURL = "http://127.0.0.1:5000"
 let base = "http://127.0.0.1:5000"
 
 export default {
-    getMain(orderPk=null) {
-        return axios.get("/group", {params:{pk:orderPk}})
+    getMain(data) {
+        return axios.get("/menu", {params: data})
     },
-
-
     
     newMain(data) {
       
       for (var key of data.values()){
         console.log(key);
       }
-      let status = async () => { await axios.post('/group', data, {
+      let status = axios.post('/menu', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      })}
+      })
         // catch ((e) => { 
         //   if (e.response) {
         //     console.log(e.response.data);
@@ -34,7 +32,7 @@ export default {
         //  }
         //  console.log(e.config);
         //  }) }
-        status()
+      return status
         
         // for (var key of data.values()){
         //   console.log(key);
@@ -51,36 +49,49 @@ export default {
 
     },
 
-    changeMain(data){
-      for (var key of data.values()){
-        console.log(key);
-      }
-      let status = async () => { await axios.put('/group', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })}
-      status()
-    },
-
     reviseMain(data){
       for (var key of data.values()){
         console.log(key);
       }
-      let status = async () => { await axios.patch('/group', data, {
+      let status = axios.patch('/menu', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      })}
-      status()
+      })
+      return status
     },
 
 
     deleteMain(orderPk){
       console.log(orderPk)
-      let status = axios.delete('/group', {params:{pk:orderPk}})
+      let status = axios.delete('/menu', {params:{pk:orderPk}})
 
       return status
-  },
+    },
+
+    addCategory(data){
+      console.log(data)
+      let status = axios.post('/category', data)
+      
+      return status
+
+    },
+
+    changeCategory(data){
+      let status = axios.patch('/category', data)
+      return status
+    },
+
+    getCategory(data){
+      let status = axios.get('/category', {params:data})
+      return status
+    },
+
+    deleteCategory(data){
+      let status = axios.delete('/category', {params : data})
+      return status
+    }
+
+
 
 }
