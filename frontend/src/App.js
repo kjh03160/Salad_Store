@@ -17,7 +17,7 @@ function App() {
   }
   console.log(startDate, endDate)
   const getOrders = async () =>{
-    let result2 = await api.getOrders();
+    // let result2 = await api.getOrders();
     // let result2 = await sapi.test();
     // let result2 = await api.makeOrders(startDate);
     // let result2 = await api.setComplete(42)
@@ -26,8 +26,8 @@ function App() {
     // let result2 = await api.makeOrders({'menus' : [{'menuId' : 3, 'options' :[1, 3], 'quantity' : 1}, {'menuId' : 1, 'options' : [], 'quantity' : 1}], 'totalPrice' : 10000})
     
     
-    // let result2 = await sapi.getOrders(startDate, endDate)
-    console.log(result2)
+    let result2 = await sapi.getStat(startDate, endDate)
+    console.log(result2['data']['data'])
   }
 
   return (
