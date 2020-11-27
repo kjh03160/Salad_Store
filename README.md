@@ -90,6 +90,19 @@ axios.get("/orders")
 ```
 
 
+- return 
+
+```json
+
+{"data" : {"OrderList" : [ {
+                        "order_pk": 43, 
+                        "order_time" : "2020-11-15 18:24:49", 
+                        "menus": [{"product_pk": 9, "menu_name": "리코타 샐러드", "quantity": 1, "options": ["닭가슴살", "계란"]}]
+                        }, ...
+                      ] } }              
+``` 
+
+
 #### POST (return status 201 / 400)
 - 주문 데이터 삽입 (totalPrice는 꼭 리액트에서 계산해서!)
     - 데이터 예시 (형식 안맞으면 400 에러)
@@ -149,15 +162,44 @@ axios.delete('/orders', {params:{pk:orderPk}})
 axios.get("/statistics", {params:{startDate : startDate, endDate : endDate})
 ```
 
+- return 예시
+```json
+{"data" : [
+            {"날짜": "2020-11-15", "주문 건수": 1, "매출": 10000},
+            ..., 
+            {"날짜": "총합", "주문 건수": 1, "매출": 10000}
+            ] }
+```
+
 
 2. 메뉴 매출 데이터 조회: 
 ```js
 axios.get("/statistics", {params:{startDate : startDate, endDate : endDate, menu : true})
 ```
+- return 예시
+```json
+{"data" : [
+            {"메뉴": "리코타 샐러드", "개수": 3, "매출": 18000},
+            {"메뉴": "목살 샐러드", "개수": 3, "매출": 18000},
+            ...,
+            {"메뉴": "총 합", "개수": 6, "매출": 36000},
+            ] }
+```
+
 
 3. 옵션 매출 데이터 조회
 ```js
 axios.get("/statistics", {params:{startDate : startDate, endDate : endDate, option : true})
+```
+- return 예시
+```json
+{"data" : [
+             {"옵션": "계란", "개수": 1, "매출": 500},
+            {"옵션": "닭가슴살", "개수": 4, "매출": 6000},
+            {"옵션": "목살", "개수": 1, "매출": 2000},
+            ...,
+            {"옵션": "총 합", "개수": 6, "매출": 12000}
+            ] }
 ```
 
 
