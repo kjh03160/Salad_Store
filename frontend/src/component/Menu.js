@@ -28,7 +28,7 @@ align-items: center;
 export default function Menu(props){
     // 컨테이터에서 메뉴 데이터 받아서 props.match.params.categoryPk 로 걸러서 보여주기 
     // 패키지 뜯기
-    const {nextId, menuData, orderList,setOrderList} = props.data
+    const {nextId, menuData, orderList,setOrderList,data} = props.data
     // 장바구니 담기
     function handleClick(event, id, name, price){
         setOrderList(
@@ -44,7 +44,21 @@ export default function Menu(props){
         nextId.current+=1
     }
     return(
-    <>    
+    <>      
+        {data.map(
+            (menu,index)=>{
+              if(menu.categoryPk == props.match.params.categoryPk){
+                return (
+                  <Link style={{textDecoration:"none"}}to ={`/menu/${menu.categoryPk}/${menu.menuPk}`}key = {menu.menuPk} onClick={(event)=>handleClick(event, menu.menuPk,menu.menuName,menu.menuPrice)}>
+                        <MainMenuCotainer>
+                            <ImageBox><img style = {{width:"100%", height:"100%"}}src ={menu.menuImage}/></ImageBox>
+                            <Description>{menu.menuName}</Description><Description>{menu.menuPrice}원</Description>
+                        </MainMenuCotainer>
+                        </Link>
+                )
+              }
+            }
+        )}
             {menuData.main.map(
                 (menu,index)=>{
                     if (menu.categoryPk==props.match.params.categoryPk){

@@ -7,7 +7,8 @@ from models import db
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
-
+from order import Order
+from statistic import Statistic
 Base.metadata.create_all(bind=engine)
 
 def create_app():
@@ -47,10 +48,11 @@ serverImgDir = os.path.join('http://localhost:5000/','static','images')
 
 
 class Category(Resource):
+    
     parser = reqparse.RequestParser()
     parser.add_argument('name', required = False, help = 'no name')
     parser.add_argument('pk', required = False, help = 'show me valid pk')
-
+    # print(parser, '확인~ ')
     def get(self):
         request = Category.parser.parse_args()
         return_list = []
@@ -70,9 +72,6 @@ class Category(Resource):
 
     def post(self):
         request = Category.parser.parse_args()
-        # print(request["name"])
-        print(session.query(models.Category.category_name).all())
-        # print(session.query(models.Category.category_name).filter(models.Category.category_name , request['name']))
         if request['name'] == None:
             return Response(status = 400)
         elif session.query(models.Category).filter(models.Category.category_name == request['name']).count()>0:
@@ -102,7 +101,6 @@ class Category(Resource):
         return Response(stauts = 200)      
 
 class Menu(Resource):
-
     parser = reqparse.RequestParser()
     parser.add_argument('data', action = 'append', required = False, help = 'data is missing')
     parser.add_argument('pk', type = int, required = False, help = 'pk not valid')
@@ -226,7 +224,7 @@ class Menu(Resource):
 
 class Option(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('data', required = False, help = 'no name')
+    parser.add_argument('data', action= 'append',required = False, help = 'no name')
     parser.add_argument('pk', required = False, help = 'show me valid pk')
 
     def get(self):
@@ -251,30 +249,41 @@ class Option(Resource):
                 'optionPrice' : option.option_price,
                 'optionSoldout' : option.option_soldout
                 })
-            except:
+            except: 
                 return Response (status = 404)
         return {'data' : return_list}, 200
 
-    def post(self):
-        request = Option.parser.parse_args()
-
-        if request['data'] == None:
-            return Response(status = 400)
-
+    def post(self): #경욱 변경 
+                    #1번일 경우 옵션 그냥 추가 / 2번일 경우 메뉴와 엮어서
+                    # 1번일 경우 {
+            #               type:1,
+            #               option_name:'소스추가',
+            #               option_price:3000,
+            #               option_soldout: 0              
+                    # }
+                    # 2번일 경우 {
+                    #     type:2,
+                    #     "option_name":'소수추가',
+                    #     "option_price":3000,
+                    #     "option_soldout":0,
+                    #     "menu_pk":2,
+                    # }
+        data = request.form
         option_menu = models.Option()
-
-        for i in request['data'].keys():
+        revised_menu = session.query(models.Menu).filter_by(menu_pk = data["menu_pk"]).first()
+        for i in request.form.keys():
             if i == 'option_name':
-                option_menu.option_name = data['option_name']
+                option_menu.option_name = data["option_name"]
             elif i == 'option_price':
                 option_menu.option_price = data['option_price']
             elif i == 'option_soldout':
-                option_menu.option_soldout = data['option_soldout']
-        
+                option_menu.option_soldout = data['option_soldout']    
+        if data["type"] == "2":
+                revised_menu.options.append(option_menu)
         session.add(option_menu)
         session.flush()
         session.commit()
-        return Response(status = 201)
+        return Response (status = 201)
 
     def patch(self):
         request = Option.parser.parse_args()
@@ -306,7 +315,8 @@ class Option(Resource):
         return Response(stauts = 200) 
 
 
-
+api.add_resource(Order, '/orders')
+api.add_resource(Statistic, '/statistics')
 api.add_resource(Option,'/option')
 api.add_resource(Category,'/category')
 api.add_resource(Menu, '/menu')

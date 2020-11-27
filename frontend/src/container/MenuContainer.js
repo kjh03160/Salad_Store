@@ -2,11 +2,13 @@ import React, {useRef, useState,useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route,Link, StaticRouter } from 'react-router-dom'
 import axios from 'axios'
+import api from '../api/saveData'
 
 
 import wholeData from '../module/data'
 import {qunatityDecrement, qunatityIncrement, setOrder,deleteOption,deleteOrder} from '../module/order'
 import { setSuccess, setLoading, getData } from '../module/dataSet'
+import apiCallGet from '../api/useApiCallGet'
 
 import Option from '../component/Option'
 import Menu from '../component/Menu'
@@ -16,11 +18,7 @@ import OrderList from '../component/OrderList'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-// import { makeStyles } from '@material-ui/core/styles';
-// import Tabs from '@material-ui/core/Tabs';
-// import Tab from '@material-ui/core/Tab';
-// import Typography from '@material-ui/core/Typography';
-// import Box from '@material-ui/core/Box';
+
 
 const WrapperSection = styled.section`
     width:1200px;
@@ -81,20 +79,18 @@ export default function MenuContainer(props) {
     //api 데이터 받아오기
     let menuData = wholeData        // 더미
     useEffect(()=>{
-    //     // const fetchData = async () =>{
-    //     //     onSetLoading()
-    //     //     const response = await axios.get(
-    //     //         `https://jsonplaceholder.typicode.com/users`
-    //     //     )
-    //     //     console.log(response)
-    //     //     onSetSuccess(response.data)
-    // }
-    //     // fetchData()
+        const fetchData = async () =>{
+            onSetLoading()
+            const response = await api.getMain()
+            onSetSuccess(response.data.data)
+        }
+        fetchData()
+        
     }
     , [])
 
     //컴포넌트에 넘겨줄 패키지들
-    const menuComData = {nextId, menuData, orderList ,setOrderList, onSetOrder}
+    const menuComData = {nextId, menuData, orderList ,setOrderList, onSetOrder,data}
     const optionComData = {nextId, menuData,orderList,setOrderList, onSetOrder}
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu}
 
@@ -114,7 +110,7 @@ export default function MenuContainer(props) {
             </MenuSection>
             <OrderListSection>
                 <OrderList data ={orderComData} />
-                {/* {data.map((item)=> <div>{item.name}</div>)} */}
+                {data.map((item)=> <div>{item.categoryName}</div>)}
                 </OrderListSection>
 
         </WrapperSection>
