@@ -20,7 +20,7 @@ const AdminMain = () => {
     console.log(startDate, endDate)
 
     const apiCall = async () => {
-        const response = await api.getStat(startDate, endDate);
+        const response = await api.getStat(startDate, endDate, null, true); // 안 넣을 때는 false X
         console.log(response);
     }
 
