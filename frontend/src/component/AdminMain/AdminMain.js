@@ -18,7 +18,7 @@ const AdminMain = () => {
 
   const apiCall = async () => {
     const response = await api.getStat(startDate, endDate, null, null); // 안 넣을 때는 false X
-    console.log(response.data.data[response.data.data.length-1]);
+    console.log(response.data.data);
     setData(response.data.data[response.data.data.length-1]);
     return response.data.data[response.data.data.length-1];
   };
@@ -109,6 +109,13 @@ const AdminMain = () => {
           value={endDate}></input>
         {/* <span> </span>
         <button onClick={apiCall}>확인</button> */}
+      </div>
+      <div>
+        <p>
+        {startDate} ~ {endDate} <br/>
+          기간 동안의 매출액은 <br/>
+          {data.매출}원입니다.
+        </p>
       </div>
     </>
   );
