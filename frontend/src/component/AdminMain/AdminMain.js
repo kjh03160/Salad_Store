@@ -18,8 +18,9 @@ const AdminMain = () => {
 
   const apiCall = async () => {
     const response = await api.getStat(startDate, endDate, null, null); // 안 넣을 때는 false X
-    console.log(response.data);
-    // console.log(response.data.data[response.data.data.length-1]);
+    console.log(response.data.data[response.data.data.length-1]);
+    setData(response.data.data[response.data.data.length-1]);
+    return response.data.data[response.data.data.length-1];
   };
   
 
@@ -51,6 +52,10 @@ const AdminMain = () => {
     const response = apiCall();
   }, []);
 
+  useEffect(() => {
+    const response = apiCall();
+  }, [startDate, endDate]);
+
   const onChangeStart = e => {
     setStartDate(e.target.value)
   }
@@ -66,13 +71,11 @@ const AdminMain = () => {
     if (value === "일간") {
       setStartDate(getFormatDate(new Date()));
       setEndDate(getFormatDate(new Date()));
-      apiCall();
     }
     if (value === "주간") {
       let aWeekAgo = new Date(currentDate.getTime() - 7 * DAYTIME);
       setStartDate(getFormatDate(aWeekAgo));
       setEndDate(getFormatDate(new Date()));
-      apiCall();
     }
     if (value === "월간") {
       let aMonthAgo = new Date(
@@ -82,7 +85,6 @@ const AdminMain = () => {
       );
       setStartDate(getFormatDate(aMonthAgo));
       setEndDate(getFormatDate(new Date()));
-      apiCall();  
     }
   };
 
@@ -105,8 +107,8 @@ const AdminMain = () => {
         <span> ~ </span>
         <input type='date' className={styles.endDate} name={"endDate"} onChange={onChangeEnd}
           value={endDate}></input>
-        <span> </span>
-        <button onClick={apiCall}>확인</button>
+        {/* <span> </span>
+        <button onClick={apiCall}>확인</button> */}
       </div>
     </>
   );
