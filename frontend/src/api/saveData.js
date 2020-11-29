@@ -100,6 +100,11 @@ export default {
     deleteOption(data){
       let status = axios.delete('/option', {params:data})
       return status
+    },
+
+    getAll(){
+      let status = axios.get('/all')
+      return status
     }
 
 }

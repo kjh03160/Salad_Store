@@ -42,6 +42,8 @@ export default function App() {
     // let result2 = await api.deleteOption({'option_pk' : 6})
     // let result2 = await api.deleteMain({'pk':5});
 
+    let result2 = await api.getAll();
+
     console.log(result2)
 
 

@@ -310,13 +310,41 @@ class Option(Resource):
 
         return Response(status = 200)
         
-class Gross(Resource):
+class All(Resource):
     def get(self):
-        category = modesl.category.all()
-        for i in category:
-            print(i)
+        category = models.Category.query.all()
+        category_list = []
 
-api.add_resource(Gross,'/gross')
+        for i in category:
+            temp = [i.category_pk, i.category_name]
+            category_list.append(temp)
+
+        print(category_list)
+
+        menu = models.Menu.query.all()
+        menu_list = []
+        menu_option_relation = []
+
+        for i in menu:
+            temp = [i.menu_pk, i.category_pk, i.menu_name, i.menu_price, i.menu_soldout, i.menu_description, i.menu_image]
+            for j in i.options:
+                menu_option_relation.append([i.menu_pk, j.option_pk])
+            menu_list.append(temp)
+
+        print(menu_list)
+        print(menu_option_relation)
+
+        option = models.Option.query.all()
+        option_list = []
+
+        for i in option:
+            temp = [i.option_pk, i.option_name, i.option_price, i.option_soldout]
+            option_list.append(temp)
+        
+        return {'category' : category_list, 'main' : menu_list, 'option' : option_list, 'relation' : menu_option_relation}, 200
+
+
+api.add_resource(All,'/all')
 api.add_resource(Option,'/option')
 api.add_resource(Category,'/category')
 api.add_resource(Menu, '/menu')
