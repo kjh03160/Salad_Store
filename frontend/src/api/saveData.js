@@ -9,9 +9,6 @@ export default {
     },
     
     newMain(data) {
-      for (var key of data.values()){
-        console.log(key);
-      }
       let status = axios.post('/menu', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -85,8 +82,26 @@ export default {
     deleteCategory(data){
       let status = axios.delete('/category', {params : data})
       return status
+    },
+
+    addOption(data){
+      let status = axios.post('/option', data)
+      return status
+    },
+
+    reviseOption(data){
+      let status = axios.patch('/option', data)
+      return status
+    },
+
+    deleteOption(data){
+      let status = axios.delete('/option', {params:data})
+      return status
+    },
+
+    getAll(){
+      let status = axios.get('/all')
+      return status
     }
-
-
 
 }
