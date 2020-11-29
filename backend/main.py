@@ -12,10 +12,6 @@ from category import Category
 from option import Option
 from menu import Menu
 
-
-
-
-
 Base.metadata.create_all(bind=engine)
 
 def create_app():

@@ -8,14 +8,13 @@ from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
 
+temp_dir = os.path.abspath("Salad_Store").split('/')[:-1]
+temp_dir = '/'.join(temp_dir)
+saveImgDir = os.path.join(temp_dir,'static','images')
+serverImgDir = os.path.join('http://localhost:5000/','static','images')   
 
 
-
-class Menu(Resource):
-
-    saveImgDir = os.path.join(app.root_path,'static','images')
-
-    serverImgDir = os.path.join('http://localhost:5000/','static','images')    
+class Menu(Resource): 
 
     parser = reqparse.RequestParser()
     parser.add_argument('data', action = 'append', required = False, help = 'data is missing')
@@ -56,6 +55,8 @@ class Menu(Resource):
         return {'data' : return_list}, 200
 
     def post(self):
+        print(temp_dir)
+        print(saveImgDir)
         data = request.form
         server_path = '' 
 

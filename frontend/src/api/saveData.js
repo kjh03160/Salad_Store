@@ -9,9 +9,6 @@ export default {
     },
     
     newMain(data) {
-      for (var key of data.values()){
-        console.log(key);
-      }
       let status = axios.post('/menu', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
