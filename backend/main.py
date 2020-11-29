@@ -97,7 +97,7 @@ class Category(Resource):
         category = session.query(models.Category).filter(models.Category.category_pk == request['pk']).first()
         session.delete(category)
         session.commit()
-        return Response(stauts = 200)      
+        return Response(status = 200)      
 
 class Menu(Resource):
 
@@ -224,8 +224,11 @@ class Menu(Resource):
 
 class Option(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('data', required = False, help = 'no name')
-    parser.add_argument('pk', required = False, help = 'show me valid pk')
+    parser.add_argument('option_pk', required = False, help ='')
+    parser.add_argument('option_name', required = False, help = '')
+    parser.add_argument('option_price', required = False, help = '')
+    parser.add_argument('option_soldout', required = False, help = '')
+    parser.add_argument('menu_pk', required = False, help ='')
 
     def get(self):
         request = Option.parser.parse_args()
@@ -256,78 +259,93 @@ class Option(Resource):
     def post(self):
         request = Option.parser.parse_args()
 
-        if request['data'] == None:
+        if request['option_name'] and request['option_price'] and request['option_soldout'] == None:
             return Response(status = 400)
 
         option_menu = models.Option()
+        option_menu.option_name = request['option_name']
+        option_menu.option_price = request['option_price']
+        option_menu.option_soldout = request['option_soldout']
 
-        for i in request['data'].keys():
-            if i == 'option_name':
-                option_menu.option_name = data['option_name']
-            elif i == 'option_price':
-                option_menu.option_price = data['option_price']
-            elif i == 'option_soldout':
-                option_menu.option_soldout = data['option_soldout']
-        
+        main_menu = session.query(models.Menu).filter_by(menu_pk = request["menu_pk"]).first()
+
         session.add(option_menu)
         session.flush()
         session.commit()
+        
+        main_menu.options.append(option_menu)
+
+        for i in main_menu.options:
+            print(i)
+        session.commit()
+
         return Response(status = 201)
 
     def patch(self):
         request = Option.parser.parse_args()
-        if request['pk'] == None:
-            return Response(status = 400)
-        option = session.query(models.Option).filter(models.Option.option_pk == request['pk']).first()
-        
-        for i in request['data'].keys():
-            if i == 'option_name':
-                option.option_name = data['option_name']
-            elif i == 'option_price':
-                option.option_price = data['option_price']
-            elif i == 'option_soldout':
-                option.option_soldout = data['option_soldout']
 
+        if request['option_pk'] == None:
+            return Response(status = 400)
+        
+        option = session.query(models.Option).get(request['option_pk'])
+
+        if request['option_name'] != None:
+            option.option_name = request['option_name']
+        if request['option_price'] != None:
+            option.option_price = request['option_price']
+        if request['option_soldout'] != None:
+            option.option_soldout = request['option_soldout']
+        
         session.commit()
         return Response(status = 204)
 
     def delete(self):
         request = Option.parser.parse_args()
 
-        if request['pk'] == None:
+        if request['option_pk'] == None:
             return Response(status = 400)
 
-        option = session.query(models.Option).filter(models.Option.option_pk == request['pk']).first()
-        session.delete(option)
+        session.execute("DELETE FROM OPTIONS WHERE option_pk = {}".format(request['option_pk']))
         session.commit()
 
-        return Response(stauts = 200) 
+        return Response(status = 200)
+        
+class Gross(Resource):
+    def get(self):
+        category = modesl.category.all()
+        for i in category:
+            print(i)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+api.add_resource(Gross,'/gross')
 api.add_resource(Option,'/option')
 api.add_resource(Category,'/category')
 api.add_resource(Menu, '/menu')
 
 if __name__=='__main__':
     app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

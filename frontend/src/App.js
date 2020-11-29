@@ -19,10 +19,10 @@ export default function App() {
     // // console.log(img.name)
     form.append('category_pk', 14);
     form.append('menu_pk',3)
-    form.append('menu_name', usertext2);
+    form.append('menu_name', 'hf');
     form.append('menu_price', 30);
     form.append('menu_soldout', 1);
-    form.append('menu_description', usertext5);
+    form.append('menu_description', 'zxcvbn');
     form.append('image',img)
     for (var key of form.values()){
       console.log(key);
@@ -31,13 +31,16 @@ export default function App() {
     // let result2 = await api.newMain({'text1' : usertext1, 'text2' : usertext2, 'image':img});
     // let result2 = await api.newMain(form)
     // let result2 = await api.changeMain(form);
+    // let result2 = await api.reviseOption({'option_pk' : 3, 'option_name' : 'cvzas', 'option_price' : 100})
     // let result2 = await api.reviseMain(form);
-    let result2 = await api.addCategory({'name': "cibal"})
+    // let result2 = await api.addCategory({'name': "cibal"})
     // let result2 = await api.changeCategory({'name': "change", 'pk' : 4})
     // let result2 = await api.getCategory({'pk':4})
-    // let result2 = await api.deleteCategory({'pk': 4})
-
-    // let result2 = await api.deleteMain({'pk':3});
+    // let result2 = await api.deleteCategory({'pk': 11})
+    // let result2 = await api.addOption({'option_name' : 'ㅋㅋㅋㅋ', 'option_price' : 20, 'option_soldout' : 1, 'menu_pk': 5})
+    // let result2 = await api.addOption({})
+    // let result2 = await api.deleteOption({'option_pk' : 6})
+    // let result2 = await api.deleteMain({'pk':5});
 
     console.log(result2)
 
