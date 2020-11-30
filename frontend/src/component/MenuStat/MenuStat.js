@@ -21,13 +21,13 @@ const MenuStat = (props) => {
     };
 
     const menuApiCall = async () => {
-        console.log("get all")
+        console.log("get all");
         const response = await menuApi.getAll();
         console.log(response.data);
         const {category, main} = response.data;
         setCategories(category);
         setMains(main);
-    }
+    };
 
     const [btnClicked, setBtnClicked] = useState("일간");
     const [startDate, setStartDate] = useState(getFormatDate(new Date()));
@@ -67,10 +67,10 @@ const MenuStat = (props) => {
 
     const onChangeStart = e => {
         setStartDate(e.target.value)
-    }
+    };
     const onChangeEnd = e => {
         setEndDate(e.target.value)
-    }
+    };
 
     const handleBtnClicked = e => {
         const value = e.target.value;
@@ -99,7 +99,7 @@ const MenuStat = (props) => {
 
     const getMatchedMains = (category, mains) => {
         return mains.filter(main => category.categoryPk === main.categoryPk);
-    }
+    };
 
     // 메뉴를 인자로 받아 해당 메뉴의 판매량을 반환합니다.
     const getSales = main => {

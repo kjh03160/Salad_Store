@@ -22,13 +22,11 @@ const OptionStat = (props) => {
     };
 
     const menuApiCall = async () => {
-        console.log("get all")
         const response = await menuApi.getAll();
         // console.log(response.data);
         const {option} = response.data;
         console.log(option);
         setOption(option);
-        const non = [];
     }
 
     const [btnClicked, setBtnClicked] = useState("일간");

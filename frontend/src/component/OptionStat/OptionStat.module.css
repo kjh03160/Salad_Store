@@ -25,13 +25,11 @@
 
 .content {
     text-align: left;
-    font-size: 0.4em;
+    font-size: 0.5em;
     border: 3px solid black;
 }
 .optionSellingPrice {
-    margin-left: 1em;
 }
 
 .optionSales {
-    margin-left: 3em;
 }
