@@ -11,9 +11,9 @@ const MenuAdmin = (props) => {
     const catInputRef = React.createRef();
     const catFormRef = React.createRef();
 
-    const menuInputRef = React.createRef();
-    const menuPriceRef = React.createRef();
-    const menuFormRef = React.createRef();
+    // const menuInputRef = React.createRef();
+    // const menuPriceRef = React.createRef();
+    // const menuFormRef = React.createRef();
 
 
     const apiCall = async () => {
@@ -69,8 +69,8 @@ const MenuAdmin = (props) => {
     };
 
     const handleMenuAdd = (name, price, categoryPk) => {
-        // let form = new FormData();
-        // form.append()
+        let form = new FormData();
+        form.append()
 
     };
 
@@ -81,11 +81,16 @@ const MenuAdmin = (props) => {
 
     const onMenuSubmit = (e,  categoryPk) => {
         e.preventDefault();
-        const name = menuInputRef.current.value;
-        const price = menuPriceRef.current.value;
-        // handleMenuAdd(name, price);
+        const name = e.target[0].value;
+        const price = parseInt(e.target[1].value);
+        if (isNaN(price)) {
+            e.target.reset();
+        }
+        else {
+            handleMenuAdd(name, price, categoryPk);
+            e.target.reset();
+        }
         console.log(name, price, categoryPk);
-        catFormRef.current.reset();
     };
 
     const handleImageAdd = menu => {
@@ -114,9 +119,9 @@ const MenuAdmin = (props) => {
             {categories.map((category, i) => (
                 <div className={styles.category} key={category.categoryPk}>
                     <p className={styles.categoryName}>{category.categoryName}</p>
-                    <form ref={menuFormRef} className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
-                        <input ref={menuInputRef} type="text" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
-                        <input ref={menuPriceRef} type="text" className={styles.menuAddInput} placeholder="가격" />
+                    <form className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
+                        <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
+                        <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
                         <button className={styles.menuAddBtn}>➕</button>
                     </form>
                     {getMatchedMains(category, mains).map((main, i) => (
