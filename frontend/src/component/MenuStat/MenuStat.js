@@ -24,12 +24,14 @@ const MenuStat = (props) => {
         console.log("get all")
         const response = await menuApi.getAll();
         console.log(response.data);
+        const {categories, menus} = response.data;
+        console.log(categories, menus);
     }
 
     const [btnClicked, setBtnClicked] = useState("일간");
     const [startDate, setStartDate] = useState(getFormatDate(new Date()));
     const [endDate, setEndDate] = useState(getFormatDate(new Date()));
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
 
     const DAYTIME = 24 * 60 * 60 * 1000;
     const DateFilterData = [

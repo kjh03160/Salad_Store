@@ -34,7 +34,7 @@ const OptionStat = (props) => {
     const [btnClicked, setBtnClicked] = useState("일간");
     const [startDate, setStartDate] = useState(getFormatDate(new Date()));
     const [endDate, setEndDate] = useState(getFormatDate(new Date()));
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
     const [option, setOption] = useState([]);
 
     const DAYTIME = 24 * 60 * 60 * 1000;
