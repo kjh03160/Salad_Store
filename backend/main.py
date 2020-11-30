@@ -11,6 +11,8 @@ from all import All
 from category import Category
 from option import Option
 from menu import Menu
+from order import Order
+from statistic import Statistic
 
 Base.metadata.create_all(bind=engine)
 
@@ -42,6 +44,8 @@ def main():
 def test():
     return render_template('test.html')
 
+api.add_resource(Order, '/orders')
+api.add_resource(Statistic, '/statistics')
 api.add_resource(All,'/all')
 api.add_resource(Option,'/option')
 api.add_resource(Category,'/category')

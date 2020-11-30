@@ -3,7 +3,7 @@ import api from '../../api/statisticAPI';
 import styles from './AdminMain.module.css';
 
 const AdminMain = () => {
-    
+
     const getFormatDate = date => {
         var year = date.getFullYear();
         var month = (1 + date.getMonth());
@@ -17,7 +17,6 @@ const AdminMain = () => {
         const response = await api.getStat(startDate, endDate, null, null); // 안 넣을 때는 false X
         console.log(response.data.data);
         setData(response.data.data[response.data.data.length - 1]);
-        return response.data.data[response.data.data.length - 1];
     };
 
     const [btnClicked, setBtnClicked] = useState("일간");
@@ -45,11 +44,11 @@ const AdminMain = () => {
     // 참고: https://one-it.tistory.com/entry/React%EC%9D%98-componentDidUpdate-%EC%82%AC%EC%9A%A9%ED%95%A0-%EB%95%8C-%EC%A3%BC%EC%9D%98%EC%A0%90-%EB%AC%B4%ED%95%9C%EB%A3%A8%ED%94%84
 
     useEffect(() => {
-        const response = apiCall();
+        apiCall();
     }, []);
 
     useEffect(() => {
-        const response = apiCall();
+        apiCall();
     }, [startDate, endDate]);
 
     const onChangeStart = e => {
@@ -90,7 +89,7 @@ const AdminMain = () => {
             <div className={styles.aboutDate}>
                 <div className={styles.dateFilterBtns}>
                     {DateFilterData.map((item, i) => (
-                        <button className="{styles.dateInput}"
+                        <button className={styles.dateFilterBtn}
                             onClick={handleBtnClicked}
                             key={i}
                             backgroundColor={btnClicked === item.value}
@@ -112,7 +111,7 @@ const AdminMain = () => {
                 <p>
                     {startDate} ~ {endDate} <br />
           기간 동안의 매출액은 <br />
-                    {data.매출}원입니다.
+                    {data.length == 0 ? 0: data.매출}원입니다.
         </p>
             </div>
         </>

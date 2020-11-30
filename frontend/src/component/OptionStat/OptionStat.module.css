@@ -24,6 +24,14 @@
 }
 
 .content {
-    text-align: center;
+    text-align: left;
+    font-size: 0.4em;
     border: 3px solid black;
+}
+.optionSellingPrice {
+    margin-left: 1em;
+}
+
+.optionSales {
+    margin-left: 3em;
 }

@@ -18,13 +18,11 @@ const MenuStat = (props) => {
         const response = await statApi.getStat(startDate, endDate, true, null); // 안 넣을 때는 false X
         console.log(response.data.data);
         setData(response.data.data[response.data.data.length - 1]);
-        return response.data.data[response.data.data.length - 1];
     };
 
     const menuApiCall = async () => {
-        console.log("menu call")
-        const data = {'pk': 1};
-        const response = await menuApi.getCategory(data);
+        console.log("get all")
+        const response = await menuApi.getAll();
         console.log(response.data);
     }
 
@@ -103,7 +101,7 @@ const MenuStat = (props) => {
             <div className={styles.aboutDate}>
                 <div className={styles.dateFilterBtns}>
                     {DateFilterData.map((item, i) => (
-                        <button className="{styles.dateInput}"
+                        <button className={styles.dateFilterBtn}
                             onClick={handleBtnClicked}
                             key={i}
                             backgroundColor={btnClicked === item.value}
