@@ -43,9 +43,9 @@ const AdminMain = () => {
     // userEffect 안에 api 호출 후 setState하면 무한루프에 빠짐
     // 참고: https://one-it.tistory.com/entry/React%EC%9D%98-componentDidUpdate-%EC%82%AC%EC%9A%A9%ED%95%A0-%EB%95%8C-%EC%A3%BC%EC%9D%98%EC%A0%90-%EB%AC%B4%ED%95%9C%EB%A3%A8%ED%94%84
 
-    useEffect(() => {
-        apiCall();
-    }, []);
+    // useEffect(() => {
+    //     apiCall();
+    // }, []);
 
     useEffect(() => {
         apiCall();

@@ -17,21 +17,24 @@ const MenuStat = (props) => {
     const statApiCall = async () => {
         const response = await statApi.getStat(startDate, endDate, true, null); // 안 넣을 때는 false X
         console.log(response.data.data);
-        setData(response.data.data[response.data.data.length - 1]);
+        setData(response.data.data);
     };
 
     const menuApiCall = async () => {
         console.log("get all")
         const response = await menuApi.getAll();
         console.log(response.data);
-        const {categories, menus} = response.data;
-        console.log(categories, menus);
+        const {category, main} = response.data;
+        setCategories(category);
+        setMains(main);
     }
 
     const [btnClicked, setBtnClicked] = useState("일간");
     const [startDate, setStartDate] = useState(getFormatDate(new Date()));
     const [endDate, setEndDate] = useState(getFormatDate(new Date()));
     const [data, setData] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [mains, setMains] = useState([]);
 
     const DAYTIME = 24 * 60 * 60 * 1000;
     const DateFilterData = [
@@ -52,10 +55,10 @@ const MenuStat = (props) => {
     // userEffect 안에 api 호출 후 setState하면 무한루프에 빠짐
     // 참고: https://one-it.tistory.com/entry/React%EC%9D%98-componentDidUpdate-%EC%82%AC%EC%9A%A9%ED%95%A0-%EB%95%8C-%EC%A3%BC%EC%9D%98%EC%A0%90-%EB%AC%B4%ED%95%9C%EB%A3%A8%ED%94%84
 
-    useEffect(() => {
-        statApiCall();
-        menuApiCall();
-    }, []);
+    // useEffect(() => {
+    //     statApiCall();
+    //     menuApiCall();
+    // }, []);
 
     useEffect(() => {
         statApiCall();
@@ -94,6 +97,24 @@ const MenuStat = (props) => {
         }
     };
 
+    const getMatchedMains = (category, mains) => {
+        return mains.filter(main => category.categoryPk === main.categoryPk);
+    }
+
+    // 메뉴를 인자로 받아 해당 메뉴의 판매량을 반환합니다.
+    const getSales = main => {
+       if (data.length !== 0) {
+            for (const item of data) {
+                if (item.메뉴 === main.menuName) {
+                    return item.개수;
+                }
+            }
+            return 0;
+        }
+        else {
+            return 0;
+        }
+    };
 
     return (
         <>
@@ -120,9 +141,19 @@ const MenuStat = (props) => {
                 </div>
             </div>
             <div className={styles.content}>
-                <p>
-                        fuck
-                </p>
+                {categories.map((category, i) => (
+                    <div className={styles.category} key={i}>
+                        <p className={styles.categoryName}>{category.categoryName}</p>
+                        {getMatchedMains(category, mains).map((main, i) => (
+                            <div className={styles.main} key={i}>
+                                <p className={styles.mainName}>{main.menuName}</p>
+                                <span>:</span>
+                                <p className={styles.mainSellingPrice}>{getSales(main)*main.menuPrice}원</p>
+                                <p className={styles.mainSales}>{getSales(main)}개</p>
+                            </div>
+                        ))}
+                    </div>
+                ))}
             </div>
         </>
     );

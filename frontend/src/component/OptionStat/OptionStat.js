@@ -56,10 +56,10 @@ const OptionStat = (props) => {
     // userEffect 안에 api 호출 후 setState하면 무한루프에 빠짐
     // 참고: https://one-it.tistory.com/entry/React%EC%9D%98-componentDidUpdate-%EC%82%AC%EC%9A%A9%ED%95%A0-%EB%95%8C-%EC%A3%BC%EC%9D%98%EC%A0%90-%EB%AC%B4%ED%95%9C%EB%A3%A8%ED%94%84
 
-    useEffect(() => {
-        statApiCall();
-        menuApiCall();
-    }, []);
+    // useEffect(() => {
+    //     statApiCall();
+    //     menuApiCall();
+    // }, []);
 
     useEffect(() => {
         statApiCall();
@@ -98,6 +98,7 @@ const OptionStat = (props) => {
         }
     };
 
+    // 옵션을 인자로 받아 해당 옵션의 판매량을 반환합니다.
     const getSales = option => {
         if (data.length !== 0) {
             for (const item of data) {
@@ -138,7 +139,7 @@ const OptionStat = (props) => {
             </div>
             <div className={styles.content}>
                 {option.map((item, i) => (
-                    <div key={i}>
+                    <div className={styles.option} key={i}>
                         <p className={styles.optionName}>{item.optionName}</p>
                         <span>:</span>
                         <p className={styles.optionSellingPrice}>{getSales(item)*item.optionPrice}원</p>

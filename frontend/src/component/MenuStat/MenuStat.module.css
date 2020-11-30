@@ -24,6 +24,15 @@
 }
 
 .content {
-    text-align: center;
+    text-align: left;
     border: 3px solid black;
 }
+
+.category {
+    font-size: 1em;
+}
+
+.main {
+    font-size: 0.5em;
+}
+
