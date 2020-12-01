@@ -17,6 +17,7 @@ class Category(Resource):
             category = session.query(models.Category).all()
             if category == None:
                 return Response(status = 404)
+            print(1)
             for i in category:
                 return_list.append({'categoryPk':i.category_pk, 'categoryName': i.category_name})
         else:

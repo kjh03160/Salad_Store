@@ -21,9 +21,31 @@ class Link(Resource):
 
         try:
             option_menu = session.query(models.Option).get(request['option_pk'])
-            print(option_menu)
             main_menu.options.append(option_menu)
             session.commit()
             return Response(status = 201)
         except:
             return Response(status = 400)
+
+    def delete(self):
+        request = Link.parser.parse_args()
+
+        if (request['option_pk'] and request['menu_pk']) == None:
+            return Response(status = 400)
+
+        main_menu = session.query(models.Menu).filter_by(menu_pk = request["menu_pk"]).first()
+        if main_menu == None:
+            return Response(status = 400)
+
+        try:
+            option_menu = session.query(models.Option).get(request['option_pk'])
+            main_menu.options.remove(option_menu)
+            session.commit()
+            
+            return Response(status = 201)
+
+        except:
+            return Response(status = 400)
+
+    
+
