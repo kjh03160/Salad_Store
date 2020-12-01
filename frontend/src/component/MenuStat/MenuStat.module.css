@@ -1,3 +1,7 @@
+.title {
+    border: 3px solid black;
+}
+
 .aboutDate {
     height: 5em;
     position: relative;
@@ -18,3 +22,17 @@
     left: 50%;
     border: 3px solid black;
 }
+
+.content {
+    text-align: left;
+    border: 3px solid black;
+}
+
+.category {
+    font-size: 1em;
+}
+
+.main {
+    font-size: 0.5em;
+}
+
