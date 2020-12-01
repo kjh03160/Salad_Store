@@ -12,6 +12,7 @@ from category import Category
 from option import Option
 from menu import Menu
 from order import Order
+from link import Link
 from statistic import Statistic
 
 Base.metadata.create_all(bind=engine)
