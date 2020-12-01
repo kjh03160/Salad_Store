@@ -15,7 +15,7 @@ const AdminMain = () => {
 
     const apiCall = async () => {
         const response = await api.getStat(startDate, endDate, null, null); // 안 넣을 때는 false X
-        console.log(response.data.data);
+        console.log(response.data.data[response.data.data.length - 1]);
         setData(response.data.data[response.data.data.length - 1]);
     };
 
@@ -111,7 +111,7 @@ const AdminMain = () => {
                 <p>
                     {startDate} ~ {endDate} <br />
           기간 동안의 매출액은 <br />
-                    {data.length == 0 ? 0: data.매출}원입니다.
+                    {data ? data.매출 : 0 }원입니다.
         </p>
             </div>
         </>

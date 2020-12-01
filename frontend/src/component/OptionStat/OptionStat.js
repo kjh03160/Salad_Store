@@ -18,7 +18,6 @@ const OptionStat = (props) => {
         const response = await statApi.getStat(startDate, endDate, null, true); // 안 넣을 때는 false X
         console.log(response.data.data);
         setData(response.data.data);
-        return response.data.data[response.data.data.length - 1];
     };
 
     const menuApiCall = async () => {
