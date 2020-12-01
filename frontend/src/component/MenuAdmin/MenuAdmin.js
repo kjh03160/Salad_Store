@@ -69,8 +69,13 @@ const MenuAdmin = (props) => {
     };
 
     const handleMenuAdd = (name, price, categoryPk) => {
-        let form = new FormData();
-        form.append()
+        let data = new FormData();
+        data.append('category_pk', categoryPk);
+        data.append('menu_name', name);
+        data.append('menu_price', price);
+        data.append('menu_soldout', 0);
+        console.log(data);
+        menuApi.newMain(data);
 
     };
 
