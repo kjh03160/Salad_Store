@@ -38,7 +38,9 @@ const MenuAdmin = (props) => {
     }
 
     const optionCall = async () => {
-        // const response = await menuApi.({});
+        const response = await menuApi.getAll();
+        const { relation, main, option, category } = response.data;
+        setOptions(option);
     }
 
     useEffect(() => {
@@ -125,10 +127,10 @@ const MenuAdmin = (props) => {
     const handleImageAdd = menu => {
     };
 
-    const handleOptionAdd = (name, price) => {
+    const handleOptionAdd = async (name, price) => {
         const data = {'option_name': name, 'option_price': price, 'option_soldout': 0};
-        console.log(data);
-        console.log(menuApi.addOption(data));
+        let response = await menuApi.addOption(data);
+        optionCall();
     };
 
     const handleOptionDelete = opt => {
