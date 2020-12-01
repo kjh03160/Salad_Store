@@ -108,8 +108,8 @@ class Order(Resource):
                                 JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
                                 JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
                                 JOIN OPTIONS USING (option_pk)
-                                WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 10 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
-                                AND ORD.completed=False ORDER BY ORD.order_pk, M.menu_pk;
+                                WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
+                                ORDER BY ORD.order_pk, M.menu_pk;
                         """
         result = session.execute(order_sql).fetchall()
         result = query_to_dict(result)
