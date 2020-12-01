@@ -27,10 +27,6 @@ def create_app():
 
 app = create_app()
 api = Api(app)
-
-# with app.app_context():
-#     db.create_all()
-
 app.secret_key = "super secret key"
 
 
