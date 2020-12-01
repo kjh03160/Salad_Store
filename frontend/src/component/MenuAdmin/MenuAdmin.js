@@ -7,7 +7,6 @@ const MenuAdmin = (props) => {
     const [mains, setMains] = useState([]);
     const [options, setOptions] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [btnClicked, setBtnClicked] = useState(0);
 
     const catInputRef = React.createRef();
     const catFormRef = React.createRef();
@@ -91,7 +90,6 @@ const MenuAdmin = (props) => {
         e.preventDefault();
         const name = catInputRef.current.value;
         handleCategoryAdd(name);
-        setBtnClicked(name);
         catFormRef.current.reset();
     };
 
@@ -119,7 +117,6 @@ const MenuAdmin = (props) => {
         }
         else {
             handleMenuAdd(name, price, categoryPk);
-            setBtnClicked(name);
             e.target.reset();
         }
     };
@@ -147,7 +144,6 @@ const MenuAdmin = (props) => {
         }
         else {
             handleOptionAdd(name, price);
-            setBtnClicked(name);
             optionFormRef.current.reset();
         }
     };
