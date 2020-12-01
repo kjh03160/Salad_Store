@@ -1,6 +1,3 @@
-import React , {useEffect} from 'react'
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
 
 const SUCCESS = "SUCCESS"
 const ERROR = "ERROR"
@@ -14,7 +11,7 @@ export const setLoading = () =>({type: LOADING})
 
 
 const initialState = {
-    loading:false,
+    loading:true,
     data:[],
     error:false
 }

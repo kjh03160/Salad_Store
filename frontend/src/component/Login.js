@@ -3,7 +3,7 @@ import { Link, Route, Switch,Redirect } from 'react-router-dom'
 import Menu from './Menu'
 import signIn from '../module/AuthCheck'
 import AuthRoute from '../Router/AuthRoute'
-import Home from '../pages/Home'
+import Home from '../pages/PickUp'
 
 import {useSelector, useDispatch} from 'react-redux'
 

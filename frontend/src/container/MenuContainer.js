@@ -2,22 +2,26 @@ import React, {useRef, useState,useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route,Link, StaticRouter } from 'react-router-dom'
 import axios from 'axios'
-import api from '../api/saveData'
+import MenuAPI from '../api/saveData'
+import OrderAPI from '../api/orderAPI'
 
 
 import wholeData from '../module/data'
 import {qunatityDecrement, qunatityIncrement, setOrder,deleteOption,deleteOrder} from '../module/order'
 import { setSuccess, setLoading, getData } from '../module/dataSet'
-import apiCallGet from '../api/useApiCallGet'
+
 
 import Option from '../component/Option'
 import Menu from '../component/Menu'
 import OrderList from '../component/OrderList'
-
+import Dialog from '../component/Dialog'
+import Payment from '../component/Payment'
 
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+// import { Dialog } from '@material-ui/core'
 
 
 const WrapperSection = styled.section`
@@ -63,10 +67,23 @@ export default function MenuContainer(props) {
     }))
     // 한 단위의 장바구니
     const [orderList, setOrderList] = useState({})
+    // 주문 완료 팝업
+    const [dialog, setDialog] = useState({
+        check:false,
+        card:false
+    })
+
+    // 총 금액 
+    let cashAmount = 0
+    selectedMenu.forEach((item)=> {
+        cashAmount += item.mainPrice * item.mainQuantity
+        item.optionList.forEach((option)=> cashAmount += option.optionPrice)   
+    })
     
     // order당 구분 위한 ID (나중에 수량변경, 삭제 위해서)
     const nextId = useRef(0)
     
+
     //리덕스 관련 
     const dispatch = useDispatch()
     const onSetOrder = (menuChosen) =>dispatch(setOrder(menuChosen))
@@ -76,44 +93,65 @@ export default function MenuContainer(props) {
     const onQuantityDecrement = (orderId) => dispatch(qunatityDecrement(orderId))
     const onDeleteOption = (orderId,optionId) => dispatch(deleteOption(orderId,optionId))
     const onDeleteOrder = (orderId) => dispatch(deleteOrder(orderId))
-    //api 데이터 받아오기
+    
+    // 메뉴 데이터 api 
+    const fetchData = async () =>{
+        onSetLoading()
+        const response = await MenuAPI.getAll()
+        console.log(response.data)
+        onSetSuccess(response.data)
+    }
+    // 주문 api
+    const sendData = async ()=> {
+        let pack = {
+          menus:selectedMenu.map((order)=> 
+            ({
+              menuId:order.mainId,
+              options:order.optionList.map((option)=> option.optionId),
+              quantity: order.mainQuantity
+            })),
+          totalPrice:cashAmount
+        };
+        const response = await OrderAPI.makeOrders(pack)
+        return response
+
+    }
     let menuData = wholeData        // 더미
     useEffect(()=>{
-        const fetchData = async () =>{
-            onSetLoading()
-            const response = await api.getMain()
-            onSetSuccess(response.data.data)
-        }
         fetchData()
-        
     }
     , [])
 
     //컴포넌트에 넘겨줄 패키지들
     const menuComData = {nextId, menuData, orderList ,setOrderList, onSetOrder,data}
-    const optionComData = {nextId, menuData,orderList,setOrderList, onSetOrder}
+    const optionComData = {nextId, menuData,orderList,setOrderList, onSetOrder,data}
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu}
-
+    const dialogComDat = {sendData, selectedMenu, cashAmount}
     if(loading) return <CircularProgress color="black"/>
     return (
         
-        
+        <>
         <WrapperSection>
             <CategorySection>
-                {menuData.categoryPk.map((item,index)=>
-                (<Link style ={{textDecoration:"none",}} to ={`/menu/${item.id}`} key = {index} >{item.name}</Link>
+                {data.category.map((item,index)=>
+                (<Link style ={{textDecoration:"none",}} to ={`/menu/${item.categoryPk}`} key = {index} >{item.categoryName}</Link>
                 ))}
             </CategorySection>
             <MenuSection>
                 <Route exact path='/menu/:categoryPk' render={(props)=><Menu {...props} data = {menuComData}/>}/>
-                <Route path='/  menu/:categoryPk/:selectedMain' render={(props)=><Option {...props} data = {optionComData}/>}/>
+                <Route path='/menu/:categoryPk/:selectedMain' render={(props)=><Option {...props} data = {optionComData}/>}/>
             </MenuSection>
             <OrderListSection>
                 <OrderList data ={orderComData} />
-                {data.map((item)=> <div>{item.categoryName}</div>)}
+                <div>총금액: {cashAmount}</div>
+                <button onClick = {()=> setDialog({check:true,card:false})}>주문완료</button>
+                {/* {data.map((item)=> <div>{item.menuName}</div>)} */}
                 </OrderListSection>
-
+            
         </WrapperSection>
+        <Dialog title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
+        <Payment children = "카드를 넣어주세요" visible = {dialog.card}/>
+        </>
     )
 }
 

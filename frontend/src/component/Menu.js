@@ -45,7 +45,7 @@ export default function Menu(props){
     }
     return(
     <>      
-        {data.map(
+        {data.main.map(
             (menu,index)=>{
               if(menu.categoryPk == props.match.params.categoryPk){
                 return (
@@ -59,7 +59,7 @@ export default function Menu(props){
               }
             }
         )}
-            {menuData.main.map(
+            {/* {menuData.main.map(
                 (menu,index)=>{
                     if (menu.categoryPk==props.match.params.categoryPk){
                         return(
@@ -72,7 +72,7 @@ export default function Menu(props){
                                 )
                     }
                 }
-            )}
+            )} */}
         </>
     )
 }

@@ -101,5 +101,9 @@ export default {
         }
       })
       return status
-    }
+    },
+    getAll(){
+    let status = axios.get('/all')
+    return status
+  }
 }

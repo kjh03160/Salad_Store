@@ -26,7 +26,7 @@ const Text = styled.div`
     `}
 `;
 function OptionItem(props){
-    const {nextId, menuData, orderList,setOrderList, onSetOrder, option } = props.data
+    const {nextId, menuData, orderList,setOrderList, onSetOrder, data,item } = props.data
     const [selected, setSelected] = useState(false)
     function handleClick(event,id, name, price, ){
         setOrderList(
@@ -49,15 +49,15 @@ function OptionItem(props){
     }
     return (
     <>
-    <TodoItemBlock done = {selected}  onClick = {(event)=>handleClick(event,option.id, option.name,option.price)}> 
-        <Text done = {selected}>{option.name} {option.price}원</Text>
+    <TodoItemBlock done = {selected}  onClick = {(event)=>handleClick(event,item.optionPk, item.optionName,item.optionPrice)}> 
+        <Text done = {selected}>{item.optionName} {item.optionPrice}원</Text>
     </TodoItemBlock>
     </>)
 }
 
 export default function Option(props){
-    const {nextId, menuData, orderList,setOrderList, onSetOrder} = props.data
-    // console.log(`${props.match.params.selectedMain} 이걸봐`)
+    const {nextId, menuData, orderList,setOrderList, onSetOrder,data} = props.data
+    const selectedMain = Number(props.match.params.selectedMain)
     function addToOrdder(e){        
         nextId.current +=1
         onSetOrder(orderList)
@@ -65,10 +65,17 @@ export default function Option(props){
     }
     return(
         <div>
-            {menuData.option.map((option,index)=>(
-            <OptionItem data = {{...props.data, option}}  key = {option.id} /> 
-            ))}
-            
+            {data.option.filter((option,index)=>{
+                for ( var i in data.relation){
+                    if (data.relation[i].optionPk == option.optionPk && selectedMain == data.relation[i].menuPk){
+                        return true
+                    }
+                }
+            }).map(
+                (item)=>{
+                   return (<OptionItem data = {{...props.data, item}}  key = {item.optionPk} /> )
+                }
+            )}
             <Link to='/menu/1'><button onClick={addToOrdder}> 선택 완료 </button></Link>
         </div>
     )  }
