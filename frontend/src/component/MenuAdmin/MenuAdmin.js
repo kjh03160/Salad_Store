@@ -172,14 +172,24 @@ const MenuAdmin = (props) => {
                             <div className={styles.main} key={main.menuPk}>
                                 <p className={styles.mainName}>{main.menuName}</p>
                                 <p className={styles.mainPrice}>:{main.menuPrice}원</p>
+                                <form className={styles.optionAddForm}>
+                                    👦옵션 추가하기<br/>
+                                    {options.map((option) => (
+                                        <label><input type="checkbox" value={option.optionPK}/>{option.optionName}</label>
+                                    ))}
+                                    <button className={styles.menuAddBtn}>➕</button>
+                                </form>
+                                🙅이미 있는 옵션 
                                 {getMatchedOptions(main, options).map((option) => (
                                     <div className={styles.option} key={option.optionPk}>
                                         <p className={styles.optionName}>{option.optionName}</p>
                                         <p className={styles.optionPrice}>:{option.optionPrice}</p>
+                                        <br/>
                                     </div>
                                 ))}
                             </div>
                         ))}
+                        <br/>
                     </div>
                 ))}
             </div>

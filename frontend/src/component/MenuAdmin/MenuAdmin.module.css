@@ -35,8 +35,12 @@ p {
 
 .modifyOption {
     padding-top: 50px;
-    width: 60%;
+    width: 50%;
     position: absolute;
     right: 0;
     top: 0;
 }
+
+/* label {
+    display: block;
+} */
