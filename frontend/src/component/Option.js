@@ -8,9 +8,6 @@ const TodoItemBlock = styled.div`
   align-items: center;
   padding-top: 12px;
   padding-bottom: 12px;
-  
-  
-  
 `;
 
 
@@ -67,7 +64,7 @@ export default function Option(props){
         <div>
             {data.option.filter((option,index)=>{
                 for ( var i in data.relation){
-                    if (data.relation[i].optionPk == option.optionPk && selectedMain == data.relation[i].menuPk){
+                    if (data.relation[i].optionPk == option.optionPk && selectedMain == data.relation[i].menuPk && option.optionSoldout != 1){
                         return true
                     }
                 }

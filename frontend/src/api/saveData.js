@@ -9,9 +9,6 @@ export default {
     },
     
     newMain(data) {
-      for (var key of data.values()){
-        console.log(key);
-      }
       let status = axios.post('/menu', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -57,6 +54,10 @@ export default {
       })
       return status
     },
+    setSoldout(data){
+      let status = axios.post('/menu', data)
+      return status
+    },
 
 
     deleteMain(data){
@@ -65,6 +66,7 @@ export default {
     },
 
     addCategory(data){
+      console.log(data)
       let status = axios.post('/category', data)
       
       return status
@@ -86,24 +88,34 @@ export default {
       return status
     },
 
-
     addOption(data){
-      let status = axios.post('/option', data,{
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }})
+      let status = axios.post('/option', data)
       return status
     },
-    addOptionWithMenu(data){
-      let status = axios.post('/option', data, {
-        headers:{
-          'Content_Type': 'multipart/form-data'
-        }
-      })
+
+    reviseOption(data){
+      let status = axios.patch('/option', data)
       return status
     },
+
+    deleteOption(data){
+      let status = axios.delete('/option', {params:data})
+      return status
+    },
+
     getAll(){
-    let status = axios.get('/all')
-    return status
-  }
+      let status = axios.get('/all')
+      return status
+    },
+
+    newLink(data){
+      let status = axios.post('/link', data)
+      return status
+    },
+
+    deleteLink(data){
+      let status = axios.delete('/link', {params:data})
+      return status
+    },
+
 }

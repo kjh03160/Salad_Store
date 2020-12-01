@@ -47,7 +47,7 @@ export default function Menu(props){
     <>      
         {data.main.map(
             (menu,index)=>{
-              if(menu.categoryPk == props.match.params.categoryPk){
+              if(menu.categoryPk == props.match.params.categoryPk && menu.menuSoldout != 1){
                 return (
                   <Link style={{textDecoration:"none"}}to ={`/menu/${menu.categoryPk}/${menu.menuPk}`}key = {menu.menuPk} onClick={(event)=>handleClick(event, menu.menuPk,menu.menuName,menu.menuPrice)}>
                         <MainMenuCotainer>

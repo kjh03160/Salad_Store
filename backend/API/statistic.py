@@ -2,7 +2,7 @@ import models
 from flask_restful import Resource, Api, reqparse
 from flask import Flask, request, jsonify, request
 from database import session, Base, engine
-from order import  query_to_dict
+from API.method import *
 
 
 class Statistic(Resource):
@@ -22,9 +22,9 @@ class Statistic(Resource):
         # 전체 주문 데이터 통계
         stat_sql = f"""
                         SELECT
-                        IF (GROUPING(DATE_FORMAT(order_time,  '%Y-%m-%d')) = 1, '총합', DATE_FORMAT(order_time,  '%Y-%m-%d')) AS '날짜', count(order_pk) AS '주문 건수',  CAST(SUM(total_price) AS signed integer) AS '매출'
+                        DATE_FORMAT(order_time,  '%Y-%m-%d') AS '날짜', count(order_pk) AS '주문 건수',  CAST(SUM(total_price) AS signed integer) AS '매출'
                                 FROM ORDERS ORD
-                                WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(\'{end_date}\', INTERVAL 1 DAY), '%Y-%m-%d')
+                                WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d')
                                         AND ORD.completed = TRUE
                                 GROUP BY DATE_FORMAT(order_time,  '%Y-%m-%d') WITH ROLLUP;
                         """
@@ -33,12 +33,11 @@ class Statistic(Resource):
             # 메뉴 데이터 통계
             stat_sql = f"""
                             SELECT
-                            IF(GROUPING(menu_name)=1, '총 합', menu_name) AS '메뉴', CAST(SUM(quantity) AS signed integer) AS '개수', menu_price * CAST(SUM(quantity) AS signed integer) AS '매출'
+                                    menu_name AS '메뉴', CAST(SUM(quantity) AS signed integer) AS '개수',  CAST(AVG(menu_price) AS signed integer) * CAST(SUM(quantity) AS signed integer) AS '매출'                                    
                                     FROM ORDERS ORD
                                     JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
                                     JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
-                                    JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
-                                    WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(\'{end_date}\', INTERVAL 1 DAY), '%Y-%m-%d')
+                                    WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d')
                                           AND ORD.completed = TRUE
                                     GROUP BY menu_name WITH ROLLUP;
                             """
@@ -47,13 +46,13 @@ class Statistic(Resource):
             # 옵션 데이터 통계
              stat_sql = f"""
                             SELECT
-                            IF(GROUPING(option_name)=1, '총 합', option_name) AS '옵션', CAST(SUM(quantity) AS signed integer) AS '개수', option_price * CAST(SUM(quantity) AS signed integer) AS '매출'
+                                    option_name AS '메뉴', CAST(SUM(quantity) AS signed integer) AS '개수',  CAST(AVG(option_name) AS signed integer) * CAST(SUM(quantity) AS signed integer) AS '매출'                                    
                                     FROM ORDERS ORD
                                     JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
                                     JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
                                     JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
                                     JOIN OPTIONS USING (option_pk)
-                                    WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(\'{end_date}\', INTERVAL 1 DAY), '%Y-%m-%d')
+                                    WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d')
                                           AND ORD.completed = TRUE
                                     GROUP BY option_name WITH ROLLUP;
                             """
