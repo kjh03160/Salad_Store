@@ -31,6 +31,7 @@ p {
     font-size: 0.9em;
 }
 
+
 /* 옵션 생성 및 삭제 */
 
 .modifyOption {
@@ -40,7 +41,3 @@ p {
     right: 0;
     top: 0;
 }
-
-/* label {
-    display: block;
-} */

@@ -83,9 +83,12 @@ const MenuAdmin = (props) => {
         // setCategories(newCategory);
     };
 
-    const handleCategoryDelete = category => {
-        // const categoryPk = state.category.filter(item => item.id !== category.id)
-        // setState({ ...state, category: categoryPk});
+    const handleCategoryDelete = async (e, categoryPk) => {
+        // let newCategories = [...categories];
+        let data = {'pk': categoryPk};
+        console.log(data);
+        let response = await menuApi.deleteCategory(data);
+        categoryCall();
     };
 
     const onCatSubmit = e => {
@@ -154,11 +157,11 @@ const MenuAdmin = (props) => {
 
     const onSubmit = async (e, menuPk) => {
         const newRelation = [...relations];
-        selectedOptions.map(function(option){
+        selectedOptions.map(function (option) {
             // console.log({option_pk: option.optionPk, menu_pk: menuPk})
-            menuApi.newLink({option_pk: option.optionPk, menu_pk: menuPk});
-            newRelation.push({menuPk, optionPk: option.optionPk});
-            });
+            menuApi.newLink({ option_pk: option.optionPk, menu_pk: menuPk });
+            newRelation.push({ menuPk, optionPk: option.optionPk });
+        });
         setRelations(newRelation);
         optionCall();
     };
@@ -179,14 +182,18 @@ const MenuAdmin = (props) => {
                     <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 추가" />
                     <button className={styles.catAddBtn}>➕</button>
                 </form>
+                <br />
                 {categories.map((category) => (
                     <div className={styles.category} key={category.categoryPk}>
                         <p className={styles.categoryName}>[{category.categoryName}]</p>
+                        {/* <button className={styles.menuDelBtn} onClick={}>❌</button> */}
+                        <button onClick={(e) => { if (window.confirm('해당 카테고리를 삭제하시겠습니까?')) handleCategoryDelete(e, category.categoryPk) }}>❌</button>
                         <form className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
                             <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
                             <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
                             <button className={styles.menuAddBtn}>➕</button>
                         </form>
+                        <br />
                         {getMatchedMains(category, mains).map((main) => (
                             <div className={styles.main} key={main.menuPk}>
                                 <p className={styles.mainName}>{main.menuName}</p>
