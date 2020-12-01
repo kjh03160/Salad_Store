@@ -126,7 +126,6 @@ export default function MenuContainer(props) {
     const menuComData = {nextId, menuData, orderList ,setOrderList, onSetOrder,data}
     const optionComData = {nextId, menuData,orderList,setOrderList, onSetOrder,data}
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu}
-    const dialogComDat = {sendData, selectedMenu, cashAmount}
     if(loading) return <CircularProgress color="black"/>
     return (
         
@@ -145,7 +144,6 @@ export default function MenuContainer(props) {
                 <OrderList data ={orderComData} />
                 <div>총금액: {cashAmount}</div>
                 <button onClick = {()=> setDialog({check:true,card:false})}>주문완료</button>
-                {/* {data.map((item)=> <div>{item.menuName}</div>)} */}
                 </OrderListSection>
             
         </WrapperSection>
