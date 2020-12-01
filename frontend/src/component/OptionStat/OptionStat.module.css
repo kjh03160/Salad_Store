@@ -1,0 +1,35 @@
+.title {
+    border: 3px solid black;
+}
+
+.aboutDate {
+    height: 5em;
+    position: relative;
+    border: 3px solid black;
+}
+
+.dateFilterBtns {
+    position: absolute;
+    top: 30%;
+    left: 0%;
+    border: 3px solid black;
+}
+
+.dateInput {
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    border: 3px solid black;
+}
+
+.content {
+    text-align: left;
+    font-size: 0.5em;
+    border: 3px solid black;
+}
+.optionSellingPrice {
+}
+
+.optionSales {
+}

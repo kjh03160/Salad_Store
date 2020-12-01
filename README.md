@@ -1,9 +1,12 @@
+# Salad_Store
+
 # REST API 사용법
 -----
 
 ## API List
 - [주문API](#주문API)
 - [매출통계 API](#매출API)
+- [카테고리 API](#카테고리)
 
 
 -----
@@ -21,14 +24,14 @@
 ### 사용 예제
 
 #### GET (return status 200 / 404)
-1. 특정 주문 데이터 조회 (completed가 False 인 것만), (pk 값 없으면 404 에러) : 
+1. 특정 주문 데이터 조회(pk 값 없으면 404 에러) : 
 
 ```js
 axios.get("/orders", {params:{pk:int}})
 ```
 
 
-2. 전체 주문 데이터 조회 (completed가 False 인 것만, 당일 주문만) : 
+2. 전체 주문 데이터 조회 (당일 주문만) : 
 ```js
 axios.get("/orders")
 ```
@@ -146,6 +149,58 @@ axios.get("/statistics", {params:{startDate : startDate, endDate : endDate, opti
             ] }
 ```
 
+------------
+
+# 카테고리 
+
+## data
+<pre><code>
+data = {'pk' : ...}로 넣어주면 get과 delete 가능
+data = {'name' : ...}로 넣어주면 post 가능
+data = {'pk' : ..., 'name" ...}로 넣어주면 patch 가능
+</code></pre>
+
+
+## 코드
+<pre><code>
+//조회
+ getCategory(data){
+      let status = axios.get('/category', {params:data})
+      return status
+    },
+</code></pre>
+
+<pre><code>
+//삽입
+  addCategory(data){
+      let status = axios.post('/category', data)
+      return status
+
+    },
+</code></pre>
+<pre><code>
+//수정
+
+ changeCategory(data){
+      let status = axios.patch('/category', data)
+      return status
+    },
+
+</code></pre>
+<pre><code>
+//삭제
+  deleteCategory(data){
+      let status = axios.delete('/category', {params : data})
+      return status
+    }
+</code></pre>
+
+## return
+<pre><code>
+{'data' : {'categoryPk' : ..., 'categoryName' : ...}, 'status' : 200}
+</code></pre>
+status가 404 요청한 값 상태 안 좋음
+status가 400 줄 값 없음 이라는 뜻이니 처리 
 
 ------------
 ## Status codes
