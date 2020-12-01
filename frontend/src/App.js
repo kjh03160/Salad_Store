@@ -38,11 +38,11 @@ export default function App() {
     // let result2 = await api.getCategory({})
     // let result2 = await api.deleteCategory({'pk': 11})
     // let result2 = await api.addOption({'option_name' : '왜와이? 영택?', 'option_price' : 20, 'option_soldout' : 1})
-    // let result2 = await api.newLink({'menu_pk' : 6, 'option_pk' : 12})
+    let result2 = await api.newLink({'menu_pk' : 4, 'option_pk' : 5})
     // let result2 = await api.addOption({})
     // let result2 = await api.deleteOption({'option_pk' : 6})
     // let result2 = await api.deleteMain({'pk':5});
-    let result2 = await api.deleteLink({'menu_pk' : 4, 'option_pk' : 9})
+    // let result2 = await api.deleteLink({'menu_pk' : 4, 'option_pk' : 9})
 
     // let result2 = await api.getAll();
 

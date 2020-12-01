@@ -21,6 +21,9 @@ class Link(Resource):
 
         try:
             option_menu = session.query(models.Option).get(request['option_pk'])
+            if option_menu in main_menu.options:
+                return Response(status = 400)
+                
             main_menu.options.append(option_menu)
             session.commit()
             return Response(status = 201)
@@ -41,7 +44,7 @@ class Link(Resource):
             option_menu = session.query(models.Option).get(request['option_pk'])
             main_menu.options.remove(option_menu)
             session.commit()
-            
+
             return Response(status = 201)
 
         except:
