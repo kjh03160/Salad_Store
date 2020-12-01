@@ -2,7 +2,7 @@ import models
 from flask_restful import Resource, Api, reqparse
 from flask import Flask, request, jsonify, request
 from database import session, Base, engine
-from order import  query_to_dict
+from method import *
 
 
 class Statistic(Resource):

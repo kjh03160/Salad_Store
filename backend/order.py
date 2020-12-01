@@ -4,33 +4,7 @@ from flask import Flask, request, jsonify, request, abort, Response
 from database import session, Base, engine
 from datetime import date, datetime
 import json 
-import pandas as pd
-
-# SQLAlchemy query proxy to dictionary
-def query_to_dict(ret):
-    if ret is not None:
-        return [{key: value for key, value in row.items()} for row in ret if row is not None]
-    else:
-        return [{}]
-
-# N * M * K rows SQL query to N rows list 
-def many_to_one(data):
-    df = pd.DataFrame(data)
-    orders = map(int, df['order_pk'].unique())
-    order_list = []
-    for order in orders:
-        order_df = df[df['order_pk'] == order]
-        order_dict = {'order_pk' : order, 'order_time' : order_df.iloc[0]['order_time'], 'menus' : []}
-        products = map(int, order_df['product_pk'].unique())
-        for product in products:
-            product_df = order_df[order_df['product_pk'] == product]
-            product_dict = {'product_pk' : product, 'menu_name' : product_df.iloc[0]['menu_name'], 'quantity' : int(product_df.iloc[0]['quantity']),
-                            'options' : product_df['option_name'].values.tolist()}
-            order_dict['menus'].append(product_dict)
-        order_list.append(order_dict)
-
-    return order_list
-
+from method import *
 
 class Order(Resource):
     # Order 클래스에서 받을 수 있는 파라미터 설정
