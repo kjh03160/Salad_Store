@@ -7,6 +7,7 @@ const MenuAdmin = (props) => {
     const [mains, setMains] = useState([]);
     const [options, setOptions] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [btnClicked, setBtnClicked] = useState(0);
 
     const catInputRef = React.createRef();
     const catFormRef = React.createRef();
@@ -26,10 +27,30 @@ const MenuAdmin = (props) => {
         setCategories(category);
     };
 
+    const categoryCall = async () => {
+        const response = await menuApi.getCategory({});
+        setCategories(response.data.data);
+    }
+
+    const menuCall = async () => {
+        const response = await menuApi.getMain({});
+        setMains(response.data.data);
+    }
+
+    const optionCall = async () => {
+        // const response = await menuApi.({});
+    }
+
     useEffect(() => {
         apiCall();
         // axios를 이용해 데이터를 가져온다
     }, []);
+
+    // useEffect(() => {
+    //     apiCall();
+    //     // axios를 이용해 데이터를 가져온다
+    // }, [btnClicked]);
+
 
     const getMatchedMains = (category, mains) => {
         return mains.filter(main => category.categoryPk === main.categoryPk);
@@ -50,10 +71,13 @@ const MenuAdmin = (props) => {
         return result;
     };
 
-    const handleCategoryAdd = name => {
+    const handleCategoryAdd = async (name) => {
         const data = { name };
         console.log(data);
-        menuApi.addCategory(data);
+        let response = await menuApi.addCategory(data);
+        categoryCall();
+        
+        // setCategories(newCategory);
     };
 
     const handleCategoryDelete = category => {
@@ -65,18 +89,18 @@ const MenuAdmin = (props) => {
         e.preventDefault();
         const name = catInputRef.current.value;
         handleCategoryAdd(name);
+        setBtnClicked(name);
         catFormRef.current.reset();
     };
 
-    const handleMenuAdd = (name, price, categoryPk) => {
+    const handleMenuAdd = async (name, price, categoryPk) => {
         let data = new FormData();
         data.append('category_pk', categoryPk);
         data.append('menu_name', name);
         data.append('menu_price', price);
         data.append('menu_soldout', 0);
-        console.log(data);
-        menuApi.newMain(data);
-
+        let response = await menuApi.newMain(data);
+        menuCall();
     };
 
     const handleMenuDelete = menu => {
@@ -93,6 +117,7 @@ const MenuAdmin = (props) => {
         }
         else {
             handleMenuAdd(name, price, categoryPk);
+            setBtnClicked(name);
             e.target.reset();
         }
     };
@@ -120,6 +145,7 @@ const MenuAdmin = (props) => {
         }
         else {
             handleOptionAdd(name, price);
+            setBtnClicked(name);
             optionFormRef.current.reset();
         }
     };
