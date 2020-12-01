@@ -110,9 +110,9 @@ const AdminMain = () => {
             <div>
                 <p>
                     {startDate} ~ {endDate} <br />
-          기간 동안의 매출액은 <br />
-                    {data ? data.매출 : 0 }원입니다.
-        </p>
+                    기간 동안의 매출액은 <br />
+                    {Object.keys(data).length != 0 ? data.매출 : 0}원입니다.
+                </p>
             </div>
         </>
     );

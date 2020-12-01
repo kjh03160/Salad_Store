@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify, request, abort, Response
 from database import session, Base, engine
 from datetime import date, datetime
 import json 
-from method import *
+from API.method import *
 
 class Order(Resource):
     # Order 클래스에서 받을 수 있는 파라미터 설정

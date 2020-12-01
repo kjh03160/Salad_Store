@@ -7,6 +7,7 @@ from models import db
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
+from API.method import *
 
 temp_dir = os.path.abspath("Salad_Store").split('/')[:-1]
 temp_dir = '/'.join(temp_dir)
