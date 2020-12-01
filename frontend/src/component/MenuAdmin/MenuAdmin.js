@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import menuApi from '../../api/saveData';
 import styles from './MenuAdmin.module.css';
+import { Multiselect } from 'multiselect-react-dropdown';
 
 const MenuAdmin = (props) => {
     const [relations, setRelations] = useState([]);
     const [mains, setMains] = useState([]);
     const [options, setOptions] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     const catInputRef = React.createRef();
     const catFormRef = React.createRef();
@@ -77,7 +79,7 @@ const MenuAdmin = (props) => {
         console.log(data);
         let response = await menuApi.addCategory(data);
         categoryCall();
-        
+
         // setCategories(newCategory);
     };
 
@@ -125,7 +127,7 @@ const MenuAdmin = (props) => {
     };
 
     const handleOptionAdd = async (name, price) => {
-        const data = {'option_name': name, 'option_price': price, 'option_soldout': 0};
+        const data = { 'option_name': name, 'option_price': price, 'option_soldout': 0 };
         let response = await menuApi.addOption(data);
         optionCall();
     };
@@ -148,6 +150,27 @@ const MenuAdmin = (props) => {
         }
     };
 
+    // 옵션 선택 event 처리
+
+    const onSubmit = async (e, menuPk) => {
+        const newRelation = [...relations];
+        selectedOptions.map(function(option){
+            // console.log({option_pk: option.optionPk, menu_pk: menuPk})
+            menuApi.newLink({option_pk: option.optionPk, menu_pk: menuPk});
+            newRelation.push({menuPk, optionPk: option.optionPk});
+            });
+        setRelations(newRelation);
+        optionCall();
+    };
+
+    const onSelect = (selectedList, selectedItem) => {
+        setSelectedOptions([...selectedList]);
+    };
+
+    const onRemove = (selectedList, selectedItem) => {
+        setSelectedOptions([...selectedList]);
+    };
+
     return (
         <div className={styles.menuAdmin}>
             <div className={styles.content}>
@@ -168,24 +191,35 @@ const MenuAdmin = (props) => {
                             <div className={styles.main} key={main.menuPk}>
                                 <p className={styles.mainName}>{main.menuName}</p>
                                 <p className={styles.mainPrice}>:{main.menuPrice}원</p>
-                                <form className={styles.optionAddForm}>
-                                    👦옵션 추가하기<br/>
-                                    {options.map((option) => (
-                                        <label><input type="checkbox" value={option.optionPK}/>{option.optionName}</label>
-                                    ))}
-                                    <button className={styles.menuAddBtn}>➕</button>
+                                <form id={main.menuP} action="" onSubmit={(e) => onSubmit(e, main.menuPk)}>
+                                    <Multiselect
+                                        options={options} // Options to display in the dropdown
+                                        onSelect={onSelect} // Function will trigger on select event
+                                        placeholder="옵션을 선택해주세요"
+                                        onRemove={onRemove} // Function will trigger on remove event
+                                        displayValue="optionName" // Property name to display in the dropdown options
+                                        showCheckbox={true}
+                                    />
+                                    <button className={styles.optionAddBtn}>✅</button>
                                 </form>
-                                🙅이미 있는 옵션 
+                                {/* <form className={styles.optionAddForm}>
+                                    👦옵션 추가하기<br />
+                                    {options.map((option) => (
+                                        <label><input type="checkbox" value={option.optionPK} />{option.optionName}</label>
+                                    ))}
+                                    <button className={styles.optionAddBtn}>➕</button>
+                                </form> */}
+                                🙅이미 있는 옵션
                                 {getMatchedOptions(main, options).map((option) => (
                                     <div className={styles.option} key={option.optionPk}>
                                         <p className={styles.optionName}>{option.optionName}</p>
                                         <p className={styles.optionPrice}>:{option.optionPrice}</p>
-                                        <br/>
+                                        <br />
                                     </div>
                                 ))}
                             </div>
                         ))}
-                        <br/>
+                        <br />
                     </div>
                 ))}
             </div>
