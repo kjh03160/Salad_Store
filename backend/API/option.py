@@ -3,6 +3,7 @@ from database import session, Base, engine
 from flask_restful import Resource, Api
 from flask_restful import reqparse
 import models
+from API.method import *
 
 
 

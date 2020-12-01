@@ -3,6 +3,7 @@ from database import session, Base, engine
 from flask_restful import Resource, Api
 from flask_restful import reqparse
 import models
+from API.method import *
 
 
 class Category(Resource):
@@ -27,6 +28,7 @@ class Category(Resource):
                 return Response (status = 404)
         return {'data' : return_list}, 200
 
+
     def post(self):
         request = Category.parser.parse_args()
         if request['name'] == None:
@@ -36,9 +38,9 @@ class Category(Resource):
             return Response(status = 400)
         category = models.Category(category_name = request['name'])
         session.add(category)
-        session.flush()
         session.commit()
         return Response(status = 201)
+
 
     def patch(self):
         request = Category.parser.parse_args()
@@ -49,6 +51,7 @@ class Category(Resource):
         session.commit()
         return Response(status = 204)
 
+
     def delete(self):
         request = Category.parser.parse_args()
         if request['pk'] == None:
@@ -56,4 +59,4 @@ class Category(Resource):
         category = session.query(models.Category).filter(models.Category.category_pk == request['pk']).first()
         session.delete(category)
         session.commit()
-        return Response(status = 200)      
+        return Response(status = 204)      
