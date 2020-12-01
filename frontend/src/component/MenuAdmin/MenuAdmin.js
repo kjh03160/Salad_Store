@@ -11,9 +11,9 @@ const MenuAdmin = (props) => {
     const catInputRef = React.createRef();
     const catFormRef = React.createRef();
 
-    // const menuInputRef = React.createRef();
-    // const menuPriceRef = React.createRef();
-    // const menuFormRef = React.createRef();
+    const optionInputRef = React.createRef();
+    const optionPriceRef = React.createRef();
+    const optionFormRef = React.createRef();
 
 
     const apiCall = async () => {
@@ -84,7 +84,7 @@ const MenuAdmin = (props) => {
         // setState({ ...state, main});
     };
 
-    const onMenuSubmit = (e,  categoryPk) => {
+    const onMenuSubmit = (e, categoryPk) => {
         e.preventDefault();
         const name = e.target[0].value;
         const price = parseInt(e.target[1].value);
@@ -95,15 +95,15 @@ const MenuAdmin = (props) => {
             handleMenuAdd(name, price, categoryPk);
             e.target.reset();
         }
-        console.log(name, price, categoryPk);
     };
 
     const handleImageAdd = menu => {
-
     };
 
-    const handleOptionAdd = opt => {
-
+    const handleOptionAdd = (name, price) => {
+        const data = {'option_name': name, 'option_price': price, 'option_soldout': 0};
+        console.log(data);
+        console.log(menuApi.addOption(data));
     };
 
     const handleOptionDelete = opt => {
@@ -112,35 +112,64 @@ const MenuAdmin = (props) => {
     };
 
     const onOptionSubmit = e => {
-
+        e.preventDefault();
+        const name = optionInputRef.current.value;
+        const price = parseInt(optionPriceRef.current.value);
+        if (isNaN(price)) {
+            optionFormRef.current.reset();
+        }
+        else {
+            handleOptionAdd(name, price);
+            optionFormRef.current.reset();
+        }
     };
 
     return (
-        <div className={styles.content}>
-            <form ref={catFormRef} className={styles.catAddForm} onSubmit={onCatSubmit}>
-                <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 추가" />
-                <button className={styles.catAddBtn}>➕</button>
-            </form>
-            {categories.map((category, i) => (
-                <div className={styles.category} key={category.categoryPk}>
-                    <p className={styles.categoryName}>{category.categoryName}</p>
-                    <form className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
-                        <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
-                        <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
-                        <button className={styles.menuAddBtn}>➕</button>
-                    </form>
-                    {getMatchedMains(category, mains).map((main, i) => (
-                        <div className={styles.main} key={main.menuPk}>
-                            <p className={styles.mainName}>{main.menuName}</p>
-                            {getMatchedOptions(main, options).map((option, i) => (
-                                <div className={styles.option} key={option.optionPk}>
-                                    <p className={styles.optionName}>{option.optionName}</p>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            ))}
+        <div className={styles.menuAdmin}>
+            <div className={styles.content}>
+                <h1>메뉴 변경</h1>
+                <form ref={catFormRef} className={styles.catAddForm} onSubmit={onCatSubmit}>
+                    <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 추가" />
+                    <button className={styles.catAddBtn}>➕</button>
+                </form>
+                {categories.map((category) => (
+                    <div className={styles.category} key={category.categoryPk}>
+                        <p className={styles.categoryName}>[{category.categoryName}]</p>
+                        <form className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
+                            <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
+                            <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
+                            <button className={styles.menuAddBtn}>➕</button>
+                        </form>
+                        {getMatchedMains(category, mains).map((main) => (
+                            <div className={styles.main} key={main.menuPk}>
+                                <p className={styles.mainName}>{main.menuName}</p>
+                                <p className={styles.mainPrice}>:{main.menuPrice}원</p>
+                                {getMatchedOptions(main, options).map((option) => (
+                                    <div className={styles.option} key={option.optionPk}>
+                                        <p className={styles.optionName}>{option.optionName}</p>
+                                        <p className={styles.optionPrice}>:{option.optionPrice}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+            <div className={styles.modifyOption}>
+                <h1>옵션 변경</h1>
+                <form ref={optionFormRef} className={styles.optionAddForm} onSubmit={onOptionSubmit}>
+                    <input type="text" ref={optionInputRef} className={styles.optionAddInput} placeholder="옵션 추가" />
+                    <input type="text" ref={optionPriceRef} className={styles.optionAddInput} placeholder="가격" />
+                    <button className={styles.optionAddBtn}>➕</button>
+                </form>
+                {options.map((option) => (
+                    // css할 때는 className 변경해야 함!
+                    <div className={styles.option} key={option.optionPk}>
+                        <p className={styles.optionName}>{option.optionName}</p>
+                        <p className={styles.optionPrice}>:{option.optionPrice}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

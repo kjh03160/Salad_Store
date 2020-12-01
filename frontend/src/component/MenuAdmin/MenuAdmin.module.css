@@ -1,3 +1,20 @@
+p {
+    display: inline-block;
+}
+
+.menuAdmin {
+    width: 100%;
+    position: relative;
+}
+
+/* 카테고리/메뉴 생성 및 삭제 */
+
+.content {
+    padding-top: 50px;
+    width: 40%;
+    margin: 0;
+}
+
 .category {
     font-size: 1.5em;
 }
@@ -8,4 +25,18 @@
 
 .optionName {
     font-size: 0.9em;
+}
+
+.optionPrice {
+    font-size: 0.9em;
+}
+
+/* 옵션 생성 및 삭제 */
+
+.modifyOption {
+    padding-top: 50px;
+    width: 60%;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
