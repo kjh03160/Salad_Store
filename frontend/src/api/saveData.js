@@ -102,6 +102,11 @@ export default {
     getAll(){
       let status = axios.get('/all')
       return status
-    }
+    },
+
+    newLink(data){
+      let status = axios.post('/link', data)
+      return status
+    },
 
 }
