@@ -29,7 +29,7 @@ export default function App() {
     }
     // let result2 = await api.getMain({'pk':3});
     // let result2 = await api.newMain({'category_pk': 1, 'text1' : usertext1, 'text2' : usertext2, 'image':img});
-    let result2 = await api.newMain(form)
+    // let result2 = await api.newMain(form)
     // let result2 = await api.changeMain(form);
     // let result2 = await api.reviseOption({'option_pk' : 3, 'option_name' : 'cvzas', 'option_price' : 100})
     // let result2 = await api.reviseMain(form);
@@ -37,7 +37,8 @@ export default function App() {
     // let result2 = await api.changeCategory({'name': "change", 'pk' : 4})
     // let result2 = await api.getCategory({'pk':4})
     // let result2 = await api.deleteCategory({'pk': 11})
-    // let result2 = await api.addOption({'option_name' : 'ㅋㅋㅋㅋ', 'option_price' : 20, 'option_soldout' : 1, 'menu_pk': 5})
+    // let result2 = await api.addOption({'option_name' : '진짜로 안되냐', 'option_price' : 20, 'option_soldout' : 1, 'menu_pk': 6})
+    let result2 = await api.newLink({'menu_pk' : 6, 'option_pk' : 12})
     // let result2 = await api.addOption({})
     // let result2 = await api.deleteOption({'option_pk' : 6})
     // let result2 = await api.deleteMain({'pk':5});
