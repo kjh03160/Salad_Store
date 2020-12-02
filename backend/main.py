@@ -29,11 +29,6 @@ app = create_app()
 api = Api(app)
 app.secret_key = "super secret key"
 
-app.config['JWT_SECRET_KEY'] = 'super-secret'
-jwt = JWTManager(app)
-
-app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-
 with app.app_context():
     db.create_all()
 
@@ -64,9 +59,6 @@ class Index(Resource):
 api.add_resource(Index, '/menu')
 api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')
-api.add_resource(JWTlogin, '/jwt_login')
-api.add_resource(Test, '/test')
-# api.add_resource(VerifyUser, '/check')
 
 if __name__=='__main__':
     

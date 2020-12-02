@@ -11,8 +11,14 @@ redis_session = RedisSession()
 
 class Signup(Resource):
 
+    # 로그아웃
     def get(self):
-        return Response(status = 405)
+        if 'usr' in f_session:
+            f_session.pop('usr')
+            return 201
+        else:
+            return Response(status = 409)
+    # 회원 가입
     def post(self):
         arg = request.json
         duplicated_user = models.User.query.filter_by(user_id = arg['usr_id']).first()
@@ -25,20 +31,14 @@ class Signup(Resource):
         else:
             return Response(status = 409)
 
-    def put(self):
-        # request.json
-        return Response(status = 405)
-    def delete(self):
-        return Response(status = 405)
-
 
 class Login(Resource):
     # 로그인 상태 확인
     def get(self):
         if 'usr' in f_session:
-            print('hhhh')
+            print('user in f_session!')
         else:
-            print('ddddd')
+            print('user not in f_session!')
         print(f_session)
         return Response('', 200)
 
@@ -49,45 +49,14 @@ class Login(Resource):
         if user_in_db:
             if user_in_db.check_password(arg['password']):
                 session_key = redis_session.save_session(arg['usr_id'])
-                # f_session.permanent = True
+                f_session.permanent = False
                 f_session['usr'] = session_key
                 print(f_session)
                 # print(redis_session.db)
-                cookie = 'user=' + session_key
+                # cookie = 'user=' + session_key
                 resp = Response('', 200)
-                # resp.headers['Access-Control-Allow-Credentials'] = 'true'
                 resp.headers.add('Access-Control-Allow-Headers',
                          "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-                return resp
-            else:
-                return Response(status = 401)
-        return Response(status = 401)
-
-class Test(Resource):
-    def post(self):
-        if 'usr' in f_session:
-            print('hhhh')
-        else:
-            print('ddddd')
-        return 200
-
-class JWTlogin(Resource):
-
-    def post(self):
-        arg = request.json
-        user_in_db = models.User.query.filter_by(user_id = arg['usr_id']).first()
-        if user_in_db:
-            if user_in_db.check_password(arg['password']):
-                access_token = create_access_token(identity=user_in_db.user_id)
-                refresh_token = create_refresh_token(identity=user_in_db.user_id)
-
-                resp = Response('', 200)
-                # resp.headers['Access-Control-Allow-Credentials'] = 'true'
-                resp.headers.add('Access-Control-Allow-Headers',
-                            "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-
-                set_access_cookies(resp, access_token)
-                set_refresh_cookies(resp, refresh_token)
                 return resp
             else:
                 return Response(status = 401)
