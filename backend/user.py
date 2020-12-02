@@ -5,6 +5,7 @@ from flask import session as f_session
 from database import session, Base, engine
 import models
 from redis_session import *
+from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies
 
 redis_session = RedisSession()
 
@@ -32,6 +33,7 @@ class Signup(Resource):
 
 
 class Login(Resource):
+    # 로그인 상태 확인
     def get(self):
         if 'usr' in f_session:
             print('hhhh')
@@ -40,6 +42,7 @@ class Login(Resource):
         print(f_session)
         return Response('', 200)
 
+    # 로그인
     def post(self):
         arg = request.json
         user_in_db = models.User.query.filter_by(user_id = arg['usr_id']).first()
@@ -51,7 +54,7 @@ class Login(Resource):
                 print(f_session)
                 # print(redis_session.db)
                 cookie = 'user=' + session_key
-                resp = Response('', 200, {'Set-Cookie': cookie})
+                resp = Response('', 200)
                 # resp.headers['Access-Control-Allow-Credentials'] = 'true'
                 resp.headers.add('Access-Control-Allow-Headers',
                          "Origin, X-Requested-With, Content-Type, Accept, x-auth")
@@ -67,3 +70,25 @@ class Test(Resource):
         else:
             print('ddddd')
         return 200
+
+class JWTlogin(Resource):
+
+    def post(self):
+        arg = request.json
+        user_in_db = models.User.query.filter_by(user_id = arg['usr_id']).first()
+        if user_in_db:
+            if user_in_db.check_password(arg['password']):
+                access_token = create_access_token(identity=user_in_db.user_id)
+                refresh_token = create_refresh_token(identity=user_in_db.user_id)
+
+                resp = Response('', 200)
+                # resp.headers['Access-Control-Allow-Credentials'] = 'true'
+                resp.headers.add('Access-Control-Allow-Headers',
+                            "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+
+                set_access_cookies(resp, access_token)
+                set_refresh_cookies(resp, refresh_token)
+                return resp
+            else:
+                return Response(status = 401)
+        return Response(status = 401)

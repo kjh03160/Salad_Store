@@ -16,7 +16,7 @@ export default {
 
     loginUser(data) {
         console.log(data);
-        return instance.post("/login", data, {withCredentials: true } )
+        return instance.post("/jwt_login", data, {withCredentials: true } )
     },
 
     async checkUser(key) {
