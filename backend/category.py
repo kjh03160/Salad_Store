@@ -7,13 +7,13 @@ import models
 
 class Category(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('name', required = False, help = 'no name')
-    parser.add_argument('pk', required = False, help = 'show me valid pk')
+    parser.add_argument('category_name', required = False, help = 'no name')
+    parser.add_argument('category_pk', required = False, help = 'show me valid pk')
 
     def get(self):
         request = Category.parser.parse_args()
         return_list = []
-        if request['pk'] == None:
+        if request['category_pk'] == None:
             category = session.query(models.Category).all()
             if category == None:
                 return Response(status = 404)
@@ -30,12 +30,11 @@ class Category(Resource):
 
     def post(self):
         request = Category.parser.parse_args()
-        if request['name'] == None:
+        if request['category_name'] == None:
             return Response(status = 400)
-            print("wehre")
-        elif session.query(models.Category).filter(models.Category.category_name == request['name']).count() > 0:
+        elif session.query(models.Category).filter(models.Category.category_name == request['category_name']).count() > 0:
             return Response(status = 400)
-        category = models.Category(category_name = request['name'])
+        category = models.Category(category_name = request['category_name'])
         session.add(category)
         session.flush()
         session.commit()
@@ -43,18 +42,18 @@ class Category(Resource):
 
     def patch(self):
         request = Category.parser.parse_args()
-        if (request['name'] == None) or (request['pk'] == None):
+        if (request['category_name'] == None) or (request['category_pk'] == None):
             return Response(status = 400)
-        category = session.query(models.Category).filter(models.Category.category_pk == request['pk']).first()
-        category.category_name = request['name']
+        category = session.query(models.Category).filter(models.Category.category_pk == request['category_pk']).first()
+        category.category_name = request['category_name']
         session.commit()
         return Response(status = 204)
 
     def delete(self):
         request = Category.parser.parse_args()
-        if request['pk'] == None:
+        if request['category_pk'] == None:
             return Response(status = 400)
-        category = session.query(models.Category).filter(models.Category.category_pk == request['pk']).first()
+        category = session.query(models.Category).filter(models.Category.category_pk == request['category_pk']).first()
         session.delete(category)
         session.commit()
         return Response(status = 200)      
