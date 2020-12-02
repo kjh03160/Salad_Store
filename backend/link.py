@@ -21,13 +21,18 @@ class Link(Resource):
 
         try:
             option_menu = session.query(models.Option).get(request['option_pk'])
+<<<<<<< HEAD
             if option_menu in main_menu.options:
                 return Response(status = 400)
                 
+=======
+            print(option_menu)
+>>>>>>> 8f4724707cc91e41531f459296d448f116fce0c4
             main_menu.options.append(option_menu)
             session.commit()
             return Response(status = 201)
         except:
+<<<<<<< HEAD
             return Response(status = 400)
 
     def delete(self):
@@ -52,3 +57,6 @@ class Link(Resource):
 
     
 
+=======
+            return Response(status = 400)
+>>>>>>> 8f4724707cc91e41531f459296d448f116fce0c4

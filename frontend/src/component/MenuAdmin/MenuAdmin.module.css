@@ -31,11 +31,12 @@ p {
     font-size: 0.9em;
 }
 
+
 /* 옵션 생성 및 삭제 */
 
 .modifyOption {
     padding-top: 50px;
-    width: 60%;
+    width: 50%;
     position: absolute;
     right: 0;
     top: 0;

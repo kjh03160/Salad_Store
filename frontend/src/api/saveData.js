@@ -108,10 +108,13 @@ export default {
       let status = axios.post('/link', data)
       return status
     },
+<<<<<<< HEAD
 
     deleteLink(data){
       let status = axios.delete('/link', {params:data})
       return status
     },
+=======
+>>>>>>> 8f4724707cc91e41531f459296d448f116fce0c4
 
 }

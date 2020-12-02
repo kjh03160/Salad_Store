@@ -10,6 +10,7 @@ from all import All
 from category import Category
 from option import Option
 from menu import Menu
+<<<<<<< HEAD
 from link import Link
 =======
 
@@ -20,6 +21,11 @@ from API.menu import Menu
 from API.order import Order
 from API.statistic import Statistic
 >>>>>>> 759bd985697a408ce0f49bd677dc8c00f75e381c
+=======
+from order import Order
+from link import Link
+from statistic import Statistic
+>>>>>>> 8f4724707cc91e41531f459296d448f116fce0c4
 
 Base.metadata.create_all(bind=engine)
 
