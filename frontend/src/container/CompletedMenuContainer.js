@@ -34,6 +34,7 @@ width:100%;
 height:50px;
 display:flex;
 border:1px solid black;
+cursor: pointer;
 `
 const DetailWrapper = styled.section`
   width:70%;
@@ -45,15 +46,16 @@ function DetailSection(props) {
   const { children, value, index, detail,...other } = props;
   if (value !== index)return null
   return (
-    <DetailWrapper>
+    <DetailWrapper >
     {value === index && (
       <>
-        <div>주문번호 : {detail.orderPk}</div>
+        <div >주문번호 : {detail.orderPk}</div>
         <div>
           {detail.menus.map((menu,index)=>
             (<div key ={index}>
-              {menu.menuName}{menu.options.map((options,index)=><div key ={index}>{options}</div>)}
-              <div>{menu.quantity}개</div>
+              {menu.menuName}
+              {menu.options.map((options,index)=><div key ={index}>{options}</div>)}
+              <div key = {index}>{menu.quantity}개</div>
             </div>)
           )}
         </div>
@@ -62,23 +64,25 @@ function DetailSection(props) {
     </DetailWrapper>
   );
 }
-
 async function getOrder(){
   const response = await OrderAPI.getOrders()
   console.log(response.data)
   return response.data
 }
 
+
 export default function CompletedMenuContainer() {
   
   const {data, error, isLoading,reload} = useAsync({
     promiseFn:getOrder
   })
-  const [value, setValue] = React.useState(17);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  
   async function handleDone (orderPk){
     const response  = await OrderAPI.setComplete(orderPk)
     reload()
@@ -88,12 +92,12 @@ export default function CompletedMenuContainer() {
   return (
     <Wrapper>
       <OrderSection>
-        {data.orderList.map((order)=>{
-          // if (order.completed === 0) 
+        {data.orderList.map((order,index)=>{
+          if (order.completed === false) 
           return (
                   <>
-                  <Orders onClick={(event)=>handleChange(event,order.orderPk)} value={order.orderPk} >
-                    <span>
+                  <Orders key ={order.orderPk} onClick={(event)=>handleChange(event,order.orderPk)} value={order.orderPk} >
+                    <span key ={index}>
                       {`${order.orderPk}번 주문`}
                     </span>
                     <BiCheckSquare style={{color:"red",width:"35px",height:"35px"}} onClick={(event)=>handleDone(order.orderPk)}/>
@@ -103,7 +107,7 @@ export default function CompletedMenuContainer() {
                   )     
           })}
       </OrderSection>
-      {data.orderList.map((order)=><DetailSection value={value} index={order.orderPk} detail ={order}/>)}
+      {data.orderList.map((order)=><DetailSection value={value} key={order.orderPk} detail ={order}/>)}
       
     </Wrapper>
   );

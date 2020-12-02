@@ -30,14 +30,15 @@ export default function SoldOutMenuContainer() {
   async function handleMainClick  (menuPk) {
      let response = await MenuAPI.setSoldout({pk:menuPk,type:"set_main_soldout"})
      reload()
+     return response
    }
    async function handleOptionClick(optionPk){
      let response = await MenuAPI.setSoldout({pk:optionPk,type:"set_option_soldout"})
      reload()
+     return response
    }
   
   if(isLoading) return <div>loading</div>
-  const {category,main,option,relation} = data
   return (
     <Wrapper>
         <h2>메뉴 품절 관리 </h2>
@@ -46,13 +47,13 @@ export default function SoldOutMenuContainer() {
             <h2>{category.categoryName}</h2>
             
               {data.main.filter((main)=>main.categoryPk == category.categoryPk).map(
-              (main)=><Text SoldOut = {main.menuSoldout} onClick={()=>handleMainClick(main.menuPk)}> {main.menuName}</Text>
+              (main,index)=><Text key={index} SoldOut = {main.menuSoldout} onClick={()=>handleMainClick(main.menuPk)}> {main.menuName}</Text>
             )}
             
           </div>
         )}
         <h2>옵션 품절 관리</h2>
-        {data.option.map((option)=><Text onClick ={()=>handleOptionClick(option.optionPk)}SoldOut = {option.optionSoldout} > {option.optionName}</Text>)}
+        {data.option.map((option,index)=><Text key={index} onClick ={()=>handleOptionClick(option.optionPk)}SoldOut = {option.optionSoldout} > {option.optionName}</Text>)}
     </Wrapper>
   )
 }

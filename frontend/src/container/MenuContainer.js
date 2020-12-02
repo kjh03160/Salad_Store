@@ -1,6 +1,8 @@
 import React, {useRef, useState,useEffect} from 'react'
+import {useAsync} from 'react-async'
 import { useDispatch, useSelector } from 'react-redux'
-import { Route,Link, StaticRouter } from 'react-router-dom'
+import { Route,Link } from 'react-router-dom'
+
 import axios from 'axios'
 import MenuAPI from '../api/saveData'
 import OrderAPI from '../api/orderAPI'
@@ -147,7 +149,7 @@ export default function MenuContainer(props) {
                 </OrderListSection>
             
         </WrapperSection>
-        <Dialog title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
+        <Dialog children ={cashAmount} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
         <Payment children = "카드를 넣어주세요" visible = {dialog.card}/>
         </>
     )

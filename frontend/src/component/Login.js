@@ -1,9 +1,8 @@
-import React, {useState} from 'react'
-import { Link, Route, Switch,Redirect } from 'react-router-dom'
-import Menu from './Menu'
+import React from 'react'
+
+
 import signIn from '../module/AuthCheck'
-import AuthRoute from '../Router/AuthRoute'
-import Home from '../pages/PickUp'
+
 
 import {useSelector, useDispatch} from 'react-redux'
 

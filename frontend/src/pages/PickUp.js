@@ -11,7 +11,6 @@ width:1300px;
 height:100vh;
 border:1px solid black;
 display:flex;
-flex-wrap:no-wrap;
 div{
   width:50%;
   height:100%;
@@ -46,19 +45,21 @@ export default function PickUp(){
     if (isLoading) return <div>로딩중...</div>
     console.log(data.data)
     return(
-        
+        // 날짜 범위 설정해서 보여줘야함
       <Wrapper>
         <div>
           <h1>조리중</h1>
         {data.data.orderList.map((order)=>
-        // Completted 수정하고 닷시
-        <div key = {order.orderPk}>{order.orderPk}번 주문
-        
-        </div>
-        )}
+        {if (order.completed == false)
+          return(<div key = {order.orderPk}>{order.orderPk}번 주문</div>)
+        })}
         </div>
         <div>
           <h1>조리 완료</h1>
+              {data.data.orderList.map((order)=>
+            {if (order.completed == true)
+              return(<div key = {order.orderPk}>{order.orderPk}번 주문</div>)}
+                )}
         </div>
       </Wrapper>
 

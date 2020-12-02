@@ -1,4 +1,5 @@
 
+
 import pandas as pd
 import re
 
@@ -30,7 +31,7 @@ def many_to_one(data):
     order_list = []
     for order in orders:
         order_df = df[df['orderPk'] == order]
-        order_dict = {'orderPk' : order, 'orderTime' : order_df.iloc[0]['orderTime'], 'menus' : []}
+        order_dict = {'orderPk' : order, 'orderTime' : order_df.iloc[0]['orderTime'], 'menus' : [], 'completed' : bool(order_df.iloc[0]['completed'])}
         products = map(int, order_df['productPk'].unique())
         for product in products:
             product_df = order_df[order_df['productPk'] == product]

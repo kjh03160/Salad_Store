@@ -1,7 +1,7 @@
-import {Link, Redirect, Route} from 'react-router-dom'
-import React, {useRef} from 'react'
+import {Link} from 'react-router-dom'
+import React from 'react'
 
-import Button from '@material-ui/core/Button';
+
 import styled from 'styled-components'
 const MainMenuCotainer = styled.div`
 display: flex;
@@ -18,12 +18,14 @@ height:80%;
 display :flex;
 justify-content:center;
 align-items:center;
+cursor: pointer;
 `
 const Description = styled.div`
 width:50%;
 display: flex;
 justify-content: center;
 align-items: center;
+cursor: pointer;
 `
 export default function Menu(props){
     // 컨테이터에서 메뉴 데이터 받아서 props.match.params.categoryPk 로 걸러서 보여주기 

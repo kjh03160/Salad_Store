@@ -1,5 +1,5 @@
-import {Link, Redirect, Route} from 'react-router-dom'
-import React, {Children, useState} from 'react'
+import {Link} from 'react-router-dom'
+import React, { useState} from 'react'
 
 import styled , {css} from 'styled-components'
 
@@ -8,6 +8,7 @@ const TodoItemBlock = styled.div`
   align-items: center;
   padding-top: 12px;
   padding-bottom: 12px;
+  cursor: pointer;
 `;
 
 
@@ -23,7 +24,7 @@ const Text = styled.div`
     `}
 `;
 function OptionItem(props){
-    const {nextId, menuData, orderList,setOrderList, onSetOrder, data,item } = props.data
+    const {nextId, orderList,setOrderList, onSetOrder, data,item } = props.data
     const [selected, setSelected] = useState(false)
     function handleClick(event,id, name, price, ){
         setOrderList(
@@ -53,7 +54,7 @@ function OptionItem(props){
 }
 
 export default function Option(props){
-    const {nextId, menuData, orderList,setOrderList, onSetOrder,data} = props.data
+    const {nextId,orderList,setOrderList, onSetOrder,data} = props.data
     const selectedMain = Number(props.match.params.selectedMain)
     function addToOrdder(e){        
         nextId.current +=1
