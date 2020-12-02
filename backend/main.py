@@ -1,14 +1,25 @@
-from flask import Flask, request, jsonify
-from database import session, Base, engine
+from flask import Flask
+from database import  Base, engine, DB_URL
 from flask_restful import Resource, Api
-from flask_restful import reqparse
 import models
-from flask_cors import CORS
 from models import db
+from flask_cors import CORS
 from user import *
-from flask_jwt_extended import JWTManager
+from werkzeug.utils import secure_filename
+from all import All
+from category import Category
+from option import Option
+from menu import Menu
+from link import Link
+from API.all import All
+from API.category import Category
+from API.option import Option
+from API.menu import Menu
+from API.order import Order
+from API.statistic import Statistic
 
 Base.metadata.create_all(bind=engine)
+
 
 def create_app():
     app = Flask(__name__)
@@ -23,6 +34,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
     CORS(app, resources={r'*': {'origins': 'http://127.0.0.1:3000'}}, expose_headers =['*'], supports_credentials = True, credientials = True)
     models.db.init_app(app)
+
     return app
 
 app = create_app()
@@ -59,7 +71,14 @@ class Index(Resource):
 api.add_resource(Index, '/menu')
 api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')
+api.add_resource(Order, '/orders')
+api.add_resource(Statistic, '/statistics')
+api.add_resource(All,'/all')
+api.add_resource(Option,'/option')
+api.add_resource(Category,'/category')
+api.add_resource(Menu, '/menu')
+api.add_resource(Link, '/link')
 
 if __name__=='__main__':
-    
     app.run(debug=True)
+
