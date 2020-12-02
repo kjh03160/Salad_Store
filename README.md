@@ -151,6 +151,8 @@ axios.get("/statistics", {params:{startDate : startDate, endDate : endDate, opti
 
 ------------
 
+# 모든 get 메소드에 아무런 데이터 안 보내면 전체 데이터 반환 (Category, Menu, Option)
+
 # 카테고리 
 
 ## data

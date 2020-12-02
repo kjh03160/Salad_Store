@@ -5,6 +5,13 @@ import models
 from models import db
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+<<<<<<< HEAD
+from all import All
+from category import Category
+from option import Option
+from menu import Menu
+from link import Link
+=======
 
 from API.all import All
 from API.category import Category
@@ -12,6 +19,7 @@ from API.option import Option
 from API.menu import Menu
 from API.order import Order
 from API.statistic import Statistic
+>>>>>>> 759bd985697a408ce0f49bd677dc8c00f75e381c
 
 Base.metadata.create_all(bind=engine)
 
@@ -34,6 +42,7 @@ api.add_resource(All,'/all')
 api.add_resource(Option,'/option')
 api.add_resource(Category,'/category')
 api.add_resource(Menu, '/menu')
+api.add_resource(Link, '/link')
 
 if __name__=='__main__':
     app.run(debug=True)
