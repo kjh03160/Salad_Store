@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+#!/Users/joonie-lee/소웨공/Salad_Store/myvenv/bin/python3
+=======
 #!/Users/Tag/Desktop/Tag/visual_code/Salad_Store/myvenv/bin/python3
+>>>>>>> b1ead5d12dcb8cd2abe56d8f7e9a0d58cebff446
 # -*- coding: utf-8 -*-
 import re
 import sys

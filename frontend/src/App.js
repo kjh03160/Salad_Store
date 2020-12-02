@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+import './App.css';
+import React from 'react';
+import { BrowserRouter, Route } from "react-router-dom";
+import login from './components/login';
+import signup from './components/signup';
+
+function App() {
+  
+  return (
+    <BrowserRouter>
+      <Route path="/login" component={login}/>
+      <Route path="/signup" component={signup}/>
+    </BrowserRouter>
+=======
 import React from 'react';
 import {useSelector,useDispatch} from 'react-redux'
 import {Redirect} from 'react-router-dom'
@@ -66,6 +81,7 @@ function App() {
       
       
     
+>>>>>>> b1ead5d12dcb8cd2abe56d8f7e9a0d58cebff446
   );
 }
 
