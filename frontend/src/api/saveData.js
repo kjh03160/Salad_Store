@@ -54,6 +54,10 @@ export default {
       })
       return status
     },
+    setSoldout(data){
+      let status = axios.post('/menu', data)
+      return status
+    },
 
 
     deleteMain(data){
@@ -102,6 +106,16 @@ export default {
     getAll(){
       let status = axios.get('/all')
       return status
-    }
+    },
+
+    newLink(data){
+      let status = axios.post('/link', data)
+      return status
+    },
+
+    deleteLink(data){
+      let status = axios.delete('/link', {params:data})
+      return status
+    },
 
 }

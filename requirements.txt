@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 SQLAlchemy==1.2.7
+=======
+  
+
+>>>>>>> nandong
 sqlparse==0.3.0
 altgraph==0.16.1
 Flask==1.1.2

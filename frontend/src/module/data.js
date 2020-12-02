@@ -2,12 +2,22 @@
 export default {
     optionRelation:[
         {
-            pk:0,
             main_id:1,
             option_id:2
         },
         {
-            pk:1,
+            main_id:1,
+            option_id:3
+        },
+        {
+            main_id:1,
+            option_id:3
+        },
+        {
+            main_id:1,
+            option_id:3
+        },
+        {
             main_id:1,
             option_id:3
         },
@@ -139,21 +149,20 @@ export default {
         
     option:[
         {   
-
             id:1,
-            name:"option1",
+            name:"소수 추가",
             price:500,
             isSoldOut:false
         },
         {
             id:2,
-            name:"option2",
+            name:"샐러드 추가",
             price:600,
             isSoldOut:false
         },
         {
             id:3,
-            name:"option3",
+            name:"콘샐러드 추가",
             price:700,
             isSoldOut:false
         },
@@ -172,26 +181,6 @@ categoryPk:[
           name:'음료수'
         },
       ]
-    // main:[
-    //     {
-    //         name:'영택샐러드'
-    //     },
-
-    //     {
-    //         name:'경욱샐러드'
-    //     },
-    //     {
-    //         name:'정엽샐러드'
-    //     }
-    // ],
-    // option:[
-    //     {
-    //         dressing:'드레싱1'
-    //     },
-    //     {
-    //         dressing:'드레싱2'
-    //     }
-    // ],
 
 }
 

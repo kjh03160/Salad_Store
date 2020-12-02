@@ -19,7 +19,7 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logge
 const persistor = persistStore(store)
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Router>
       <Provider store={store}>
           <PersistGate persistor={persistor}>
@@ -27,8 +27,9 @@ ReactDOM.render(
           </PersistGate>
       </Provider>
     </Router>
-  </React.StrictMode>,
-  document.getElementById('root')
+  /* </React.StrictMode> */
+
+  ,document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
