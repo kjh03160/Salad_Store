@@ -1,0 +1,34 @@
+
+.wrapper{
+    width:1200px;
+    height:100vh;
+    border:1px solid black;
+    display:flex;
+    flex-wrap: wrap;
+  }
+.category{
+width:20%;
+height:80%;
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+align-items: center;
+border:1px solid black;
+}
+
+.menuPick{
+    width: 80%;
+    height:80%;
+    display: flex;  
+    flex-wrap: wrap;
+    border:1px solid black;
+    overflow-y: scroll;
+    
+}
+
+.orderList{
+width:100%;
+height:20%;
+border:1px solid black;
+overflow-y: scroll;
+}

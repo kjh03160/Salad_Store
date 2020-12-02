@@ -1,17 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import React, {useState, Component, useEffect} from 'react';
-import api from './api/saveData'
+import React from 'react';
+import {useSelector,useDispatch} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 
-export default function App() {
-  const [usertext1, setUserText1] = useState('');
-  const [usertext2, setUserText2] = useState('');
-  const [usertext3, setUserText3] = useState('');
-  const [usertext4, setUserText4] = useState('');
-  const [usertext5, setUserText5] = useState('');
+import { Switch,Route,Link } from 'react-router-dom';
 
-  const [img, setImage] = useState(null);
 
+<<<<<<< HEAD
   const save = async () => {
     // e.preventDefault를 왜 안하지?
     let form = new FormData();
@@ -43,50 +37,36 @@ export default function App() {
     // let result2 = await api.deleteOption({'option_pk' : 6})
     // let result2 = await api.deleteMain({'pk':5});
     // let result2 = await api.deleteLink({'menu_pk' : 4, 'option_pk' : 9})
+=======
+import MenuPage from './pages/MenuPage'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Error from './pages/Error'
+import Kitchen from './pages/Kitchen'
+import Admin from './pages/Admin'
+>>>>>>> 759bd985697a408ce0f49bd677dc8c00f75e381c
 
-    // let result2 = await api.getAll();
-
-    console.log(result2)
-
-
-
-  }
+function App() {
   
-  const setText1 = (e) => {
-    setUserText1(e.target.value);
-  }
-
-  const setText2 = (e) => {
-    setUserText2(e.target.value);
-  }
-  const setText3 = (e) => {
-    setUserText3(e.target.value);
-  }
-  const setText4 = (e) => {
-    setUserText4(e.target.value);
-  }
-  const setText5 = (e) => {
-    setUserText5(e.target.value);
-  }
-
-  const onChange = (e) => {
-    setImage(e.target.files[0]);
-    
-  }
-
-
   return (
-      <>
-          <input type = "text" name = "text1" onChange = {setText1}/>
-          <input type = "text"  name = "text2" onChange = {setText2}/>
-          <input type = "text"  name = "text3" onChange = {setText3}/>
-          <input type = "text"  name = "text4" onChange = {setText4}/>
-          <input type = "text"  name = "text5" onChange = {setText5}/>
-          <input type="file" name="file" id="" onChange = {onChange} />
-          <button onClick={save} value = "ok"/>
-          <img src = "http://localhost:5000/static/images/main/img2.jpg"></img>
-      </>
+    
+    <>
+      <Switch>
+        {/* <Route exact path='/' component ={Home}/> */}
+        <Route exact path='/' component={Login}/>
+        <Route  path='/menu' component = {MenuPage}/>
+        <Route  path='/kitchen' component = {Kitchen}/>
+        <Route path ='/admin' component={Admin}/>
+        <Route component={Error}/>
+      </Switch>
+    </>
+      
+      
+      
+      
+      
+    
   );
 }
 
-
+export default App;
