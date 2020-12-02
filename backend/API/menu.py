@@ -62,12 +62,12 @@ class Menu(Resource):
         print(saveImgDir)
         data = Menu.parser.parse_args()
         server_path = '' 
-        if data["type"] =="set_main_soldout":
+        if data["type"] =="main_soldout":
             main_menu = session.query(models.Menu).filter(models.Menu.menu_pk == data['pk']).first()
             main_menu.menu_soldout = [1,0][main_menu.menu_soldout]            
             session.commit()
             return Response(status=201)
-        elif data['type'] == "set_option_soldout":
+        elif data['type'] == "option_soldout":
             option = session.query(models.Option).filter(models.Option.option_pk== data['pk']).first()
             option.option_soldout = [1,0][option.option_soldout]
             session.commit()

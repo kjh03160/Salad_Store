@@ -28,12 +28,12 @@ export default function SoldOutMenuContainer() {
   })
 
   async function handleMainClick  (menuPk) {
-     let response = await MenuAPI.setSoldout({pk:menuPk,type:"set_main_soldout"})
+     let response = await MenuAPI.setSoldout({pk:menuPk,type:"main_soldout"})
      reload()
      return response
    }
    async function handleOptionClick(optionPk){
-     let response = await MenuAPI.setSoldout({pk:optionPk,type:"set_option_soldout"})
+     let response = await MenuAPI.setSoldout({pk:optionPk,type:"option_soldout"})
      reload()
      return response
    }

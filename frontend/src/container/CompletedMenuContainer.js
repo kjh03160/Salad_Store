@@ -88,6 +88,7 @@ export default function CompletedMenuContainer() {
     reload()
     return response
   }
+  
   if(isLoading) return <div>loading</div>
   return (
     <Wrapper>
