@@ -16,11 +16,15 @@ export default {
 
     loginUser(data) {
         console.log(data);
-        return instance.post("/jwt_login", data, {withCredentials: true } )
+        return instance.post("/login", data)
     },
 
-    async checkUser(key) {
-        console.log(key)
+    logoutUser() {
+        return instance.get("/signup")
+    },
+
+    async checkUser() {
+        // console.log(key)
         return await instance.get("/login" )
         
     }

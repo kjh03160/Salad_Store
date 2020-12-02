@@ -4,18 +4,15 @@ import api from '../api/userAPI.js';
 export default function Login(){
     const [userId, setUserId] = useState('');
     const [userPw, setUserPw] = useState('');
-    const [key, setKey] = useState()
     const checkUser = async () => {
-        // console.log(key)
-        let result = await api.checkUser(key);
-        // console.log(result.headers)
-        console.log(`cookie: ${document.cookie}`)
+        let result = await api.checkUser();
+        console.log(result.headers)
+        // console.log(`cookie: ${document.cookie}`)
     } 
 
     const loginUser = async () => {
         let result = await api.loginUser({"usr_id" : userId, "password" :  userPw});
-        setKey(result.data)
-        // console.log(result);
+        console.log(result);
     }
     const setId = (e) => {
         setUserId(e.target.value);
@@ -24,7 +21,6 @@ export default function Login(){
     const setPw = (e) => {
         setUserPw(e.target.value);
     }
-    console.log(key)
     return (
         <>
             {/* {{user}} */}
