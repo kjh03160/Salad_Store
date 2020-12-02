@@ -130,11 +130,14 @@ class Menu(Resource):
         
     def delete(self):
         request = Menu.parser.parse_args()
+        print(request)
 
         if request['pk'] == None:
             return Response (status = 400)
         
-        menu = session.query(models.Menu).filter(models.Menu.menu_pk == request['pk']).first()
-        session.delete(menu)
+        sql = f"delete from menus where menu_pk = {request['pk']}"
+        session.execute(sql)
+        # menu = session.query(models.Menu).filter(models.Menu.menu_pk == request['pk']).first()
+        # session.delete(menu)
         session.commit()
         return Response(status = 200)

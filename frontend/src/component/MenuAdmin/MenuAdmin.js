@@ -75,7 +75,7 @@ const MenuAdmin = (props) => {
     };
 
     const handleCategoryAdd = async (name) => {
-        const data = { name };
+        const data = { category_name:name };
         console.log(data);
         let response = await menuApi.addCategory(data);
         categoryCall();
@@ -85,8 +85,8 @@ const MenuAdmin = (props) => {
 
     const handleCategoryDelete = async (e, categoryPk) => {
         // let newCategories = [...categories];
-        let data = {'pk': categoryPk};
-        console.log(data);
+        let data = {'category_pk': categoryPk};
+        
         let response = await menuApi.deleteCategory(data);
         categoryCall();
     };
@@ -98,35 +98,36 @@ const MenuAdmin = (props) => {
         catFormRef.current.reset();
     };
 
-    const handleMenuAdd = async (name, price, categoryPk) => {
+    const handleMenuAdd = async (name, price, categoryPk, image) => {
         let data = new FormData();
         data.append('category_pk', categoryPk);
         data.append('menu_name', name);
         data.append('menu_price', price);
         data.append('menu_soldout', 0);
+        data.append('image', image);
         let response = await menuApi.newMain(data);
         menuCall();
     };
 
-    const handleMenuDelete = menu => {
-        // const main = state.main.filter(item => item.id !== menu.id)
-        // setState({ ...state, main});
+    const handleMenuDelete = async (e, menuPk) => {
+        let data = {'pk': menuPk};
+        let response = await menuApi.deleteMain(data);
+        menuCall();
     };
 
     const onMenuSubmit = (e, categoryPk) => {
         e.preventDefault();
+        console.log(e);
         const name = e.target[0].value;
         const price = parseInt(e.target[1].value);
+        const image = e.target[2].files[0];
         if (isNaN(price)) {
             e.target.reset();
         }
         else {
-            handleMenuAdd(name, price, categoryPk);
+            handleMenuAdd(name, price, categoryPk, image);
             e.target.reset();
         }
-    };
-
-    const handleImageAdd = menu => {
     };
 
     const handleOptionAdd = async (name, price) => {
@@ -135,9 +136,10 @@ const MenuAdmin = (props) => {
         optionCall();
     };
 
-    const handleOptionDelete = opt => {
-        // const option = state.option.filter(item => item.id !== opt.id)
-        // setState({ ...state, option});
+    const handleOptionDelete = async (e, optionPk) => {
+        let data = {'option_pk': optionPk};
+        let response = await menuApi.deleteOption(data);
+        optionCall();
     };
 
     const onOptionSubmit = e => {
@@ -186,11 +188,11 @@ const MenuAdmin = (props) => {
                 {categories.map((category) => (
                     <div className={styles.category} key={category.categoryPk}>
                         <p className={styles.categoryName}>[{category.categoryName}]</p>
-                        {/* <button className={styles.menuDelBtn} onClick={}>❌</button> */}
                         <button onClick={(e) => { if (window.confirm('해당 카테고리를 삭제하시겠습니까?')) handleCategoryDelete(e, category.categoryPk) }}>❌</button>
                         <form className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
                             <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
                             <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
+                            <input type="file" name="menuImage" className={styles.menuAddInput}/>
                             <button className={styles.menuAddBtn}>➕</button>
                         </form>
                         <br />
@@ -198,6 +200,8 @@ const MenuAdmin = (props) => {
                             <div className={styles.main} key={main.menuPk}>
                                 <p className={styles.mainName}>{main.menuName}</p>
                                 <p className={styles.mainPrice}>:{main.menuPrice}원</p>
+                                <img className={styles.mainImage} src={main.image}/>
+                                <button onClick={(e) => { if (window.confirm('해당 메뉴를 삭제하시겠습니까?')) handleMenuDelete(e, main.menuPk) }}>❌</button>
                                 <form id={main.menuP} action="" onSubmit={(e) => onSubmit(e, main.menuPk)}>
                                     <Multiselect
                                         options={options} // Options to display in the dropdown
@@ -242,6 +246,7 @@ const MenuAdmin = (props) => {
                     <div className={styles.option} key={option.optionPk}>
                         <p className={styles.optionName}>{option.optionName}</p>
                         <p className={styles.optionPrice}>:{option.optionPrice}</p>
+                        <button onClick={(e) => { if (window.confirm('해당 옵션을 삭제하시겠습니까?')) handleOptionDelete(e, option.optionPk) }}>❌</button>
                     </div>
                 ))}
             </div>
