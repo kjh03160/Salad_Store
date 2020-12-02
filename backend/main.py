@@ -21,14 +21,6 @@ Base.metadata.create_all(bind=engine)
 
 def create_app():
     app = Flask(__name__)
-    db = {
-        'user'     : 'root',		# 1
-        'password' : '1234',		# 2
-        'host'     : 'localhost',	# 3
-        'port'     : 3306,			# 4
-        'database' : 'mysite'		# 5
-        }
-    DB_URL = f"mysql+pymysql://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['database']}?charset=utf8"
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
     CORS(app, resources={r'*': {'origins': 'http://127.0.0.1:3000'}}, expose_headers =['*'], supports_credentials = True, credientials = True)
     models.db.init_app(app)
