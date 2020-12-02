@@ -4,10 +4,7 @@ from flask import Flask, request, jsonify, Response, make_response
 from flask import session as f_session
 from database import session, Base, engine
 import models
-from redis_session import *
-from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies
-
-redis_session = RedisSession()
+from uuid import uuid4
 
 class Signup(Resource):
 
@@ -48,7 +45,7 @@ class Login(Resource):
         user_in_db = models.User.query.filter_by(user_id = arg['usr_id']).first()
         if user_in_db:
             if user_in_db.check_password(arg['password']):
-                session_key = redis_session.save_session(arg['usr_id'])
+                session_key = str(uuid4())
                 f_session.permanent = False
                 f_session['usr'] = session_key
                 print(f_session)
