@@ -5,13 +5,11 @@ import models
 from models import db
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
-<<<<<<< HEAD
 from all import All
 from category import Category
 from option import Option
 from menu import Menu
 from link import Link
-=======
 
 from API.all import All
 from API.category import Category
