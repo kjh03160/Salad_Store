@@ -13,7 +13,6 @@ display:flex;
 width: 55%;
 height:100%;
 border:1px solid black;
-
 `
 
 const OrderSection = styled.section`
@@ -108,10 +107,8 @@ export default function CompletedMenuContainer() {
                   )     
           })}
       </OrderSection>
-      {data.orderList.map((order)=><DetailSection value={value} key={order.orderPk} detail ={order}/>)}
+      {data.orderList.map((order)=><DetailSection value={value} index={order.orderPk} detail ={order}/>)}
       
     </Wrapper>
   );
-  
-}
-
+        }

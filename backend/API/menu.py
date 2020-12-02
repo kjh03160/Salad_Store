@@ -20,6 +20,8 @@ class Menu(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('data', action = 'append', required = False, help = 'data is missing')
     parser.add_argument('pk', type = int, required = False, help = 'pk not valid')
+    
+    parser.add_argument('type', type = str ,required=False)
 
     def get(self):
         request = Menu.parser.parse_args()
@@ -58,45 +60,56 @@ class Menu(Resource):
     def post(self):
         print(temp_dir)
         print(saveImgDir)
-        data = request.form
+        data = Menu.parser.parse_args()
         server_path = '' 
+        if data["type"] =="main_soldout":
+            main_menu = session.query(models.Menu).filter(models.Menu.menu_pk == data['pk']).first()
+            main_menu.menu_soldout = [1,0][main_menu.menu_soldout]            
+            session.commit()
+            return Response(status=201)
+        elif data['type'] == "option_soldout":
+            option = session.query(models.Option).filter(models.Option.option_pk== data['pk']).first()
+            option.option_soldout = [1,0][option.option_soldout]
+            session.commit()
+            return Response(status=201)
+        else:
+            data = request.form
+            if 'category_pk' not in data.keys():
+                return Response(status = 404)
 
-        if 'category_pk' not in data.keys():
-            return Response(status = 404)
-
-        if 'image' in request.files:
-            image = request.files['image']
-            local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
-            image.save(local_path)
-            server_path = os.path.join(serverImgDir, 'main/', secure_filename(image.filename))
-        
-        main_menu = models.Menu()
-        
-        if server_path != '':
-            main_menu.menu_image = server_path
-        
-        
-        for i in data.keys():
-            if i == 'category_pk':
-                main_menu.category_pk = data['category_pk']
-            elif i == 'menu_name':
-                main_menu.menu_name = data['menu_name']
-            elif i == 'menu_price':
-                main_menu.menu_price = data['menu_price']
-            elif i == 'menu_soldout':
-                main_menu.menu_soldout = data['menu_soldout']
-            elif i == 'menu_description':
-                main_menu.menu_description = data['menu_description']
-        
-        session.add(main_menu)
-        session.flush()
-        session.commit()
-        return Response(status = 201)
+            if 'image' in request.files:
+                image = request.files['image']
+                local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
+                image.save(local_path)
+                server_path = os.path.join(serverImgDir, 'main/', secure_filename(image.filename))
+            
+            main_menu = models.Menu()
+            
+            if server_path != '':
+                main_menu.menu_image = server_path
+            
+            
+            for i in data.keys():
+                if i == 'category_pk':
+                    main_menu.category_pk = data['category_pk']
+                elif i == 'menu_name':
+                    main_menu.menu_name = data['menu_name']
+                elif i == 'menu_price':
+                    main_menu.menu_price = data['menu_price']
+                elif i == 'menu_soldout':
+                    main_menu.menu_soldout = data['menu_soldout']
+                elif i == 'menu_description':
+                    main_menu.menu_description = data['menu_description']
+            
+            session.add(main_menu)
+            session.flush()
+            session.commit()
+            return Response(status = 201)
 
     def patch(self):
         data = request.form
         server_path = '' 
-
+        print(data['menu_pk'])
         if 'menu_pk' not in data.keys():
             return Response(status = 404)
 

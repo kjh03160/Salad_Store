@@ -86,6 +86,7 @@ class Order(Resource):
                                 ORDER BY ORD.order_pk, M.menu_pk;
                         """
         result = session.execute(order_sql).fetchall()
+        session.close()
         result = query_to_dict(result)
         if len(result) == 0:
             return Response(status=404)
