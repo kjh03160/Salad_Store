@@ -12,6 +12,7 @@ from API.option import Option
 from API.menu import Menu
 from API.order import Order
 from API.statistic import Statistic
+from API.link import Link
 
 Base.metadata.create_all(bind=engine)
 
@@ -34,6 +35,7 @@ api.add_resource(All,'/all')
 api.add_resource(Option,'/option')
 api.add_resource(Category,'/category')
 api.add_resource(Menu, '/menu')
+api.add_resource(Link, '/link')
 
 if __name__=='__main__':
     app.run(debug=True)

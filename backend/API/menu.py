@@ -73,7 +73,6 @@ class Menu(Resource):
             session.commit()
             return Response(status=201)
 
-        print('여기 걸려야 대는데~!??????')
         data = request.form
         if 'category_pk' not in data.keys():
             return Response(status = 404)
