@@ -8,7 +8,6 @@ import auth from './auth'
 import order from './order'
 import dataSet from './dataSet'
 
-
 const persistConfig ={
     key:'root',
     storage: storageSession,
@@ -19,8 +18,8 @@ const rootReducer = combineReducers(
         auth,
         order,
         dataSet
-
-
     }
 )
 export default persistReducer(persistConfig, rootReducer)
+
+

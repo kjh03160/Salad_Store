@@ -53,7 +53,9 @@ class Category(Resource):
         request = Category.parser.parse_args()
         if request['category_pk'] == None:
             return Response(status = 400)
-        category = session.query(models.Category).filter(models.Category.category_pk == request['category_pk']).first()
-        session.delete(category)
+        sql = f"delete from categories where category_pk = {request['category_pk']}"
+        # category = session.query(models.Category).filter(models.Category.category_pk == request['category_pk']).first()
+        # session.delete(category)
+        session.execute(sql)
         session.commit()
         return Response(status = 200)      

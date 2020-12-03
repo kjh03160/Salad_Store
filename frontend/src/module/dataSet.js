@@ -1,7 +1,4 @@
 
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
-
 const SUCCESS = "SUCCESS"
 const ERROR = "ERROR"
 const LOADING = "LOADING"
@@ -44,6 +41,5 @@ export default function dataSet(state = initialState, action){
     }
 
 }
-
 
 

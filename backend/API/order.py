@@ -23,11 +23,9 @@ class Order(Resource):
               ....
               ]
         },
-
         {'order_pk': int,
             ....
         },
-
         ...
     ]
     """
