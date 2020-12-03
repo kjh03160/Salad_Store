@@ -1,3 +1,4 @@
+
 import axios from "axios"
 
 axios.defaults.baseURL = "http://127.0.0.1:5000"
@@ -54,10 +55,6 @@ export default {
       })
       return status
     },
-    setSoldout(data){
-      let status = axios.post('/menu', data)
-      return status
-    },
 
 
     deleteMain(data){
@@ -71,6 +68,10 @@ export default {
       
       return status
 
+    },
+    setSoldout(data){
+      let status = axios.post('/menu', data)
+      return status
     },
 
     changeCategory(data){
@@ -110,11 +111,6 @@ export default {
 
     newLink(data){
       let status = axios.post('/link', data)
-      return status
-    },
-
-    deleteLink(data){
-      let status = axios.delete('/link', {params:data})
       return status
     },
 

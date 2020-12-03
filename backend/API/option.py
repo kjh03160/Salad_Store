@@ -3,7 +3,6 @@ from database import session, Base, engine
 from flask_restful import Resource, Api
 from flask_restful import reqparse
 import models
-from API.method import *
 
 
 
@@ -48,24 +47,29 @@ class Option(Resource):
         if request['option_name'] and request['option_price'] and request['option_soldout'] == None:
             return Response(status = 400)
 
+        # main_menu = session.query(models.Menu).filter_by(menu_pk = request["menu_pk"]).first()
+
+        # if main_menu == None:
+        #     return Response(status = 400)
+
         option_menu = models.Option()
         option_menu.option_name = request['option_name']
         option_menu.option_price = request['option_price']
         option_menu.option_soldout = request['option_soldout']
 
-        main_menu = session.query(models.Menu).filter_by(menu_pk = request["menu_pk"]).first()
+       
 
         session.add(option_menu)
         session.flush()
         session.commit()
         
-        main_menu.options.append(option_menu)
+        # main_menu.options.append(option_menu)
 
-        for i in main_menu.options:
-            print(i)
-        session.commit()
+        # for i in main_menu.options:
+        #     print(i)
+        # session.commit()
 
-        return Response(status = 201)
+        # return Response(status = 201)
 
     def patch(self):
         request = Option.parser.parse_args()
