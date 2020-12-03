@@ -20,7 +20,6 @@ import Dialog from '../component/Dialog'
 import Payment from '../component/Payment'
 
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // import { Dialog } from '@material-ui/core'
