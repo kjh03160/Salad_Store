@@ -27,7 +27,7 @@ export default function SoldOutMenuContainer() {
     promiseFn:getMenu
   })
 
-  async function handleMainClick  (menuPk) {
+  async function handleMainClick(menuPk){
      let response = await MenuAPI.setSoldout({pk:menuPk,type:"main_soldout"})
      reload()
      return response

@@ -24,13 +24,18 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 // import { Dialog } from '@material-ui/core'
 
-
+const ForCenter = styled.div`
+display:flex;
+justify-content:center;
+align-items: center;
+`
 const WrapperSection = styled.section`
     width:1200px;
     height:100vh;
     border:1px solid black;
     display:flex;
     flex-wrap: wrap;
+
     
     `;
     const CategorySection =styled.div`
@@ -130,7 +135,7 @@ export default function MenuContainer(props) {
     if(loading) return <CircularProgress color="black"/>
     return (
         
-        <>
+        <ForCenter>
         <WrapperSection>
             <CategorySection>
                 {data.category.map((item,index)=>
@@ -150,7 +155,7 @@ export default function MenuContainer(props) {
         </WrapperSection>
         <Dialog children ={cashAmount} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
         <Payment children = "카드를 넣어주세요" visible = {dialog.card}/>
-        </>
+        </ForCenter>
     )
 }
 
