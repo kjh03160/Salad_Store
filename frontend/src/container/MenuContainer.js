@@ -8,7 +8,7 @@ import MenuAPI from '../api/saveData'
 import OrderAPI from '../api/orderAPI'
 
 
-import wholeData from '../module/data'
+
 import {qunatityDecrement, qunatityIncrement, setOrder,deleteOption,deleteOrder} from '../module/order'
 import { setSuccess, setLoading, getData } from '../module/dataSet'
 
@@ -122,15 +122,14 @@ export default function MenuContainer(props) {
         return response
 
     }
-    let menuData = wholeData        // 더미
     useEffect(()=>{
         fetchData()
     }
     , [])
 
     //컴포넌트에 넘겨줄 패키지들
-    const menuComData = {nextId, menuData, orderList ,setOrderList, onSetOrder,data}
-    const optionComData = {nextId, menuData,orderList,setOrderList, onSetOrder,data}
+    const menuComData = {nextId,  orderList ,setOrderList, onSetOrder,data}
+    const optionComData = {nextId, orderList,setOrderList, onSetOrder,data}
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu}
     if(loading) return <CircularProgress color="black"/>
     return (
