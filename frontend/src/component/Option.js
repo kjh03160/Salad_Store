@@ -1,59 +1,80 @@
-import {Link, Redirect, Route} from 'react-router-dom'
-import React, {useState} from 'react'
+import {Link} from 'react-router-dom'
+import React, { useState} from 'react'
 
-export default function Option(props){
-    const {nextId, menuData, orderList,setOrderList, onSetOrder} = props.data
-    // console.log(`${props.match.params.selectedMain} 이걸봐`)
-    function handleClick(event){
-        let optionPrice =  0
-        let optionId = 0
-        menuData.option.forEach((item,index)=> { 
-            if (item.name == event.target.innerText){
-                optionId = item.id
-                optionPrice =  item.price
-            }
-        })
+import styled , {css} from 'styled-components'
+
+const TodoItemBlock = styled.div`
+  display: flex;
+  align-items: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  cursor: pointer;
+`;
+
+
+const Text = styled.div`
+  flex: 1;
+  font-size: 21px;
+  color: #495057;
+  cursor: pointer;
+  ${props =>
+    props.done &&
+    css`
+      color: #ced4da;
+    `}
+`;
+function OptionItem(props){
+    const {nextId, orderList,setOrderList, onSetOrder, data,item } = props.data
+    const [selected, setSelected] = useState(false)
+    function handleClick(event,id, name, price, ){
         setOrderList(
             {
                 ...orderList,
-                optionList:[
-                    ...orderList.optionList, 
+                optionList: (selected==false)?
+                (orderList.optionList.concat(
                     {
-
-                        optionName:event.target.innerText,
-                        optionPrice:optionPrice
+                        optionId:id,
+                        optionName:name,
+                        optionPrice:price,
                     }
-                ]
+                )):
+                (orderList.optionList.filter(
+                    (option)=> option.optionId != id
+                ))
             }
         )
+        setSelected(!selected);
     }
-    function addToOrdder(e){
+    return (
+    <>
+    <TodoItemBlock done = {selected}  onClick = {(event)=>handleClick(event,item.optionPk, item.optionName,item.optionPrice)}> 
+        <Text done = {selected}>{item.optionName} {item.optionPrice}원</Text>
+    </TodoItemBlock>
+    </>)
+}
+
+export default function Option(props){
+    const {nextId,orderList,setOrderList, onSetOrder,data} = props.data
+    const selectedMain = Number(props.match.params.selectedMain)
+    function addToOrdder(e){        
+        nextId.current +=1
         onSetOrder(orderList)
         setOrderList({})
-        nextId.current +=1
-        
-        
     }
-
-    // 옵션 다선택시 뒤로 돌아가기 (메인메뉴 비운다는 조건)
-    if (orderList.main){
     return(
         <div>
-            <ul>
-                {/* {main.map((name)=>{return (<li>{name.name}</li>)})} */}
-            {menuData.option.map((option,index)=>(
-            <li id={option.id} key = {option.id} onClick={handleClick}>
-                {option.name}
-                </li>
-                
-            
-            
-            ))}
-            </ul>
-            <button onClick={addToOrdder}> 선택 완료 </button>
+            {data.option.filter((option,index)=>{
+                for ( var i in data.relation){
+                    if (data.relation[i].optionPk == option.optionPk && selectedMain == data.relation[i].menuPk && option.optionSoldout != 1){
+                        return true
+                    }
+                }
+            }).map(
+                (item)=>{
+                   return (<OptionItem data = {{...props.data, item}}  key = {item.optionPk} /> )
+                }
+            )}
+            <Link to='/menu/1'><button onClick={addToOrdder}> 선택 완료 </button></Link>
         </div>
-    )  }else{
-        return <Redirect to ={{pathname:"/"}}/>
-    }
+    )  }
 
-}

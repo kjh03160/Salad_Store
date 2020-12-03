@@ -20,6 +20,8 @@ class Menu(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('data', action = 'append', required = False, help = 'data is missing')
     parser.add_argument('pk', type = int, required = False, help = 'pk not valid')
+    
+    parser.add_argument('type', type = str ,required=False)
 
     def get(self):
         request = Menu.parser.parse_args()
@@ -58,12 +60,23 @@ class Menu(Resource):
     def post(self):
         print(temp_dir)
         print(saveImgDir)
-        data = request.form
+        data = Menu.parser.parse_args()
         server_path = '' 
+        if data["type"] =="main_soldout":
+            main_menu = session.query(models.Menu).filter(models.Menu.menu_pk == data['pk']).first()
+            main_menu.menu_soldout = [1,0][main_menu.menu_soldout]            
+            session.commit()
+            return Response(status=201)
+        elif data['type'] == "option_soldout":
+            option = session.query(models.Option).filter(models.Option.option_pk== data['pk']).first()
+            option.option_soldout = [1,0][option.option_soldout]
+            session.commit()
+            return Response(status=201)
 
+        data = request.form
         if 'category_pk' not in data.keys():
             return Response(status = 404)
-
+        print(data,'sadfasdfsadfasfasfdwlkem    lsdnsklnfak skdafnkfnaskdfjnsadkjfnsa\n\n')
         if 'image' in request.files:
             image = request.files['image']
             local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
@@ -96,7 +109,7 @@ class Menu(Resource):
     def patch(self):
         data = request.form
         server_path = '' 
-
+        print(data['menu_pk'])
         if 'menu_pk' not in data.keys():
             return Response(status = 404)
 
@@ -131,11 +144,15 @@ class Menu(Resource):
         
     def delete(self):
         request = Menu.parser.parse_args()
+        print(request)
 
         if request['pk'] == None:
             return Response (status = 400)
         
-        menu = session.query(models.Menu).filter(models.Menu.menu_pk == request['pk']).first()
-        session.delete(menu)
+        sql = f"delete from menus where menu_pk = {request['pk']}"
+        session.execute(sql)
+        # menu = session.query(models.Menu).filter(models.Menu.menu_pk == request['pk']).first()
+        # session.delete(menu)
         session.commit()
         return Response(status = 200)
+        
