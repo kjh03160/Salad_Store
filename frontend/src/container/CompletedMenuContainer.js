@@ -108,7 +108,7 @@ export default function CompletedMenuContainer() {
                   )     
           })}
       </OrderSection>
-      {data.orderList.map((order)=><DetailSection value={value} key={order.orderPk} detail ={order}/>)}
+      {data.orderList.map((order)=><DetailSection value={value} index={order.orderPk} detail ={order}/>)}
       
     </Wrapper>
   );
