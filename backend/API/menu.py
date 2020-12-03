@@ -72,39 +72,40 @@ class Menu(Resource):
             option.option_soldout = [1,0][option.option_soldout]
             session.commit()
             return Response(status=201)
-        else:
-            data = request.form
-            if 'category_pk' not in data.keys():
-                return Response(status = 404)
 
-            if 'image' in request.files:
-                image = request.files['image']
-                local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
-                image.save(local_path)
-                server_path = os.path.join(serverImgDir, 'main/', secure_filename(image.filename))
-            
-            main_menu = models.Menu()
-            
-            if server_path != '':
-                main_menu.menu_image = server_path
-            
-            
-            for i in data.keys():
-                if i == 'category_pk':
-                    main_menu.category_pk = data['category_pk']
-                elif i == 'menu_name':
-                    main_menu.menu_name = data['menu_name']
-                elif i == 'menu_price':
-                    main_menu.menu_price = data['menu_price']
-                elif i == 'menu_soldout':
-                    main_menu.menu_soldout = data['menu_soldout']
-                elif i == 'menu_description':
-                    main_menu.menu_description = data['menu_description']
-            
-            session.add(main_menu)
-            session.flush()
-            session.commit()
-            return Response(status = 201)
+        print('여기 걸려야 대는데~!??????')
+        data = request.form
+        if 'category_pk' not in data.keys():
+            return Response(status = 404)
+        print(data,'sadfasdfsadfasfasfdwlkem    lsdnsklnfak skdafnkfnaskdfjnsadkjfnsa\n\n')
+        if 'image' in request.files:
+            image = request.files['image']
+            local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
+            image.save(local_path)
+            server_path = os.path.join(serverImgDir, 'main/', secure_filename(image.filename))
+        
+        main_menu = models.Menu()
+        
+        if server_path != '':
+            main_menu.menu_image = server_path
+        
+        
+        for i in data.keys():
+            if i == 'category_pk':
+                main_menu.category_pk = data['category_pk']
+            elif i == 'menu_name':
+                main_menu.menu_name = data['menu_name']
+            elif i == 'menu_price':
+                main_menu.menu_price = data['menu_price']
+            elif i == 'menu_soldout':
+                main_menu.menu_soldout = data['menu_soldout']
+            elif i == 'menu_description':
+                main_menu.menu_description = data['menu_description']
+        
+        session.add(main_menu)
+        session.flush()
+        session.commit()
+        return Response(status = 201)
 
     def patch(self):
         data = request.form
