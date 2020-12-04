@@ -31,7 +31,10 @@ p {
     font-size: 0.9em;
 }
 
-
+.mainImage {
+    width: 200px;
+    height: 200px;
+}
 /* 옵션 생성 및 삭제 */
 
 .modifyOption {

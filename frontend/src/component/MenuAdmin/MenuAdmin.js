@@ -200,7 +200,7 @@ const MenuAdmin = (props) => {
                             <div className={styles.main} key={main.menuPk}>
                                 <p className={styles.mainName}>{main.menuName}</p>
                                 <p className={styles.mainPrice}>:{main.menuPrice}원</p>
-                                <img className={styles.mainImage} src={main.image}/>
+                                <img className={styles.mainImage} src={main.menuImage}/>
                                 <button onClick={(e) => { if (window.confirm('해당 메뉴를 삭제하시겠습니까?')) handleMenuDelete(e, main.menuPk) }}>❌</button>
                                 <form id={main.menuP} action="" onSubmit={(e) => onSubmit(e, main.menuPk)}>
                                     <Multiselect
