@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+.navList1{
+    font-size: 150%;
+    list-style-type: none;
+    text-decoration: none;
+    color: white;
+    font-weight: bolder;
+
+    height: 100%;
+}
+
+.navList2{
+    font-size: 150%;
+    list-style-type: none;
+    text-decoration: none;
+    color: white;
+    font-weight: bolder;
+    height: 100%;
+}
+
+
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height : 10%;
+    padding: 0.75rem 1rem;
+    background: var(--offWhite);
+    z-index: 1;
+    background-color: skyblue;
+}
+
+.navCenter{
+    height : 100%;
+    width:49%;
+    float: left;
+}
+.navTitle{
+    width: 100%;
+    height: 100%;
+    margin-top : 0;
+}
+
+.title{
+    font-size: 300%;
+    text-decoration : none;
+    font-weight : bolder;
+    color : white;
+}
+
+.btn2{
+    border : 1px solid green;
+}
+
+.btn{
+    float : right;
+    width : 25%;
+    align-items: center;
+    margin-top :2%;
+    height : 100%;
+    position : relative;
+
+}
+
+.btn ul{
+    margin-top: 13%;
+    margin-left : -9%;
+    text-align : center;
+    width : 75%;
+    position :absolute;
+    display:flex;
+    flex-direction : column;
+    justify-content: space-around;
+    background-color: skyblue;
+    border-radius : 5px;
+}
+.subList{
+    font-size : 22px;
+    padding : 15px 0;
+    font-weight : bolder;
+    border : 1px solid skyblue;
+    text-decoration: none;
+    color: white;
+}
+
+.subList:focus{
+    color : skyblue;
+    background-color: white;
+}
+
+ .btn .navList2:focus + ul{
+    opacity : 1;
+    pointer-events: auto;
+    /* transition : all 0.4s ease; */
+ }
+
+
+.btn ul{
+    opacity: 0;
+    pointer-events: visiblePainted;
+    transition: all 0.4s ease;
+    color : white;    
+
+
+}
