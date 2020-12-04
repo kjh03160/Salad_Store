@@ -65,27 +65,28 @@ class Order(Resource):
                         ORD.order_pk, DATE_FORMAT(order_time,  '%Y-%m-%d %H:%i:%s') as order_time, completed, total_price,  menu_name, quantity, option_name 
                                     FROM ORDERS ORD
                                     JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
+                                    LEFT JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
                                     JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
-                                    JOIN ORDER_OPTIONS ORD_OP ON (ORD_PRD.product_pk = ORD_OP.product_pk)
-                                    JOIN OPTIONS OP ON (ORD_OP.option_pk = OP.option_pk)
+                                    LEFT JOIN OPTIONS USING (option_pk)
                                     WHERE ORD.order_pk = {pk}
                         """.format(pk = data['pk'])
         
         else:
             order_sql = """
                         SELECT   
-                        ORD.order_pk, DATE_FORMAT(order_time,  '%Y-%m-%d %H:%i:%s') as order_time, completed, total_price,  menu_name, quantity, ORD_OP.product_pk, option_name 
+                        ORD.order_pk, DATE_FORMAT(order_time,  '%Y-%m-%d %H:%i:%s') as order_time, completed, total_price,  menu_name, quantity, ORD_PRD.product_pk, option_name 
                                 FROM ORDERS ORD
                                 JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
+                                LEFT JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
                                 JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
-                                JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
-                                JOIN OPTIONS USING (option_pk)
+                                LEFT JOIN OPTIONS USING (option_pk)
                                 WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
                                 ORDER BY ORD.order_pk, M.menu_pk;
                         """
         result = session.execute(order_sql).fetchall()
         session.close()
         result = query_to_dict(result)
+
         if not result[0]:
             return Response(status=404)
         result = many_to_one(result)
