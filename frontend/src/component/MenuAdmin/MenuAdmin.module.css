@@ -2,25 +2,61 @@ p {
     display: inline-block;
 }
 
-.menuAdmin {
+input {
+    /* background-color: #378cca; */
+}
+
+/* 전체 컨테이너 */
+.title {
+    height: 100px;
+    position: relative;
+    border: 1px solid black;
+}
+
+.title h1 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0px;
+    padding-left: 50px;
+}
+.menuAdminContent {
+    border: 1px solid black;
     width: 100%;
     position: relative;
 }
+/* 전체 컨테이너 */
 
 /* 카테고리/메뉴 생성 및 삭제 */
-
+/* 최상위 */
 .content {
-    padding-top: 50px;
+    border: 1px solid black;
     width: 40%;
-    margin: 0;
+    margin: 0px;
+    margin-left: 10%;
 }
 
+/* 1. 카테고리 */
 .category {
     font-size: 1.5em;
 }
 
+/* 2. 메인 메뉴 */
 .main {
     font-size: 0.7em;
+}
+
+.mainImage {
+    width: 200px;
+    height: 200px;
+}
+
+.main form {
+    width: 40%;
+}
+/* 3. 옵션 */
+.option {
+
 }
 
 .optionName {
@@ -31,15 +67,12 @@ p {
     font-size: 0.9em;
 }
 
-.mainImage {
-    width: 200px;
-    height: 200px;
-}
-/* 옵션 생성 및 삭제 */
 
+/* 옵션 생성 및 삭제 */
 .modifyOption {
-    padding-top: 50px;
-    width: 50%;
+    border: 1px solid black;
+    width: 40%;
+    margin-right: 10%;
     position: absolute;
     right: 0;
     top: 0;

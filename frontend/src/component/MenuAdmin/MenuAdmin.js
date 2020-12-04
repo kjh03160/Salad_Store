@@ -75,7 +75,7 @@ const MenuAdmin = (props) => {
     };
 
     const handleCategoryAdd = async (name) => {
-        const data = { category_name:name };
+        const data = { category_name: name };
         console.log(data);
         let response = await menuApi.addCategory(data);
         categoryCall();
@@ -85,8 +85,8 @@ const MenuAdmin = (props) => {
 
     const handleCategoryDelete = async (e, categoryPk) => {
         // let newCategories = [...categories];
-        let data = {'category_pk': categoryPk};
-        
+        let data = { 'category_pk': categoryPk };
+
         let response = await menuApi.deleteCategory(data);
         categoryCall();
     };
@@ -110,7 +110,7 @@ const MenuAdmin = (props) => {
     };
 
     const handleMenuDelete = async (e, menuPk) => {
-        let data = {'pk': menuPk};
+        let data = { 'pk': menuPk };
         let response = await menuApi.deleteMain(data);
         menuCall();
     };
@@ -137,7 +137,7 @@ const MenuAdmin = (props) => {
     };
 
     const handleOptionDelete = async (e, optionPk) => {
-        let data = {'option_pk': optionPk};
+        let data = { 'option_pk': optionPk };
         let response = await menuApi.deleteOption(data);
         optionCall();
     };
@@ -178,77 +178,73 @@ const MenuAdmin = (props) => {
 
     return (
         <div className={styles.menuAdmin}>
-            <div className={styles.content}>
-                <h1>메뉴 변경</h1>
-                <form ref={catFormRef} className={styles.catAddForm} onSubmit={onCatSubmit}>
-                    <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 추가" />
-                    <button className={styles.catAddBtn}>➕</button>
-                </form>
-                <br />
-                {categories.map((category) => (
-                    <div className={styles.category} key={category.categoryPk}>
-                        <p className={styles.categoryName}>[{category.categoryName}]</p>
-                        <button onClick={(e) => { if (window.confirm('해당 카테고리를 삭제하시겠습니까?')) handleCategoryDelete(e, category.categoryPk) }}>❌</button>
-                        <form className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
-                            <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
-                            <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
-                            <input type="file" name="menuImage" className={styles.menuAddInput}/>
-                            <button className={styles.menuAddBtn}>➕</button>
-                        </form>
-                        <br />
-                        {getMatchedMains(category, mains).map((main) => (
-                            <div className={styles.main} key={main.menuPk}>
-                                <p className={styles.mainName}>{main.menuName}</p>
-                                <p className={styles.mainPrice}>:{main.menuPrice}원</p>
-                                <img className={styles.mainImage} src={main.menuImage}/>
-                                <button onClick={(e) => { if (window.confirm('해당 메뉴를 삭제하시겠습니까?')) handleMenuDelete(e, main.menuPk) }}>❌</button>
-                                <form id={main.menuP} action="" onSubmit={(e) => onSubmit(e, main.menuPk)}>
-                                    <Multiselect
-                                        options={options} // Options to display in the dropdown
-                                        onSelect={onSelect} // Function will trigger on select event
-                                        placeholder="옵션을 선택해주세요"
-                                        onRemove={onRemove} // Function will trigger on remove event
-                                        displayValue="optionName" // Property name to display in the dropdown options
-                                        showCheckbox={true}
-                                    />
-                                    <button className={styles.optionAddBtn}>✅</button>
-                                </form>
-                                {/* <form className={styles.optionAddForm}>
-                                    👦옵션 추가하기<br />
-                                    {options.map((option) => (
-                                        <label><input type="checkbox" value={option.optionPK} />{option.optionName}</label>
-                                    ))}
-                                    <button className={styles.optionAddBtn}>➕</button>
-                                </form> */}
-                                🙅이미 있는 옵션
-                                {getMatchedOptions(main, options).map((option) => (
-                                    <div className={styles.option} key={option.optionPk}>
-                                        <p className={styles.optionName}>{option.optionName}</p>
-                                        <p className={styles.optionPrice}>:{option.optionPrice}</p>
-                                        <br />
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                        <br />
-                    </div>
-                ))}
+            <div className={styles.title}>
+                <h1>메뉴 관리</h1>
             </div>
-            <div className={styles.modifyOption}>
-                <h1>옵션 변경</h1>
-                <form ref={optionFormRef} className={styles.optionAddForm} onSubmit={onOptionSubmit}>
-                    <input type="text" ref={optionInputRef} className={styles.optionAddInput} placeholder="옵션 추가" />
-                    <input type="text" ref={optionPriceRef} className={styles.optionAddInput} placeholder="가격" />
-                    <button className={styles.optionAddBtn}>➕</button>
-                </form>
-                {options.map((option) => (
-                    // css할 때는 className 변경해야 함!
-                    <div className={styles.option} key={option.optionPk}>
-                        <p className={styles.optionName}>{option.optionName}</p>
-                        <p className={styles.optionPrice}>:{option.optionPrice}</p>
-                        <button onClick={(e) => { if (window.confirm('해당 옵션을 삭제하시겠습니까?')) handleOptionDelete(e, option.optionPk) }}>❌</button>
-                    </div>
-                ))}
+            <div className={styles.menuAdminContent}>
+                <div className={styles.content}>
+                    <form ref={catFormRef} className={styles.catAddForm} onSubmit={onCatSubmit}>
+                        <button className={styles.catAddBtn}>➕</button>
+                        <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 추가" />
+                    </form>
+                    <br />
+                    {categories.map((category) => (
+                        <div className={styles.category} key={category.categoryPk}>
+                            <p className={styles.categoryName}>[{category.categoryName}]</p>
+                            <button onClick={(e) => { if (window.confirm('해당 카테고리를 삭제하시겠습니까?')) handleCategoryDelete(e, category.categoryPk) }}>❌</button>
+                            <form className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
+                                <button className={styles.menuAddBtn}>➕</button>
+                                <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
+                                <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
+                                <input type="file" name="menuImage" className={styles.menuAddInput} />
+                            </form>
+                            <br />
+                            {getMatchedMains(category, mains).map((main) => (
+                                <div className={styles.main} key={main.menuPk}>
+                                    <p className={styles.mainName}>{main.menuName}</p>
+                                    <p className={styles.mainPrice}>:{main.menuPrice}원</p>
+                                    <img className={styles.mainImage} src={main.menuImage} />
+                                    <button onClick={(e) => { if (window.confirm('해당 메뉴를 삭제하시겠습니까?')) handleMenuDelete(e, main.menuPk) }}>❌</button>
+                                    <form id={main.menuP} action="" onSubmit={(e) => onSubmit(e, main.menuPk)}>
+                                        <Multiselect
+                                            options={options} // Options to display in the dropdown
+                                            onSelect={onSelect} // Function will trigger on select event
+                                            placeholder="옵션을 선택해주세요"
+                                            onRemove={onRemove} // Function will trigger on remove event
+                                            displayValue="optionName" // Property name to display in the dropdown options
+                                            showCheckbox={true}
+                                        />
+                                        <button className={styles.optionAddBtn}>✅</button>
+                                    </form>
+                                🙅이미 있는 옵션
+                                    {getMatchedOptions(main, options).map((option) => (
+                                        <div className={styles.option} key={option.optionPk}>
+                                            <p className={styles.optionName}>{option.optionName}</p>
+                                            <p className={styles.optionPrice}>:{option.optionPrice}</p>
+                                            <br />
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                            <br />
+                        </div>
+                    ))}
+                </div>
+                <div className={styles.modifyOption}>
+                    <form ref={optionFormRef} className={styles.optionAddForm} onSubmit={onOptionSubmit}>
+                        <input type="text" ref={optionInputRef} className={styles.optionAddInput} placeholder="옵션 추가" />
+                        <input type="text" ref={optionPriceRef} className={styles.optionAddInput} placeholder="가격" />
+                        <button className={styles.optionAddBtn}>➕</button>
+                    </form>
+                    {options.map((option) => (
+                        // css할 때는 className 변경해야 함!
+                        <div className={styles.option} key={option.optionPk}>
+                            <p className={styles.optionName}>{option.optionName}</p>
+                            <p className={styles.optionPrice}>:{option.optionPrice}</p>
+                            <button onClick={(e) => { if (window.confirm('해당 옵션을 삭제하시겠습니까?')) handleOptionDelete(e, option.optionPk) }}>❌</button>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
