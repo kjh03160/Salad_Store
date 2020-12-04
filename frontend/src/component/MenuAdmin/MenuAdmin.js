@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import menuApi from '../../api/saveData';
 import styles from './MenuAdmin.module.css';
 import { Multiselect } from 'multiselect-react-dropdown';
@@ -63,6 +63,7 @@ const MenuAdmin = (props) => {
         const response = await menuApi.getAll();
         const { relation, main, option, category } = response.data;
         setOptions(option);
+        setRelations(relation);
     }
 
     useEffect(() => {
@@ -92,6 +93,11 @@ const MenuAdmin = (props) => {
             }
         }
         return result;
+    };
+
+    const handleMatchedOptionDelete = async (e, menuPk, optionPk) => {
+        let response = await menuApi.deleteLink({menu_pk:menuPk, option_pk:optionPk});
+        optionCall();
     };
 
     const handleCategoryAdd = async (name) => {
@@ -322,6 +328,9 @@ const MenuAdmin = (props) => {
                                             <div className={styles.option} key={option.optionPk}>
                                                 <p className={styles.optionName}>{option.optionName}</p>
                                                 <p className={styles.optionPrice}> : {option.optionPrice}원</p>
+                                                <button className={styles.delBtn} onClick={(e) => { if (window.confirm('선택된 옵션을 삭제하시겠습니까?')) handleMatchedOptionDelete(e, main.menuPk, option.optionPk) }}>
+                                                    <i class="fas fa-times-circle"></i>
+                                                </button>
                                                 <br />
                                             </div>
                                         ))}
