@@ -2,17 +2,20 @@ p {
     display: inline-block;
 }
 
-input {
-    /* background-color: #378cca; */
-}
-
+::placeholder {
+    font-size: 1em;
+    font-weight: 400;
+    opacity: 1; /* Firefox */
+  }
+  
 .hidden {
     display: none;
 }
 
-form {
+/* form {
     display: inline-block;
-}
+} */
+
 /* 전체 컨테이너 */
 .title {
     height: 100px;
@@ -38,7 +41,7 @@ form {
 /* 최상위 */
 .content {
     border: 1px solid black;
-    width: 40%;
+    width: 50%;
     margin: 0px;
     margin-left: 10%;
 }
@@ -46,37 +49,67 @@ form {
 /* 1. 카테고리 */
 .category {
     font-size: 1.5em;
+    margin-left: 10%;
 }
 
-.handleCategory {
+/* 카테고리 토글 */
+.handleCategory, .handleMenu, .handleOption {
+    margin-right: 10px;
     height: 50px;
-    margin: 0px 0px 0px 10px;
 }
 
-.handleCategory p {
-    font-size: 30px;
+.handleCategory .catToggle {
+    font-size: 40px;
 }
 
 .catAddInput {
-    height: 30px;
+    height: 40px;
+    font-size: 1.5em;
 }
+/* 카테고리 토글 */
 
-/* 2. 메인 메뉴 */
+/* 2. 메뉴*/
 .main {
     font-size: 0.7em;
+    margin-left: 10%;
+    padding-bottom: 20px;
 }
+
+/* 메뉴 토글 */
+.handleMenu .menuToggle {
+    font-size: 25px;
+}
+
+.menuAddInput {
+    height: 25px;
+    font-size: 0.8em;
+}
+
+.main form {
+    width: 40%;
+}
+/* 메뉴 토글 */
 
 .mainImage {
     width: 200px;
     height: 200px;
 }
 
-.main form {
-    width: 40%;
-}
-/* 3. 옵션 */
-.option {
 
+/* 3. 옵션*/
+
+.option {
+    margin-left: 5%;
+}
+
+/* 옵션토글 */
+
+.handleSelector {
+    margin-right: 10px;
+}
+
+.handleSelector .selectorToggle {
+    font-size: 25px;
 }
 
 .optionName {
@@ -86,14 +119,23 @@ form {
 .optionPrice {
     font-size: 0.9em;
 }
+/* 옵션토글 */
 
-
-/* 옵션 생성 및 삭제 */
+/* 4. 옵션 생성 및 삭제 */
 .modifyOption {
     border: 1px solid black;
-    width: 40%;
+    width: 30%;
     margin-right: 10%;
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.handleOption .optToggle {
+    font-size: 40px;
+}
+
+.optionAddInput {
+    height: 40px;
+    font-size: 1.5em;
 }

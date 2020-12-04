@@ -4,14 +4,17 @@ import styles from './MenuAdmin.module.css';
 import { Multiselect } from 'multiselect-react-dropdown';
 
 const MenuAdmin = (props) => {
+    // 데이터에 관련된 상태를 선언
     const [relations, setRelations] = useState([]);
     const [mains, setMains] = useState([]);
     const [options, setOptions] = useState([]);
     const [categories, setCategories] = useState([]);
+    // 추가를 위한 상태를 선언
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [isCatOn, setIsCatOn] = useState(false);
-    const [isMainOn, setIsMainOn] = useState(false);
+    const [isMenuOn, setIsMenuOn] = useState([]);
     const [isOptOn, setIsOptOn] = useState(false);
+    const [isSelectorOn, setIsSelectorOn] = useState([]);
 
     const catInputRef = React.createRef();
     const catFormRef = React.createRef();
@@ -20,11 +23,26 @@ const MenuAdmin = (props) => {
     const optionPriceRef = React.createRef();
     const optionFormRef = React.createRef();
 
-
+    // 데이터를 동기화시킨다.
     const apiCall = async () => {
         const response = await menuApi.getAll();
         console.log(response.data);
         const { relation, main, option, category } = response.data;
+        let menuOnArray = [];
+        let selectorOnArray = [];
+
+        category.map(item => {
+            const obj = { key: item.categoryPk, status: false };
+            menuOnArray.push(obj);
+        });
+
+        main.map(item => {
+            const obj = { key: item.menuPk, status: false };
+            selectorOnArray.push(obj);
+        })
+
+        setIsMenuOn(menuOnArray);
+        setIsSelectorOn(selectorOnArray);
         setRelations(relation);
         setMains(main);
         setOptions(option);
@@ -49,7 +67,6 @@ const MenuAdmin = (props) => {
 
     useEffect(() => {
         apiCall();
-        // axios를 이용해 데이터를 가져온다
     }, []);
 
     // useEffect(() => {
@@ -79,7 +96,6 @@ const MenuAdmin = (props) => {
 
     const handleCategoryAdd = async (name) => {
         const data = { category_name: name };
-        console.log(data);
         let response = await menuApi.addCategory(data);
         categoryCall();
 
@@ -120,7 +136,6 @@ const MenuAdmin = (props) => {
 
     const onMenuSubmit = (e, categoryPk) => {
         e.preventDefault();
-        console.log(e);
         const name = e.target[0].value;
         const price = parseInt(e.target[1].value);
         const image = e.target[2].files[0];
@@ -163,7 +178,6 @@ const MenuAdmin = (props) => {
     const onSubmit = async (e, menuPk) => {
         const newRelation = [...relations];
         selectedOptions.map(function (option) {
-            // console.log({option_pk: option.optionPk, menu_pk: menuPk})
             menuApi.newLink({ option_pk: option.optionPk, menu_pk: menuPk });
             newRelation.push({ menuPk, optionPk: option.optionPk });
         });
@@ -184,8 +198,52 @@ const MenuAdmin = (props) => {
     const handleCatToggle = () => {
         const isOn = isCatOn;
         setIsCatOn(!isOn);
-        console.log(isOn);
     };
+
+    const handleMenuToggle = (e, key) => {
+        const isOnArray = isMenuOn;
+        for (let obj of isOnArray) {
+            if (obj.key === key) {
+                const nowStatus = obj.status;
+                obj.status = !nowStatus;
+            }
+        }
+        setIsMenuOn([...isOnArray]);
+    };
+
+    const getMenuOn = (key) => {
+        for (let obj of isMenuOn) {
+            if (obj.key === key) {
+                return obj.status
+            }
+        }
+    }
+
+    const handleOptToggle = () => {
+        const isOn = isOptOn;
+        setIsOptOn(!isOn);
+    };
+
+    const handleSelectorToggle = (e, key) => {
+        const isOnArray = isSelectorOn;
+        for (let obj of isOnArray) {
+            if (obj.key === key) {
+                const nowStatus = obj.status;
+                obj.status = !nowStatus;
+            }
+        }
+        setIsSelectorOn([...isOnArray]);
+    };
+
+    const getSelectorOn = (key) => {
+        for (let obj of isSelectorOn) {
+            if (obj.key === key) {
+                return obj.status
+            }
+        }
+    }
+
+
 
     return (
         <div className={styles.menuAdmin}>
@@ -198,7 +256,7 @@ const MenuAdmin = (props) => {
                     <div className={styles.handleCategory}>
                         <p className={isCatOn ? styles['hidden'] : styles['catToggle']}>카테고리 추가</p>
                         <form ref={catFormRef} className={isCatOn ? styles['catAddForm'] : styles['hidden']} onSubmit={onCatSubmit}>
-                            <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 추가" />
+                            <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 이름" />
                             <button className={styles.catAddBtn}>✅</button>
                         </form>
                     </div>
@@ -207,31 +265,40 @@ const MenuAdmin = (props) => {
                         <div className={styles.category} key={category.categoryPk}>
                             <p className={styles.categoryName}>[{category.categoryName}]</p>
                             <button onClick={(e) => { if (window.confirm('해당 카테고리를 삭제하시겠습니까?')) handleCategoryDelete(e, category.categoryPk) }}>❌</button>
-                            <form className={styles.menuAddForm} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
-                                <button className={styles.menuAddBtn}>➕</button>
-                                <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메인 메뉴 추가" />
-                                <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
-                                <input type="file" name="menuImage" className={styles.menuAddInput} />
-                            </form>
+                            <br />
+                            <button onClick={(e) => handleMenuToggle(e, category.categoryPk)} className={styles.menuToggleBtn}>➕</button>
+                            <div className={styles.handleMenu}>
+                                <p className={getMenuOn(category.categoryPk) ? styles['hidden'] : styles['menuToggle']}>메뉴 추가</p>
+                                <form className={getMenuOn(category.categoryPk) ? styles['menuAddForm'] : styles['hidden']} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
+                                    <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메뉴 이름" />
+                                    <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
+                                    <input type="file" name="menuImage" className={styles.menuAddInput} />
+                                    <button className={styles.menuAddBtn}>✅</button>
+                                </form>
+                            </div>
                             <br />
                             {getMatchedMains(category, mains).map((main) => (
                                 <div className={styles.main} key={main.menuPk}>
+                                    <img className={styles.mainImage} src={main.menuImage} />
                                     <p className={styles.mainName}>{main.menuName}</p>
                                     <p className={styles.mainPrice}>:{main.menuPrice}원</p>
-                                    <img className={styles.mainImage} src={main.menuImage} />
                                     <button onClick={(e) => { if (window.confirm('해당 메뉴를 삭제하시겠습니까?')) handleMenuDelete(e, main.menuPk) }}>❌</button>
-                                    <form id={main.menuP} action="" onSubmit={(e) => onSubmit(e, main.menuPk)}>
-                                        <Multiselect
-                                            options={options} // Options to display in the dropdown
-                                            onSelect={onSelect} // Function will trigger on select event
-                                            placeholder="옵션을 선택해주세요"
-                                            onRemove={onRemove} // Function will trigger on remove event
-                                            displayValue="optionName" // Property name to display in the dropdown options
-                                            showCheckbox={true}
-                                        />
-                                        <button className={styles.optionAddBtn}>✅</button>
-                                    </form>
-                                🙅이미 있는 옵션
+                                    <br/>
+                                    <button onClick={(e) => handleSelectorToggle(e, main.menuPk)} className={styles.selectorToggleBtn}>➕</button>
+                                    <div className={styles.handleSelector}>
+                                        <p className={getSelectorOn(main.menuPk) ? styles['hidden'] : styles['selectorToggle'] }>옵션 선택</p>
+                                        <form id={main.menuPk} className={getSelectorOn(main.menuPk) ? styles['optionSelector'] : styles['hidden']} onSubmit={(e) => onSubmit(e, main.menuPk)}>
+                                            <Multiselect
+                                                options={options} // Options to display in the dropdown
+                                                onSelect={onSelect} // Function will trigger on select event
+                                                placeholder="옵션을 선택해주세요"
+                                                onRemove={onRemove} // Function will trigger on remove event
+                                                displayValue="optionName" // Property name to display in the dropdown options
+                                                showCheckbox={true}
+                                            />
+                                            <button className={styles.optionAddBtn}>✅</button>
+                                        </form>
+                                    </div>
                                     {getMatchedOptions(main, options).map((option) => (
                                         <div className={styles.option} key={option.optionPk}>
                                             <p className={styles.optionName}>{option.optionName}</p>
@@ -246,11 +313,15 @@ const MenuAdmin = (props) => {
                     ))}
                 </div>
                 <div className={styles.modifyOption}>
-                    <form ref={optionFormRef} className={styles.optionAddForm} onSubmit={onOptionSubmit}>
-                        <input type="text" ref={optionInputRef} className={styles.optionAddInput} placeholder="옵션 추가" />
-                        <input type="text" ref={optionPriceRef} className={styles.optionAddInput} placeholder="가격" />
-                        <button className={styles.optionAddBtn}>➕</button>
-                    </form>
+                    <button onClick={handleOptToggle} className={styles.optToggleBtn}>➕</button>
+                    <div className={styles.handleOption}>
+                        <p className={isOptOn ? styles['hidden'] : styles['optToggle']}>옵션 추가</p>
+                        <form ref={optionFormRef} className={isOptOn ? styles['optionAddForm'] : styles['hidden']} onSubmit={onOptionSubmit}>
+                            <input type="text" ref={optionInputRef} className={styles.optionAddInput} placeholder="옵션 이름" />
+                            <input type="text" ref={optionPriceRef} className={styles.optionAddInput} placeholder="가격" />
+                            <button className={styles.optionAddBtn}>✅</button>
+                        </form>
+                    </div>
                     {options.map((option) => (
                         // css할 때는 className 변경해야 함!
                         <div className={styles.option} key={option.optionPk}>
