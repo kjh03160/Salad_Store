@@ -84,6 +84,12 @@ export default {
       return status
     },
 
+    getOption(data){
+      let status = axios.get('/option', {params:data})
+      return status
+
+    },
+    
     addOption(data){
       let status = axios.post('/option', data)
       return status

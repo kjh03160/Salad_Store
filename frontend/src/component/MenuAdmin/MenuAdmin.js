@@ -9,6 +9,9 @@ const MenuAdmin = (props) => {
     const [options, setOptions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [isCatOn, setIsCatOn] = useState(false);
+    const [isMainOn, setIsMainOn] = useState(false);
+    const [isOptOn, setIsOptOn] = useState(false);
 
     const catInputRef = React.createRef();
     const catFormRef = React.createRef();
@@ -176,6 +179,14 @@ const MenuAdmin = (props) => {
         setSelectedOptions([...selectedList]);
     };
 
+    //
+
+    const handleCatToggle = () => {
+        const isOn = isCatOn;
+        setIsCatOn(!isOn);
+        console.log(isOn);
+    };
+
     return (
         <div className={styles.menuAdmin}>
             <div className={styles.title}>
@@ -183,10 +194,14 @@ const MenuAdmin = (props) => {
             </div>
             <div className={styles.menuAdminContent}>
                 <div className={styles.content}>
-                    <form ref={catFormRef} className={styles.catAddForm} onSubmit={onCatSubmit}>
-                        <button className={styles.catAddBtn}>➕</button>
-                        <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 추가" />
-                    </form>
+                    <button onClick={handleCatToggle} className={styles.catToggleBtn}>➕</button>
+                    <div className={styles.handleCategory}>
+                        <p className={isCatOn ? styles['hidden'] : styles['catToggle']}>카테고리 추가</p>
+                        <form ref={catFormRef} className={isCatOn ? styles['catAddForm'] : styles['hidden']} onSubmit={onCatSubmit}>
+                            <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 추가" />
+                            <button className={styles.catAddBtn}>✅</button>
+                        </form>
+                    </div>
                     <br />
                     {categories.map((category) => (
                         <div className={styles.category} key={category.categoryPk}>

@@ -6,6 +6,13 @@ input {
     /* background-color: #378cca; */
 }
 
+.hidden {
+    display: none;
+}
+
+form {
+    display: inline-block;
+}
 /* 전체 컨테이너 */
 .title {
     height: 100px;
@@ -39,6 +46,19 @@ input {
 /* 1. 카테고리 */
 .category {
     font-size: 1.5em;
+}
+
+.handleCategory {
+    height: 50px;
+    margin: 0px 0px 0px 10px;
+}
+
+.handleCategory p {
+    font-size: 30px;
+}
+
+.catAddInput {
+    height: 30px;
 }
 
 /* 2. 메인 메뉴 */
