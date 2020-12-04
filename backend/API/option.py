@@ -20,6 +20,7 @@ class Option(Resource):
         return_list = []
         if request['pk'] == None:
             option = session.query(models.Option).all()
+            session.close()
             if option == None:
                 return Response(status = 404)
             for i in option:
@@ -31,6 +32,7 @@ class Option(Resource):
         else:
             try:
                 option = session.query(models.Option).filter(models.Option.option_pk == request['pk']).first()
+                session.close()
                 return_list.append({
                 'optionPK' : option.option_pk,
                 'optionName': option.option_name,
@@ -47,11 +49,6 @@ class Option(Resource):
         if request['option_name'] and request['option_price'] and request['option_soldout'] == None:
             return Response(status = 400)
 
-        # main_menu = session.query(models.Menu).filter_by(menu_pk = request["menu_pk"]).first()
-
-        # if main_menu == None:
-        #     return Response(status = 400)
-
         option_menu = models.Option()
         option_menu.option_name = request['option_name']
         option_menu.option_price = request['option_price']
@@ -60,7 +57,7 @@ class Option(Resource):
        
 
         session.add(option_menu)
-        session.flush()
+        session.close()
         session.commit()
         
         # main_menu.options.append(option_menu)
@@ -69,7 +66,7 @@ class Option(Resource):
         #     print(i)
         # session.commit()
 
-        # return Response(status = 201)
+        return Response(status = 201)
 
     def patch(self):
         request = Option.parser.parse_args()
@@ -87,6 +84,7 @@ class Option(Resource):
             option.option_soldout = request['option_soldout']
         
         session.commit()
+        session.close()
         return Response(status = 204)
 
     def delete(self):
@@ -97,5 +95,5 @@ class Option(Resource):
 
         session.execute("DELETE FROM OPTIONS WHERE option_pk = {}".format(request['option_pk']))
         session.commit()
-
+        session.close()
         return Response(status = 200)

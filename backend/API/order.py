@@ -84,8 +84,9 @@ class Order(Resource):
                                 ORDER BY ORD.order_pk, M.menu_pk;
                         """
         result = session.execute(order_sql).fetchall()
+        session.close()
         result = query_to_dict(result)
-        if len(result) == 0:
+        if not result[0]:
             return Response(status=404)
         result = many_to_one(result)
         return  {'orderList' : result}, 200
@@ -133,6 +134,7 @@ class Order(Resource):
             print(err)
             session.rollback()  # 에러 시 rollback
             return Response(status=400) # 에러코드 전송
+        session.close()
 
         # 문제 없다면
         return Response(status=201) # CREATED 코드 전송
@@ -147,6 +149,8 @@ class Order(Resource):
             session.commit()
         else:
             Response(status=400)    # pk 값 없음 에러 전달
+        session.close()
+
         return Response(status=204) # 처리 완료 코드 전달
 
 

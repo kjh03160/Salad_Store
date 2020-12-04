@@ -58,6 +58,7 @@ class Statistic(Resource):
                             """
         
         result = session.execute(stat_sql).fetchall()
+        session.close()
         result = query_to_dict(result)
         return {'data' : result}, 200  
         

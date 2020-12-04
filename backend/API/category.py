@@ -26,6 +26,7 @@ class Category(Resource):
                 return_list.append({'categoryPk' : category.category_pk, 'categoryName': category.category_name})
             except:
                 return Response (status = 404)
+        session.close()
         return {'data' : return_list}, 200
 
     def post(self):
@@ -36,8 +37,8 @@ class Category(Resource):
             return Response(status = 400)
         category = models.Category(category_name = request['category_name'])
         session.add(category)
-        session.flush()
         session.commit()
+        session.close()
         return Response(status = 201)
 
     def patch(self):
@@ -47,6 +48,7 @@ class Category(Resource):
         category = session.query(models.Category).filter(models.Category.category_pk == request['category_pk']).first()
         category.category_name = request['category_name']
         session.commit()
+        session.close()
         return Response(status = 204)
 
     def delete(self):
@@ -54,8 +56,8 @@ class Category(Resource):
         if request['category_pk'] == None:
             return Response(status = 400)
         sql = f"delete from categories where category_pk = {request['category_pk']}"
-        # category = session.query(models.Category).filter(models.Category.category_pk == request['category_pk']).first()
-        # session.delete(category)
+
         session.execute(sql)
         session.commit()
+        session.close()
         return Response(status = 200)      

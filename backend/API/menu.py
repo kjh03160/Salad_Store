@@ -40,6 +40,7 @@ class Menu(Resource):
                 'menuDescription' : menu.menu_description,
                 'menuImage' : menu.menu_image
                 })
+            session.close()
         else:
             try:
                 menu = session.query(models.Menu).filter(models.Menu.menu_pk == request['pk']).first()
@@ -54,12 +55,11 @@ class Menu(Resource):
                 })
             except:
                 return Response (status = 404)
-        
+            finally:
+                session.close()
         return {'data' : return_list}, 200
 
     def post(self):
-        print(temp_dir)
-        print(saveImgDir)
         data = Menu.parser.parse_args()
         server_path = '' 
         if data["type"] =="main_soldout":
@@ -72,11 +72,11 @@ class Menu(Resource):
             option.option_soldout = [1,0][option.option_soldout]
             session.commit()
             return Response(status=201)
-
+        
         data = request.form
         if 'category_pk' not in data.keys():
             return Response(status = 404)
-        print(data,'sadfasdfsadfasfasfdwlkem    lsdnsklnfak skdafnkfnaskdfjnsadkjfnsa\n\n')
+
         if 'image' in request.files:
             image = request.files['image']
             local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
@@ -104,12 +104,12 @@ class Menu(Resource):
         session.add(main_menu)
         session.flush()
         session.commit()
+        session.close()
         return Response(status = 201)
 
     def patch(self):
         data = request.form
         server_path = '' 
-        print(data['menu_pk'])
         if 'menu_pk' not in data.keys():
             return Response(status = 404)
 
@@ -139,20 +139,19 @@ class Menu(Resource):
                 menu.menu_description = data['menu_description']
 
         session.commit()
+        session.close()
         return Response(status = 204)
 
         
     def delete(self):
         request = Menu.parser.parse_args()
-        print(request)
 
         if request['pk'] == None:
             return Response (status = 400)
         
         sql = f"delete from menus where menu_pk = {request['pk']}"
         session.execute(sql)
-        # menu = session.query(models.Menu).filter(models.Menu.menu_pk == request['pk']).first()
-        # session.delete(menu)
         session.commit()
+        session.close()
         return Response(status = 200)
         

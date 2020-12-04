@@ -16,8 +16,6 @@ class All(Resource):
             temp = {'categoryPk' : i.category_pk, 'categoryName' : i.category_name}
             category_list.append(temp)
 
-        print(category_list)
-
         menu = models.Menu.query.all()
         menu_list = []
         menu_option_relation = []
@@ -28,9 +26,6 @@ class All(Resource):
             for j in i.options:
                 menu_option_relation.append({'menuPk' : i.menu_pk, 'optionPk' : j.option_pk})
             menu_list.append(temp)
-
-        print(menu_list)
-        print(menu_option_relation)
 
         option = models.Option.query.all()
         option_list = []
