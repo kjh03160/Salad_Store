@@ -12,6 +12,31 @@ p {
     display: none;
 }
 
+input {
+    margin: 0.5em;
+}
+
+button {
+    font-size: 2rem;
+    margin: 0 0.1em;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+}
+
+button:hover {
+    opacity: 0.7;
+  }
+
+.btn{
+    color: goldenrod;
+}
+
+.delBtn {
+    font-size: 2rem;
+    color: darkred;
+}
+
 /* form {
     display: inline-block;
 } */
@@ -53,6 +78,7 @@ p {
 }
 
 /* 카테고리 토글 */
+
 .handleCategory, .handleMenu, .handleOption {
     margin-right: 10px;
     height: 50px;
@@ -60,6 +86,11 @@ p {
 
 .handleCategory .catToggle {
     font-size: 40px;
+    padding: 8px;
+    border-radius: 8px;
+    margin-left: 10px;
+    background-color: #378cca;
+    color: white;
 }
 
 .catAddInput {
@@ -76,8 +107,17 @@ p {
 }
 
 /* 메뉴 토글 */
-.handleMenu .menuToggle {
+.handleMenu .menuToggle, .handleSelector .selectorToggle  {
     font-size: 25px;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: #378cca;
+    color: white;
+}
+
+.menuAddForm {
+    height: 100%;
 }
 
 .menuAddInput {
@@ -102,24 +142,21 @@ p {
     margin-left: 5%;
 }
 
+.optionName, .optionPrice {
+    font-size: 1.5em;
+}
+
 /* 옵션토글 */
 
 .handleSelector {
     margin-right: 10px;
 }
 
-.handleSelector .selectorToggle {
-    font-size: 25px;
-}
-
-.optionName {
-    font-size: 0.9em;
-}
-
-.optionPrice {
-    font-size: 0.9em;
-}
 /* 옵션토글 */
+.matchedOptions {
+    margin-left: 10px;
+}
+/* 왼쪽 레이아웃 끝 */
 
 /* 4. 옵션 생성 및 삭제 */
 .modifyOption {
@@ -129,6 +166,19 @@ p {
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.rightOption {
+    margin-left: 10%;
+    padding: 0.5rem;
+}
+
+.rightOptionName {
+    font-size: 2.0em;
+}
+
+.rightOptionPrice {
+    font-size: 2.0em;
 }
 
 .handleOption .optToggle {

@@ -252,9 +252,11 @@ const MenuAdmin = (props) => {
             </div>
             <div className={styles.menuAdminContent}>
                 <div className={styles.content}>
-                    <button onClick={handleCatToggle} className={styles.catToggleBtn}>➕</button>
+                    <button onClick={handleCatToggle} className={styles.btn}>
+                        <i className="fas fa-plus-square"></i>
+                    </button>
                     <div className={styles.handleCategory}>
-                        <p className={isCatOn ? styles['hidden'] : styles['catToggle']}>카테고리 추가</p>
+                        <span className={isCatOn ? styles['hidden'] : styles['catToggle']}>카테고리 추가</span>
                         <form ref={catFormRef} className={isCatOn ? styles['catAddForm'] : styles['hidden']} onSubmit={onCatSubmit}>
                             <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 이름" />
                             <button className={styles.catAddBtn}>✅</button>
@@ -264,9 +266,13 @@ const MenuAdmin = (props) => {
                     {categories.map((category) => (
                         <div className={styles.category} key={category.categoryPk}>
                             <p className={styles.categoryName}>[{category.categoryName}]</p>
-                            <button onClick={(e) => { if (window.confirm('해당 카테고리를 삭제하시겠습니까?')) handleCategoryDelete(e, category.categoryPk) }}>❌</button>
+                            <button className={styles.delBtn} onClick={(e) => { if (window.confirm('해당 카테고리를 삭제하시겠습니까?')) handleCategoryDelete(e, category.categoryPk) }}>
+                                <i className="fas fa-trash"></i>
+                            </button>
                             <br />
-                            <button onClick={(e) => handleMenuToggle(e, category.categoryPk)} className={styles.menuToggleBtn}>➕</button>
+                            <button onClick={(e) => handleMenuToggle(e, category.categoryPk)} className={styles.btn}>
+                                <i className="fas fa-plus-square"></i>
+                            </button>
                             <div className={styles.handleMenu}>
                                 <p className={getMenuOn(category.categoryPk) ? styles['hidden'] : styles['menuToggle']}>메뉴 추가</p>
                                 <form className={getMenuOn(category.categoryPk) ? styles['menuAddForm'] : styles['hidden']} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
@@ -276,17 +282,20 @@ const MenuAdmin = (props) => {
                                     <button className={styles.menuAddBtn}>✅</button>
                                 </form>
                             </div>
-                            <br />
                             {getMatchedMains(category, mains).map((main) => (
                                 <div className={styles.main} key={main.menuPk}>
-                                    <img className={styles.mainImage} src={main.menuImage} />
+                                    {/* <img className={styles.mainImage} src={main.menuImage} /> */}
                                     <p className={styles.mainName}>{main.menuName}</p>
-                                    <p className={styles.mainPrice}>:{main.menuPrice}원</p>
-                                    <button onClick={(e) => { if (window.confirm('해당 메뉴를 삭제하시겠습니까?')) handleMenuDelete(e, main.menuPk) }}>❌</button>
-                                    <br/>
-                                    <button onClick={(e) => handleSelectorToggle(e, main.menuPk)} className={styles.selectorToggleBtn}>➕</button>
+                                    <p className={styles.mainPrice}>: {main.menuPrice}원</p>
+                                    <button className={styles.delBtn} onClick={(e) => { if (window.confirm('해당 메뉴를 삭제하시겠습니까?')) handleMenuDelete(e, main.menuPk) }}>
+                                        <i className="fas fa-trash"></i>
+                                    </button>
+                                    <br />
+                                    <button onClick={(e) => handleSelectorToggle(e, main.menuPk)} className={styles.btn}>
+                                        <i className="fas fa-plus-square"></i>
+                                    </button>
                                     <div className={styles.handleSelector}>
-                                        <p className={getSelectorOn(main.menuPk) ? styles['hidden'] : styles['selectorToggle'] }>옵션 선택</p>
+                                        <p className={getSelectorOn(main.menuPk) ? styles['hidden'] : styles['selectorToggle']}>옵션 선택</p>
                                         <form id={main.menuPk} className={getSelectorOn(main.menuPk) ? styles['optionSelector'] : styles['hidden']} onSubmit={(e) => onSubmit(e, main.menuPk)}>
                                             <Multiselect
                                                 options={options} // Options to display in the dropdown
@@ -299,21 +308,24 @@ const MenuAdmin = (props) => {
                                             <button className={styles.optionAddBtn}>✅</button>
                                         </form>
                                     </div>
-                                    {getMatchedOptions(main, options).map((option) => (
-                                        <div className={styles.option} key={option.optionPk}>
-                                            <p className={styles.optionName}>{option.optionName}</p>
-                                            <p className={styles.optionPrice}>:{option.optionPrice}</p>
-                                            <br />
-                                        </div>
-                                    ))}
+                                    <div className={styles.matchedOptions}>
+                                        {getMatchedOptions(main, options).map((option) => (
+                                            <div className={styles.option} key={option.optionPk}>
+                                                <p className={styles.optionName}>{option.optionName}</p>
+                                                <p className={styles.optionPrice}> : {option.optionPrice}</p>
+                                                <br />
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             ))}
-                            <br />
                         </div>
                     ))}
                 </div>
                 <div className={styles.modifyOption}>
-                    <button onClick={handleOptToggle} className={styles.optToggleBtn}>➕</button>
+                    <button onClick={handleOptToggle} className={styles.btn}>
+                        <i className="fas fa-plus-square"></i>
+                    </button>
                     <div className={styles.handleOption}>
                         <p className={isOptOn ? styles['hidden'] : styles['optToggle']}>옵션 추가</p>
                         <form ref={optionFormRef} className={isOptOn ? styles['optionAddForm'] : styles['hidden']} onSubmit={onOptionSubmit}>
@@ -324,10 +336,12 @@ const MenuAdmin = (props) => {
                     </div>
                     {options.map((option) => (
                         // css할 때는 className 변경해야 함!
-                        <div className={styles.option} key={option.optionPk}>
-                            <p className={styles.optionName}>{option.optionName}</p>
-                            <p className={styles.optionPrice}>:{option.optionPrice}</p>
-                            <button onClick={(e) => { if (window.confirm('해당 옵션을 삭제하시겠습니까?')) handleOptionDelete(e, option.optionPk) }}>❌</button>
+                        <div className={styles.rightOption} key={option.optionPk}>
+                            <p className={styles.rightOptionName}>{option.optionName}</p>
+                            <p className={styles.rightOptionPrice}> : {option.optionPrice}</p>
+                            <button className={styles.delBtn} onClick={(e) => { if (window.confirm('해당 옵션을 삭제하시겠습니까?')) handleOptionDelete(e, option.optionPk) }}>
+                                <i className="fas fa-trash"></i>
+                            </button>
                         </div>
                     ))}
                 </div>
