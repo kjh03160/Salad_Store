@@ -1,3 +1,7 @@
+.title {
+    font-size: 1.5em;
+}
+
 p {
     display: inline-block;
 }
@@ -14,6 +18,22 @@ p {
 
 input {
     margin: 0.5em;
+    width: 80%;
+    display: block;
+    border: 0;
+    border-radius: 5px;
+    text-indent: 10px;
+}
+
+.inputFile {
+    display: none;
+}
+
+.uploadIcon{
+    font-size: 2rem;
+    margin-left: 0.1em;
+    background-color: transparent;
+    color: white;
 }
 
 button {
@@ -37,6 +57,11 @@ button:hover {
     color: darkred;
 }
 
+.addBtn {
+    margin: 0 0.5em 0.2em;
+    color: #7DCD00;
+}
+
 /* form {
     display: inline-block;
 } */
@@ -45,7 +70,6 @@ button:hover {
 .title {
     height: 100px;
     position: relative;
-    border: 1px solid black;
 }
 
 .title h1 {
@@ -56,8 +80,7 @@ button:hover {
     padding-left: 50px;
 }
 .menuAdminContent {
-    border: 1px solid black;
-    width: 100%;
+    width: 100%;    
     position: relative;
 }
 /* 전체 컨테이너 */
@@ -65,7 +88,7 @@ button:hover {
 /* 카테고리/메뉴 생성 및 삭제 */
 /* 최상위 */
 .content {
-    border: 1px solid black;
+    border-right: 1px solid black;
     width: 50%;
     margin: 0px;
     margin-left: 10%;
@@ -77,6 +100,20 @@ button:hover {
     margin-left: 10%;
 }
 
+.category>.delBtn {
+    font-size: 2em;
+}
+
+.catAddForm {
+    position: relative;
+    background-color: #378cca;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 50%;
+    padding-top: 10px;
+    z-index: 100;
+    border: 3px solid black;
+}
 /* 카테고리 토글 */
 
 .handleCategory, .handleMenu, .handleOption {
@@ -84,13 +121,14 @@ button:hover {
     height: 50px;
 }
 
-.handleCategory .catToggle {
+.handleCategory .catToggle, .optToggle {
     font-size: 40px;
     padding: 8px;
     border-radius: 8px;
     margin-left: 10px;
     background-color: #378cca;
     color: white;
+    border: 3px solid black;
 }
 
 .catAddInput {
@@ -110,14 +148,22 @@ button:hover {
 .handleMenu .menuToggle, .handleSelector .selectorToggle  {
     font-size: 25px;
     margin-left: 10px;
-    padding: 5px;
+    padding: 3px;
     border-radius: 8px;
     background-color: #378cca;
     color: white;
+    border: 3px solid black;
 }
 
 .menuAddForm {
-    height: 100%;
+    position: relative;
+    background-color: #378cca;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 50%;
+    padding-top: 10px;
+    z-index: 100;
+    border: 3px solid black;
 }
 
 .menuAddInput {
@@ -130,11 +176,6 @@ button:hover {
 }
 /* 메뉴 토글 */
 
-.mainImage {
-    width: 200px;
-    height: 200px;
-}
-
 
 /* 3. 옵션*/
 
@@ -146,21 +187,28 @@ button:hover {
     font-size: 1.5em;
 }
 
+.matchedOptions {
+    margin: 10px 0px 0px 10px;
+}
 /* 옵션토글 */
 
 .handleSelector {
     margin-right: 10px;
 }
 
-/* 옵션토글 */
-.matchedOptions {
+.optionSelector {
     margin-left: 10px;
 }
+
+.optionSelector button{
+    margin: 0;
+}
+
+/* 옵션토글 */
 /* 왼쪽 레이아웃 끝 */
 
 /* 4. 옵션 생성 및 삭제 */
 .modifyOption {
-    border: 1px solid black;
     width: 30%;
     margin-right: 10%;
     position: absolute;
@@ -168,6 +216,9 @@ button:hover {
     top: 0;
 }
 
+.optionContent {
+    margin-left: 10%;
+}
 .rightOption {
     margin-left: 10%;
     padding: 0.5rem;
@@ -183,6 +234,17 @@ button:hover {
 
 .handleOption .optToggle {
     font-size: 40px;
+}
+
+.handleOption  .optionAddForm {
+    position: relative;
+    background-color: #378cca;
+    border-radius: 10px;
+    width: 50%;
+    margin-left: 10px;
+    padding-top: 10px;
+    z-index: 100;
+    border: 3px solid black;
 }
 
 .optionAddInput {

@@ -259,7 +259,9 @@ const MenuAdmin = (props) => {
                         <span className={isCatOn ? styles['hidden'] : styles['catToggle']}>카테고리 추가</span>
                         <form ref={catFormRef} className={isCatOn ? styles['catAddForm'] : styles['hidden']} onSubmit={onCatSubmit}>
                             <input ref={catInputRef} type="text" className={styles.catAddInput} placeholder="카테고리 이름" />
-                            <button className={styles.catAddBtn}>✅</button>
+                            <button className={styles.addBtn}>
+                                <i class="fas fa-check-square"></i>
+                            </button>
                         </form>
                     </div>
                     <br />
@@ -278,8 +280,13 @@ const MenuAdmin = (props) => {
                                 <form className={getMenuOn(category.categoryPk) ? styles['menuAddForm'] : styles['hidden']} onSubmit={(e) => onMenuSubmit(e, category.categoryPk)}>
                                     <input type="text" name="menuName" className={styles.menuAddInput} placeholder="메뉴 이름" />
                                     <input type="text" name="menuPrice" className={styles.menuAddInput} placeholder="가격" />
-                                    <input type="file" name="menuImage" className={styles.menuAddInput} />
-                                    <button className={styles.menuAddBtn}>✅</button>
+                                    <button className={styles.addBtn}>
+                                        <i class="fas fa-check-square"></i>
+                                    </button>
+                                    <label className={styles.uploadIcon} htmlFor="inputFile">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </label>
+                                    <input type="file" id="inputFile" name="menuImage" className={styles.inputFile} />
                                 </form>
                             </div>
                             {getMatchedMains(category, mains).map((main) => (
@@ -305,14 +312,16 @@ const MenuAdmin = (props) => {
                                                 displayValue="optionName" // Property name to display in the dropdown options
                                                 showCheckbox={true}
                                             />
-                                            <button className={styles.optionAddBtn}>✅</button>
+                                            <button className={styles.addBtn}>
+                                                <i class="fas fa-check-square"></i>
+                                            </button>
                                         </form>
                                     </div>
                                     <div className={styles.matchedOptions}>
                                         {getMatchedOptions(main, options).map((option) => (
                                             <div className={styles.option} key={option.optionPk}>
                                                 <p className={styles.optionName}>{option.optionName}</p>
-                                                <p className={styles.optionPrice}> : {option.optionPrice}</p>
+                                                <p className={styles.optionPrice}> : {option.optionPrice}원</p>
                                                 <br />
                                             </div>
                                         ))}
@@ -323,27 +332,32 @@ const MenuAdmin = (props) => {
                     ))}
                 </div>
                 <div className={styles.modifyOption}>
-                    <button onClick={handleOptToggle} className={styles.btn}>
-                        <i className="fas fa-plus-square"></i>
-                    </button>
-                    <div className={styles.handleOption}>
-                        <p className={isOptOn ? styles['hidden'] : styles['optToggle']}>옵션 추가</p>
-                        <form ref={optionFormRef} className={isOptOn ? styles['optionAddForm'] : styles['hidden']} onSubmit={onOptionSubmit}>
-                            <input type="text" ref={optionInputRef} className={styles.optionAddInput} placeholder="옵션 이름" />
-                            <input type="text" ref={optionPriceRef} className={styles.optionAddInput} placeholder="가격" />
-                            <button className={styles.optionAddBtn}>✅</button>
-                        </form>
-                    </div>
-                    {options.map((option) => (
-                        // css할 때는 className 변경해야 함!
-                        <div className={styles.rightOption} key={option.optionPk}>
-                            <p className={styles.rightOptionName}>{option.optionName}</p>
-                            <p className={styles.rightOptionPrice}> : {option.optionPrice}</p>
-                            <button className={styles.delBtn} onClick={(e) => { if (window.confirm('해당 옵션을 삭제하시겠습니까?')) handleOptionDelete(e, option.optionPk) }}>
-                                <i className="fas fa-trash"></i>
-                            </button>
+                    <div className={styles.optionContent}>
+                        <button onClick={handleOptToggle} className={styles.btn}>
+                            <i className="fas fa-plus-square"></i>
+                        </button>
+                        <div className={styles.handleOption}>
+                            <span className={isOptOn ? styles['hidden'] : styles['optToggle']}>옵션 추가</span>
+                            <form ref={optionFormRef} className={isOptOn ? styles['optionAddForm'] : styles['hidden']} onSubmit={onOptionSubmit}>
+                                <input type="text" ref={optionInputRef} className={styles.optionAddInput} placeholder="옵션 이름" />
+                                <input type="text" ref={optionPriceRef} className={styles.optionAddInput} placeholder="가격" />
+                                <button className={styles.addBtn}>
+                                    <i class="fas fa-check-square"></i>
+                                </button>
+                            </form>
                         </div>
-                    ))}
+                        <br />
+                        {options.map((option) => (
+                            // css할 때는 className 변경해야 함!
+                            <div className={styles.rightOption} key={option.optionPk}>
+                                <p className={styles.rightOptionName}>{option.optionName}</p>
+                                <p className={styles.rightOptionPrice}> : {option.optionPrice}원</p>
+                                <button className={styles.delBtn} onClick={(e) => { if (window.confirm('해당 옵션을 삭제하시겠습니까?')) handleOptionDelete(e, option.optionPk) }}>
+                                    <i className="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
