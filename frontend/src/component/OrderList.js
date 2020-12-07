@@ -1,8 +1,37 @@
+
 import React from 'react'
 import { useSelector,useDispatch} from 'react-redux'
+import styled,{createGlobalStyle} from 'styled-components'
+
+const Test = styled.div`
+
+display:flex;
+    justify-content:flex-end;
+.orderContentButton {
+    
+  }
+
+`
+const OrderCompleteButton = styled.button`
+
+`
+const OrderedMain = styled.div `
+width:100%;
+padding-bottom:5px;
+
+/* display:flex;
+flex-direction:column; */
+
+`
+const OrderedOption = styled.div`
+width:100%;
+height:20px;
+padding-left:50px;
+`
+
 
 export default function OrderList(props) {
-    const {onDeleteOption,onQuantityDecrement,onQuantityIncrement,selectedMenu,onDeleteOrder} = props.data
+    const {onDeleteOption,onQuantityDecrement,onQuantityIncrement,selectedMenu,onDeleteOrder,cashAmount,setDialog} = props.data
 
     
 
@@ -20,23 +49,26 @@ export default function OrderList(props) {
     }
     
     return (
-        <div>
             
-            <ul>
+            <>
             {selectedMenu.map((main,index)=> 
-                <li key = {index}>{main.main} : {main.mainPrice}원 {main.mainQuantity}개 
+                <OrderedMain key = {index}>{index+1}. {main.main} : {main.mainPrice}원 {main.mainQuantity}개 
                 <button onClick={()=>handleIncrement(main.orderId)}>+1</button>
                 <button onClick={()=>handleDecrement(main.orderId)}>-1</button>
                 <button onClick={()=>handleDeleteOrder(main.orderId)}>삭제</button>
-                    <ul>{main.optionList.map((item,index)=> 
-                        <li key = {index}>{item.optionName}price:{item.optionPrice}
+                    {main.optionList.map((item,index)=> 
+                    (<OrderedOption>
+                        {item.optionName} : {item.optionPrice}원
                         <button onClick={(event)=>handleDeleteOption(main.orderId, item.optionId,event)}>삭제</button>
-                        </li>)}
-                    </ul>
-                </li>)}
-            </ul>
+                    </OrderedOption>))}
+                    
+                </OrderedMain>)}
+                <Test className="orderContentButton">
+                    총금액: {cashAmount}
+                    <OrderCompleteButton onClick = {()=> setDialog({check:true,card:false})}>주문완료</OrderCompleteButton>  
+                </Test>
+        </>
             
             
-        </div>
     )
 }

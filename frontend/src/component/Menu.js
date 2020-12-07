@@ -4,14 +4,18 @@ import React from 'react'
 
 import styled from 'styled-components'
 const MainMenuCotainer = styled.div`
+&:hover {
+    transform: scale(1.10);
+  }
+transition:all 0.5s linear;
 display: flex;
 flex-wrap : wrap;
 width:280px;
 height:250px;
-border : 1px solid black;
 margin: 25px 0 0 30px;
-
+box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 `
+
 const ImageBox = styled.div`
 width:100%;
 height:80%;
@@ -22,9 +26,12 @@ cursor: pointer;
 `
 const Description = styled.div`
 width:50%;
+height:20%;
 display: flex;
 justify-content: center;
 align-items: center;
+font-size:1.3rem;
+color:black;
 cursor: pointer;
 `
 export default function Menu(props){
