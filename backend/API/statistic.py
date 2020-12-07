@@ -61,7 +61,8 @@ class Statistic(Resource):
         session.close()
         result = query_to_dict(result)
         return {'data' : result}, 200  
-        
+    
+    # 아래의 REST API는 not support -> 405 코드 전송
     def post(self):
         return Response(status= 405)
     def put(self):
