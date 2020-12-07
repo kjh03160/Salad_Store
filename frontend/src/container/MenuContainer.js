@@ -9,7 +9,7 @@ import OrderAPI from '../api/orderAPI'
 
 
 
-import {qunatityDecrement, qunatityIncrement, setOrder,deleteOption,deleteOrder} from '../module/order'
+import {qunatityDecrement, qunatityIncrement, setOrder,deleteOption,deleteOrder, cancelOrder} from '../module/order'
 import { setSuccess, setLoading, getData } from '../module/dataSet'
 
 
@@ -36,22 +36,25 @@ display:flex;
 flex-wrap: wrap;
 
 
-`;
+`
+
 const CategorySection =styled.div`
 width:15%;
-height:80%;
+height:70%;
 display: flex;
 flex-direction: column;
+justify-content:flex-start;
 align-items: center;
 margin:auto;
-box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+overflow-y:scroll-behavior;
+/* box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); */
 
 a{
   color:white;
   width:100%;
   height:70px;
   font-size: 2.3rem;
-  margin-bottom:5px;
+  margin-bottom:10px;
   
   div{
   width:100%;
@@ -63,7 +66,7 @@ a{
   border-radius:5px;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   &:hover {
-    transform: scale(1.30);
+    transform: scale(1.10);
   }
 transition:all 0.5s linear;
     }
@@ -73,7 +76,7 @@ transition:all 0.5s linear;
 `
 const MenuSection = styled.div`
 width: 80%;
-height:80%;
+height:70%;
 display: flex;  
 flex-wrap: wrap;
 overflow-y: scroll;
@@ -82,7 +85,7 @@ box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 `
 const OrderListSection = styled.div`
 width:97%;
-height:15%;
+height:25%;
 overflow-y: scroll;
 margin:auto;
 position:relative;
@@ -97,6 +100,7 @@ box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   align-items:center;
   padding-left: 10px;
   font-size: 1.5rem;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .orderContent{
   width:100%;
@@ -140,6 +144,7 @@ export default function MenuContainer(props) {
     const onQuantityDecrement = (orderId) => dispatch(qunatityDecrement(orderId))
     const onDeleteOption = (orderId,optionId) => dispatch(deleteOption(orderId,optionId))
     const onDeleteOrder = (orderId) => dispatch(deleteOrder(orderId))
+    const onCancelOrder = () =>dispatch(cancelOrder())
     
     // 메뉴 데이터 api 
     const fetchData = async () =>{
@@ -171,7 +176,7 @@ export default function MenuContainer(props) {
     //컴포넌트에 넘겨줄 패키지들
     const menuComData = {nextId,  orderList ,setOrderList, onSetOrder,data}
     const optionComData = {nextId, orderList,setOrderList, onSetOrder,data}
-    const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu,cashAmount,setDialog}
+    const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu,cashAmount,setDialog,onCancelOrder}
     if(loading) return <CircularProgress color="black"/>
     if(error)return <div>메뉴를 추가해주세요</div>
     return (
