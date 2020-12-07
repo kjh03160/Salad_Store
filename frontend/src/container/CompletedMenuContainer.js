@@ -73,7 +73,7 @@ async function getOrder(){
 
 export default function CompletedMenuContainer() {
   
-  const {data, error, isLoading,reload} = useAsync({
+  let {data, error, isLoading,reload} = useAsync({
     promiseFn:getOrder
   })
   const [value, setValue] = React.useState(0);
@@ -90,6 +90,10 @@ export default function CompletedMenuContainer() {
   }
   
   if(isLoading) return <div>loading</div>
+  if(error){
+    data = {orderList:[]}
+    console.log(data)
+  }
   return (
     <Wrapper>
       <OrderSection>

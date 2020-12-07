@@ -39,6 +39,9 @@ export default function SoldOutMenuContainer() {
    }
   
   if(isLoading) return <div>loading</div>
+  if(error){
+    data = {main:[],option:[],category:[]}
+  }
   return (
     <Wrapper>
         <h2>메뉴 품절 관리 </h2>

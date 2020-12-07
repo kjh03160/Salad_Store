@@ -30,7 +30,7 @@ const fetchData = async () =>{
 
 // 게속 확인 할 수 있게 3초에 한번 재렌더링
 export default function PickUp(){
-  const {data, error, isLoading,reload} = useAsync({
+  let {data, error, isLoading,reload} = useAsync({
     promiseFn:fetchData
   })
   const [forRender, setForRender] = useState(false)
@@ -43,7 +43,10 @@ export default function PickUp(){
   
     
     if (isLoading) return <div>로딩중...</div>
-    console.log(data.data)
+    if(error){
+      data = {data:{orderList:[]}}
+      console.log(data)
+    }
     return(
         // 날짜 범위 설정해서 보여줘야함
       <Wrapper>

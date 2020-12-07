@@ -132,6 +132,7 @@ export default function MenuContainer(props) {
     const optionComData = {nextId, orderList,setOrderList, onSetOrder,data}
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu}
     if(loading) return <CircularProgress color="black"/>
+    if(error)return <div>메뉴를 추가해주세요</div>
     return (
         
         <ForCenter>
