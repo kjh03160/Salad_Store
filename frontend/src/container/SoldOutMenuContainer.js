@@ -15,6 +15,23 @@ const Wrapper = styled.section`
     text-indent: 1em;
   }
   padding-left:1%;
+  
+overflow-y:auto;
+border:1px solid black;
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
 `
 const Text = styled.div`
   color: #495057;
@@ -117,8 +134,8 @@ font-size:15px;
     transition: all 0.3s ease-out;
     font-weight:bold;
     ${props =>
-      props.SoldOut &&
-      css`
+    props.SoldOut &&
+    css`
       color: red;
       text-decoration:line-through;
     `}
@@ -154,24 +171,24 @@ export default function SoldOutMenuContainer() {
           <h3>{category.categoryName}</h3>
 
           {data.main.filter((main) => main.categoryPk == category.categoryPk).map(
-            (main, index) =>           
-            <Text class="box"  onClick={() => handleMainClick(main.menuPk)} ><Butt class="button" key={index} SoldOut={main.menuSoldout} > {main.menuName}</Butt>
-            {main.menuSoldout === 0 ?     
-              <input type="checkbox" name="task_1" value="1" class="tasks-list-cb" ></input>
-            : <input type="checkbox" name="task_1" value="1" class="tasks-list-cb" checked></input>}
-            <span class="tasks-list-mark"></span>  </Text>
-          
-          
+            (main, index) =>
+              <Text class="box" onClick={() => handleMainClick(main.menuPk)} ><Butt class="button" key={index} SoldOut={main.menuSoldout} > {main.menuName}</Butt>
+                {main.menuSoldout === 0 ?
+                  <input type="checkbox" name="task_1" value="1" class="tasks-list-cb" ></input>
+                  : <input type="checkbox" name="task_1" value="1" class="tasks-list-cb" checked></input>}
+                <span class="tasks-list-mark"></span>  </Text>
+
+
           )}
 
         </div>
       )}
       <h2>옵션 품절 관리</h2>
-      {data.option.map((option, index) => <Text class="box"  onClick={() => handleOptionClick(option.optionPk)} ><Butt class="button" key={index} SoldOut={option.optionSoldout} > {option.optionName}</Butt>
-      {option.optionSoldout === 0 ?     
-        <input type="checkbox" name="task_1" value="1" class="tasks-list-cb" ></input>
-      : <input type="checkbox" name="task_1" value="1" class="tasks-list-cb" checked></input>}
-      <span class="tasks-list-mark"></span>  </Text>)}
+      {data.option.map((option, index) => <Text class="box" onClick={() => handleOptionClick(option.optionPk)} ><Butt class="button" key={index} SoldOut={option.optionSoldout} > {option.optionName}</Butt>
+        {option.optionSoldout === 0 ?
+          <input type="checkbox" name="task_1" value="1" class="tasks-list-cb" ></input>
+          : <input type="checkbox" name="task_1" value="1" class="tasks-list-cb" checked></input>}
+        <span class="tasks-list-mark"></span>  </Text>)}
 
 
     </Wrapper>
