@@ -88,7 +88,6 @@ export default {
       let status = axios.delete('/category', {params : data})
       return status
     },
-
     addOption(data){
       let status = axios.post('/option', data)
       return status
