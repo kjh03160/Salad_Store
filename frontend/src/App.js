@@ -6,6 +6,7 @@ import api from './api/saveData'
 import MenuPage from './pages/MenuPage'
 import PickUp from './pages/PickUp'
 import Login from './pages/Login'
+import Signup from './pages/Signup'
 import Error from './pages/Error'
 import Kitchen from './pages/Kitchen'
 import Admin from './pages/Admin'
@@ -18,6 +19,7 @@ function App() {
       <Switch>
         {/* <Route exact path='/' component ={Home}/> */}
         <Route exact path='/' component={Login}/>
+        <Route exact path='/signup' component={Signup}/>
         <Route  path='/menu' component = {MenuPage}/>
         <Route  path='/kitchen' component = {Kitchen}/>
         <Route path ='/admin' component={Admin}/>
