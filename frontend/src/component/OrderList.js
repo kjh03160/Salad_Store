@@ -3,42 +3,13 @@ import React from 'react'
 import { useSelector,useDispatch} from 'react-redux'
 import styled,{createGlobalStyle} from 'styled-components'
 
-const Test = styled.div`
-    margin-top:5px;
-    display:flex;
-    justify-content:flex-end;
-h3{
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
-    margin-right:0.5rem;
-}
 
-`
-const OrderCompleteButton = styled.button`
-    display: inline-flex;
-  outline: none;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  background-color:black;
-  font-weight: bold;
-  cursor: pointer;
-  
-  padding-left: 0.8rem;
-  padding-right: 0.8rem;
-  margin-right: 0.5rem;
-  justify-content:center;
-  align-items:center;
-  /* 크기 */
-  height: 2rem;
-  font-size: 1rem;
-`
 const OrderedMain = styled.div `
 width:100%;
 font-size:1.5rem;
 display:flex;
 align-items:center;
+
 
 `
 const OrderedOption = styled.div`
@@ -124,11 +95,7 @@ export default function OrderList(props) {
                         ))}
                     
                     </>)}
-                <Test className="orderContentButton">
-                    <h3>총금액: {cashAmount}</h3>
-                    <OrderCompleteButton onClick = {()=> setDialog({check:true,card:false})}>주문완료</OrderCompleteButton>  
-                    <OrderCompleteButton onClick = {()=> onCancelOrder()}>주문취소</OrderCompleteButton>  
-                </Test>
+                
         </>
             
             

@@ -34,10 +34,7 @@ width:1200px;
 height:100vh;
 display:flex;
 flex-wrap: wrap;
-
-
 `
-
 const CategorySection =styled.div`
 width:15%;
 height:70%;
@@ -48,14 +45,13 @@ align-items: center;
 margin:auto;
 overflow-y:scroll-behavior;
 /* box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); */
-
 a{
   color:white;
   width:100%;
   height:70px;
   font-size: 2.3rem;
   margin-bottom:10px;
-  
+  transition:all 0.5s linear;
   div{
   width:100%;
   height:70px;
@@ -67,11 +63,8 @@ a{
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   &:hover {
     transform: scale(1.10);
-  }
-transition:all 0.5s linear;
-    }
-  
-  
+        }
+      }
   }
 `
 const MenuSection = styled.div`
@@ -93,8 +86,9 @@ display:flex;
 flex-direction:column;
 box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 .nav{
-  width:100%;
+  width:1164px;
   height:40px;
+  position:fixed;
   background-color:lightgray;
   display:flex;
   align-items:center;
@@ -103,12 +97,51 @@ box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .orderContent{
+  margin-top: 40px;
   width:100%;
   display: flex;
   flex-direction:column; 
+  justify-content:flex-start;
+  flex: 1 1 auto;
 }
 `
+const ForComplete = styled.div`
+position:absolute ;
+right:0;
+top:0;
+`
+const Test = styled.div`
+    margin-top:5px;
+    display:flex;
+    justify-content:flex-end;
+h3{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    font-size:1.3rem;
+    margin-right:0.5rem;
+}
 
+`
+const OrderCompleteButton = styled.button`
+    display: inline-flex;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  background-color:black;
+  font-weight: bold;
+  cursor: pointer;
+  
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  margin-right: 0.5rem;
+  justify-content:center;
+  align-items:center;
+  /* 크기 */
+  height: 2rem;
+  font-size: 1rem;
+`
 // 컨테이너에서 상태, 데이터 다 관리하고 컴포넌트에 뿌려주기
 export default function MenuContainer(props) {
     const {dataSet:{loading,data,error}, selectedMenu} = useSelector(state =>({
@@ -196,10 +229,23 @@ export default function MenuContainer(props) {
                   <Route path='/menu/:categoryPk/:selectedMain' render={(props)=><Option {...props} data = {optionComData}/>}/>
               </MenuSection>
               <OrderListSection>
-                <div className="nav">주문 내역</div>
+                
+                <div className="nav">
+                  주문 내역
+                <ForComplete>
+                  <Test className="orderContentButton">
+                      <h3>총금액: {cashAmount}</h3>
+                      <OrderCompleteButton onClick = {()=> setDialog({check:true,card:false})}>주문완료</OrderCompleteButton>  
+                      <OrderCompleteButton onClick = {()=> onCancelOrder()}>주문취소</OrderCompleteButton>  
+                  </Test>
+                </ForComplete>
+                  </div>
                 <div className="orderContent">
                   <OrderList data ={orderComData} />
+                  
+                  
                 </div>
+                
               </OrderListSection>
               
           </WrapperSection>

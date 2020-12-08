@@ -9,11 +9,18 @@ const MainMenuCotainer = styled.div`
   }
 transition:all 0.5s linear;
 display: flex;
-flex-wrap : wrap;
+flex-wrap : nowrap;
 width:280px;
 height:250px;
 margin: 25px 0 0 30px;
 box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+a{
+    text-decoration:none;
+    height:100%;
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+}
 `
 
 const ImageBox = styled.div`
@@ -58,12 +65,14 @@ export default function Menu(props){
             (menu,index)=>{
               if(menu.categoryPk == props.match.params.categoryPk && menu.menuSoldout != 1){
                 return (
-                  <Link style={{textDecoration:"none"}}to ={`/menu/${menu.categoryPk}/${menu.menuPk}`}key = {menu.menuPk} onClick={(event)=>handleClick(event, menu.menuPk,menu.menuName,menu.menuPrice)}>
+                  
                         <MainMenuCotainer>
+                            <Link style={{textDecoration:"none",height:"100%",width:"100%",display:"flex",flexWrap:"wrap"}}to ={`/menu/${menu.categoryPk}/${menu.menuPk}`}key = {menu.menuPk} onClick={(event)=>handleClick(event, menu.menuPk,menu.menuName,menu.menuPrice)}>
                             <ImageBox><img style = {{width:"100%", height:"100%"}}src ={menu.menuImage}/></ImageBox>
                             <Description>{menu.menuName}</Description><Description>{menu.menuPrice}원</Description>
+                            </Link>
                         </MainMenuCotainer>
-                        </Link>
+                        
                 )
               }
             }
