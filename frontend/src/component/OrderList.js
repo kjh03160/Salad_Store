@@ -1,8 +1,64 @@
+
 import React from 'react'
 import { useSelector,useDispatch} from 'react-redux'
+import styled,{createGlobalStyle} from 'styled-components'
+
+
+const OrderedMain = styled.div `
+width:100%;
+font-size:1.5rem;
+display:flex;
+align-items:center;
+
+
+`
+const OrderedOption = styled.div`
+width:100%;
+height:1.5rem;
+padding-left:50px;
+font-size:1.3rem;
+display:flex;
+align-items:center;
+`
+const QuantityButton = styled.button`
+display: inline-flex;
+  outline: none;
+  border: none;
+  color: white;
+  background-color:black;
+  font-weight: bold;
+  cursor: pointer;
+  /* padding-left: 0.8rem;
+  padding-right: 0.8rem; */
+  /* margin-right: 0.5rem; */
+  justify-content:center;
+  align-items:center;
+  /* 크기 */
+  height: 1.5rem;
+  width:1.5rem;
+  font-size: 1rem;
+`
+const DeleteButton = styled.button`
+    display: inline-flex;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  background-color:red;
+  font-weight: bold;
+  cursor: pointer;
+  padding:0.1rem;
+  /* margin-right: 0.5rem; */
+  justify-content:center;
+  align-items:center;
+  /* 크기 */
+  height: 1.3rem;
+  width:1.3rem;
+  font-size: 1rem;
+`
 
 export default function OrderList(props) {
-    const {onDeleteOption,onQuantityDecrement,onQuantityIncrement,selectedMenu,onDeleteOrder} = props.data
+    const {onDeleteOption,onQuantityDecrement,onQuantityIncrement,selectedMenu,onDeleteOrder,cashAmount,setDialog,onCancelOrder} = props.data
 
     
 
@@ -20,23 +76,28 @@ export default function OrderList(props) {
     }
     
     return (
-        <div>
             
-            <ul>
+            <>
             {selectedMenu.map((main,index)=> 
-                <li key = {index}>{main.main} : {main.mainPrice}원 {main.mainQuantity}개 
-                <button onClick={()=>handleIncrement(main.orderId)}>+1</button>
-                <button onClick={()=>handleDecrement(main.orderId)}>-1</button>
-                <button onClick={()=>handleDeleteOrder(main.orderId)}>삭제</button>
-                    <ul>{main.optionList.map((item,index)=> 
-                        <li key = {index}>{item.optionName}price:{item.optionPrice}
-                        <button onClick={(event)=>handleDeleteOption(main.orderId, item.optionId,event)}>삭제</button>
-                        </li>)}
-                    </ul>
-                </li>)}
-            </ul>
+                <>
+                <OrderedMain key = {index}>
+                    <span>{index+1}. {main.main} : {main.mainPrice}원 </span>
+                    <QuantityButton onClick={()=>handleIncrement(main.orderId)}>+</QuantityButton>
+                    <QuantityButton>{main.mainQuantity} </QuantityButton>
+                    <QuantityButton onClick={()=>handleDecrement(main.orderId)}>-</QuantityButton>
+                    <DeleteButton onClick={()=>handleDeleteOrder(main.orderId)}>X</DeleteButton>
+                </OrderedMain>
+                    {main.optionList.map((item,index)=> 
+                    (<OrderedOption>
+                        <span>{item.optionName} : {item.optionPrice}원</span>
+                        <DeleteButton onClick={(event)=>handleDeleteOption(main.orderId, item.optionId,event)}>X</DeleteButton>
+                    </OrderedOption>
+                        ))}
+                    
+                    </>)}
+                
+        </>
             
             
-        </div>
     )
 }
