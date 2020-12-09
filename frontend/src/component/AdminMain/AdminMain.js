@@ -107,15 +107,14 @@ const AdminMain = () => {
             <button onClick={apiCall}>확인</button> */}
                 </div>
             </div>
-            <div>
-                <p>
-                    {startDate} ~ {endDate} <br />
-                    기간 동안의 매출액은 <br />
-                    {Object.keys(data).length != 0 ? data.매출 : 0}원입니다.
-                </p>
+            <div className={styles.text}>
+                <p>{startDate} ~ {endDate}</p>
+                <p>기간 동안의 매출액은 <br /> </p>
+                <p><br /></p>
+                <p>{Object.keys(data).length != 0 ? data.매출 : 0}원입니다.</p>
             </div>
         </>
     );
 };
 
-export default AdminMain;
+export default AdminMain
