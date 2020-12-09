@@ -88,7 +88,7 @@ const DetailWrapper = styled.section`
 `
 
 const MenuWrapper = styled.section`
-  font-size: 30px
+  font-size: 30px;
 `
 
 const OptionWrapper = styled.section`
@@ -113,7 +113,7 @@ function DetailSection(props) {
                   {
                     menu.options[0] !== null ?
                       <OptionWrapper>
-                        {menu.options.map((options, index) => <div class="option" key={index}>- {options} 추가</div>)}
+                        {menu.options.map((options, index) => <div class="option" key={index}>- {options}</div>)}
                       </OptionWrapper> : null
                   }
                   <div class='count' key={index}>수량 : {menu.quantity}개</div>
