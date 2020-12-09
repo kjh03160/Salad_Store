@@ -39,7 +39,7 @@ api.add_resource(Option,'/option')
 api.add_resource(Category,'/category')
 api.add_resource(Menu, '/menu')
 api.add_resource(Link, '/link')
-
+api.add_resource(Soldout,'/soldout')
 api.add_resource(Login, '/login')
 api.add_resource(Signup, '/signup')
 if __name__=='__main__':

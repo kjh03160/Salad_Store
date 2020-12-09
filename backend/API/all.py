@@ -6,12 +6,13 @@ import models
 from API.method import *
 
 
-
+# 데이터베이스에 있는 categories, menus, options, option_relation 튜플 반환
 class All(Resource):
+    
     def get(self):
         category = models.Category.query.all()
         category_list = []
-
+        # 모델 클래스 객체 딕셔너리로 파싱
         for i in category:
             temp = {'categoryPk' : i.category_pk, 'categoryName' : i.category_name}
             category_list.append(temp)
