@@ -151,18 +151,22 @@ export default function SoldOutMenuContainer() {
     promiseFn: getMenu
   })
 
-  async function handleMainClick(menuPk) {
-    let response = await MenuAPI.setSoldout({ pk: menuPk, type: "main_soldout" })
-    reload()
-    return response
-  }
-  async function handleOptionClick(optionPk) {
-    let response = await MenuAPI.setSoldout({ pk: optionPk, type: "option_soldout" })
-    reload()
-    return response
+  async function handleMainClick(menuPk){
+     let response = await MenuAPI.setSoldout({pk:menuPk,type:"main_soldout"})
+     reload()
+     return response
+   }
+   async function handleOptionClick(optionPk){
+     let response = await MenuAPI.setSoldout({pk:optionPk,type:"option_soldout"})
+     reload()
+     return response
+   }
+  
+  if(isLoading) return <div>loading</div>
+  if(error){
+    data = {main:[],option:[],category:[]}
   }
 
-  if (isLoading) return <div>loading</div>
   return (
     <Wrapper>
       <h2>메뉴 품절 관리 </h2>

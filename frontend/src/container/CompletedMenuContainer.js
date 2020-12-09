@@ -134,7 +134,6 @@ async function getOrder() {
 
 
 export default function CompletedMenuContainer() {
-
   const { data, error, isLoading, reload } = useAsync({
     promiseFn: getOrder
   })
@@ -150,8 +149,12 @@ export default function CompletedMenuContainer() {
     reload()
     return response
   }
+  if(isLoading) return <div>loading</div>
+  if(error){
+    data = {orderList:[]}
+    console.log(data)
+  }
 
-  if (isLoading) return <div>loading</div>
   return (
     <Wrapper>
       <OrderSection>
