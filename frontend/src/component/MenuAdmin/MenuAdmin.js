@@ -110,7 +110,12 @@ const MenuAdmin = (props) => {
     const onCatSubmit = e => {
         e.preventDefault();
         const name = catInputRef.current.value;
-        handleCategoryAdd(name);
+        if (name === "") {
+            alert("카테고리 이름을 입력하세요!")
+        }
+        else {
+            handleCategoryAdd(name);
+        }
         catFormRef.current.reset();
     };
     //
@@ -135,12 +140,18 @@ const MenuAdmin = (props) => {
 
     const onMenuSubmit = (e, categoryPk) => {
         e.preventDefault();
-        console.log(e);
         const name = e.target[0].value;
         const price = parseInt(e.target[1].value);
         const image = e.target[3].files[0];
+        console.log(name);
         // 가격이 정수형이 아닐 때 에러 헨들링
+        if (name.length < 1) {
+            alert("메뉴 이름을 입력하세요!");
+            e.target.reset();
+            return;
+        }
         if (isNaN(price)) {
+            alert("정확한 가격을 입력하세요!");
             e.target.reset();
         }
         else {
@@ -167,8 +178,14 @@ const MenuAdmin = (props) => {
         e.preventDefault();
         const name = optionInputRef.current.value;
         const price = parseInt(optionPriceRef.current.value);
+        if (name === "") {
+            alert("옵션 이름을 입력하세요!");
+            optionFormRef.current.reset();
+            return;
+        }
         // 가격이 정수형이 아닐 때 에러 헨들링
         if (isNaN(price)) { 
+            alert("정확한 가격을 입력하세요!");
             optionFormRef.current.reset();
         }
         else {
