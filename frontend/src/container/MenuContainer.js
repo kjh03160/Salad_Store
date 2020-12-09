@@ -31,9 +31,11 @@ font-family: 'Do Hyeon', sans-serif;
 `
 const WrapperSection = styled.section`
 width:1200px;
-height:100vh;
+height:916px;
 display:flex;
 flex-wrap: wrap;
+position:relative;
+
 `
 const CategorySection =styled.div`
 width:15%;
@@ -81,7 +83,8 @@ width:97%;
 height:25%;
 overflow-y: scroll;
 margin:auto;
-position:relative;
+
+
 display:flex;
 flex-direction:column;
 box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -106,9 +109,9 @@ box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 `
 const ForComplete = styled.div`
-position:absolute ;
-right:0;
-top:0;
+position:absolute;
+right:30px;
+bottom:15px;
 `
 const Test = styled.div`
     margin-top:5px;
@@ -232,13 +235,7 @@ export default function MenuContainer(props) {
                 
                 <div className="nav">
                   주문 내역
-                <ForComplete>
-                  <Test className="orderContentButton">
-                      <h3>총금액: {cashAmount}</h3>
-                      <OrderCompleteButton onClick = {()=> setDialog({check:true,card:false})}>주문완료</OrderCompleteButton>  
-                      <OrderCompleteButton onClick = {()=> onCancelOrder()}>주문취소</OrderCompleteButton>  
-                  </Test>
-                </ForComplete>
+                
                   </div>
                 <div className="orderContent">
                   <OrderList data ={orderComData} />
@@ -247,7 +244,13 @@ export default function MenuContainer(props) {
                 </div>
                 
               </OrderListSection>
-              
+              <ForComplete>
+                  <Test className="orderContentButton">
+                      <h3>총금액: {cashAmount}</h3>
+                      <OrderCompleteButton onClick = {()=> setDialog({check:true,card:false})}>주문완료</OrderCompleteButton>  
+                      <OrderCompleteButton onClick = {()=> onCancelOrder()}>주문취소</OrderCompleteButton>  
+                  </Test>
+                </ForComplete>
           </WrapperSection>
           <Dialog children ={cashAmount} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
           <Payment children = "카드를 넣어주세요" visible = {dialog.card}/>
