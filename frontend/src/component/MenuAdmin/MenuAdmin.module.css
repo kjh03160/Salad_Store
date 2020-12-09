@@ -3,7 +3,8 @@
 }
 
 p {
-    display: inline-block;
+    display: inline-block !important;
+    
 }
 
 ::placeholder {
@@ -95,8 +96,10 @@ button:hover {
 }
 
 /* 1. 카테고리 */
+.categoryName{
+    font-size:50px;
+}
 .category {
-    font-size: 1.5em;
     margin-left: 10%;
 }
 
@@ -142,6 +145,9 @@ button:hover {
     font-size: 0.7em;
     margin-left: 10%;
     padding-bottom: 20px;
+}
+.mainName ,.mainPrice{
+    font-size:1.8rem;
 }
 
 /* 메뉴 토글 */

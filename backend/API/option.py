@@ -53,18 +53,16 @@ class Option(Resource):
     #options database에 추가하기 위한 함수
     def post(self):
         request = Option.parser.parse_args()
-
+        print(request)
          #post에 필요한 값인 'option_name', 'option_price', 'option_soldout'이 없으면 400 반환
-        if request['option_name'] and request['option_price'] and request['option_soldout'] == None:
+        if request['option_name'] and request['option_price'] == None:
             return Response(status = 400)
 
         option_menu = models.Option()
         option_menu.option_name = request['option_name']
         option_menu.option_price = request['option_price']
-        option_menu.option_soldout = request['option_soldout']
-
+        option_menu.option_soldout = 0
         session.add(option_menu)
-        session.close()
         session.commit()
 
         return Response(status = 201)

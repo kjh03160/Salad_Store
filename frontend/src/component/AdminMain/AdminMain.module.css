@@ -85,7 +85,7 @@ input[type=date] {
 
 }
 
-p{
+.text p{
     font-weight: bolder;
     font-size: 62px;
     display:block;
