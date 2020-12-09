@@ -42,15 +42,13 @@ class Category(Resource):
         if request['category_name'] == None:
             return Response(status = 400)
         #똑같은 이름이 데이터베이스에 존재하면 400 반환
-        try:
-            session.query(models.Category).filter(models.Category.category_name == request['category_name'])
+        elif session.query(models.Category).filter(models.Category.category_name == request['category_name']).count() > 0:
             return Response(status = 400)
-        except:
-            category = models.Category(category_name = request['category_name'])
-            session.add(category)
-            session.commit()
-            session.close()
-            return Response(status = 201)
+        category = models.Category(category_name = request['category_name'])
+        session.add(category)
+        session.commit()
+        session.close()
+        return Response(status = 201)
 
         
 
