@@ -164,7 +164,7 @@ export default function SoldOutMenuContainer() {
   
   if(isLoading) return <div>loading</div>
   if(error){
-    data = {main:[],option:[],category:[]}
+    let data = {main:[],option:[],category:[]}
   }
 
   return (

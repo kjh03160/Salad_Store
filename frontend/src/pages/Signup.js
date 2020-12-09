@@ -62,7 +62,7 @@ export default function Login() {
         <Wrapper>
           <Title>MAKE SALAD</Title>
             <LoginForm type="text" id="userId" placeholder=" 아이디" onChange={setId} />
-            <LoginForm type="text" id="userPw" placeholder=" 비밀번호" onChange={setPw} />
+            <LoginForm type="password" id="userPw" placeholder=" 비밀번호" onChange={setPw} />
             <Desc>Make Salad 직원이신가요? <input type="checkbox" onChange={setStaff} /></Desc>
             <LoginForm type="button" value="회원가입" onClick={signupUser} inputColor="#dcdcdc" inputMargin="1vw" inputBorder="none" />
         </Wrapper>

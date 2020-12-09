@@ -151,7 +151,7 @@ export default function CompletedMenuContainer() {
   }
   if(isLoading) return <div>loading</div>
   if(error){
-    data = {orderList:[]}
+    let data = {orderList:[]}
     console.log(data)
   }
 
