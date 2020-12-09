@@ -1,5 +1,3 @@
-
-
 import pandas as pd
 import re
 
@@ -9,6 +7,7 @@ def snake_to_camel(query_result):
         data = query_result[i]
         keys = list(data.keys())
         for snake_style in keys:
+            # camel case 에 있는 '_c' 형태를 'C'로 변환
             camel_style = re.sub('_[a-zA-Z]', lambda m : m.group().upper().replace('_', ""), snake_style)
             data[camel_style] = data.pop(snake_style)    
         result.append(data)
@@ -20,9 +19,8 @@ def query_to_dict(ret):
         query = [{key: value for key, value in row.items()} for row in ret if row is not None]
         if len(query):
             return snake_to_camel(query)
-        return [{}]
-    else:
-        return [{}]
+    return [{}]
+
 
 # N * M * K rows SQL query to N rows list 
 def many_to_one(data):

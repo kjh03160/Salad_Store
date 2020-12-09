@@ -87,7 +87,7 @@ class Order(Resource):
         session.close()
         result = query_to_dict(result)
 
-        if not result[0]:
+        if not result[0]:   # 쿼리 결과가 없을 경우
             return Response(status=404)
         result = many_to_one(result)
         return  {'orderList' : result}, 200
@@ -132,7 +132,6 @@ class Order(Resource):
             session.commit()    # 아무 문제 없으면 DB 반영
 
         except Exception as err:
-            print(err)
             session.rollback()  # 에러 시 rollback
             return Response(status=400) # 에러코드 전송
         session.close()
