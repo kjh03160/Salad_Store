@@ -123,5 +123,10 @@ export default {
     deleteLink(data){
       let status = axios.delete('/link', {params:data})
       return status
+    },
+
+    setSoldout(data){
+      let status = axios.post('/soldout', data)
+      return status
     }
 }

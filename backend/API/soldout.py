@@ -7,8 +7,10 @@ import models
 class Soldout(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('type', type = str ,required=False)
+    parser.add_argument('pk', type = int)
 
     def post(self):
+        data = Soldout.parser.parse_args()
         if data["type"] == None:
             return Response(status=400)
 

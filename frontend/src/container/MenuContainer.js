@@ -31,7 +31,7 @@ font-family: 'Do Hyeon', sans-serif;
 `
 const WrapperSection = styled.section`
 width:1200px;
-height:916px;
+height:100vh;
 display:flex;
 flex-wrap: wrap;
 position:relative;
