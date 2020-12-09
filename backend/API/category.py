@@ -43,7 +43,7 @@ class Category(Resource):
             return Response(status = 400)
         #똑같은 이름이 데이터베이스에 존재하면 400 반환
         try:
-            session.query(models.Category).filter(models.Category.category_name == request['category_name']).count() > 0:
+            session.query(models.Category).filter(models.Category.category_name == request['category_name'])
             return Response(status = 400)
         except:
             category = models.Category(category_name = request['category_name'])

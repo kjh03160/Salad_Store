@@ -17,6 +17,8 @@ from API.order import Order
 from API.statistic import Statistic
 from API.user import Signup, Login
 from API.link import Link
+from API.soldout import Soldout
+
 
 Base.metadata.create_all(bind=engine)
 

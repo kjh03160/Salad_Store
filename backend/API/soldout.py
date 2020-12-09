@@ -10,7 +10,7 @@ class Soldout(Resource):
 
     def post(self):
         if data["type"] == None:
-            return Response(status 400)
+            return Response(status=400)
 
         elif data["type"] =="main_soldout":
             try:
