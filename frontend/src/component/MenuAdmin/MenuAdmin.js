@@ -69,12 +69,6 @@ const MenuAdmin = (props) => {
         apiCall();
     }, []);
 
-    // useEffect(() => {
-    //     apiCall();
-    //     // axios를 이용해 데이터를 가져온다
-    // }, [btnClicked]);
-
-
     const getMatchedMains = (category, mains) => {
         return mains.filter(main => category.categoryPk === main.categoryPk);
     };
@@ -143,7 +137,9 @@ const MenuAdmin = (props) => {
         const name = e.target[0].value;
         const price = parseInt(e.target[1].value);
         const image = e.target[3].files[0];
-        console.log(name);
+        console.log(e.target);
+        console.log(e.target[3]);
+        console.log(e.target[3].files);
         // 가격이 정수형이 아닐 때 에러 헨들링
         if (name.length < 1) {
             alert("메뉴 이름을 입력하세요!");
@@ -312,8 +308,8 @@ const MenuAdmin = (props) => {
                                     <button className={styles.addBtn}>
                                         <i class="fas fa-check-square"></i>
                                     </button>
-                                    <label className={styles.uploadIcon} htmlFor="inputFile">
-                                        <input type="file" id="inputFile" name="menuImage" className={styles.inputFile} />
+                                    <label className={styles.uploadIcon}>
+                                        <input type="file" className={styles.inputFile} />
                                         <i class="fas fa-cloud-upload-alt"></i>
                                     </label>
                                 </form>

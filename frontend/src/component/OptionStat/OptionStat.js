@@ -4,7 +4,7 @@ import statApi from '../../api/statisticAPI';
 import styles from './OptionStat.module.css';
 
 const OptionStat = (props) => {
-
+    // DB스키마에 맞게 시간 데이터 형태 변환
     const getFormatDate = date => {
         var year = date.getFullYear();
         var month = (1 + date.getMonth());
@@ -14,23 +14,27 @@ const OptionStat = (props) => {
         return year + '-' + month + '-' + day;
     };
 
+    // 데이터를 동기화시킨다.
     const statApiCall = async () => {
         const response = await statApi.getStat(startDate, endDate, null, true); // 안 넣을 때는 false X
-        console.log(response.data.data);
         setData(response.data.data);
     };
 
     const menuApiCall = async () => {
         const response = await menuApi.getAll();
-        // console.log(response.data);
         const {option} = response.data;
-        console.log(option);
         setOption(option);
     }
+    //
 
+    // 일간/주간/월간 버튼 클릭 이벤트를 위한 상태
     const [btnClicked, setBtnClicked] = useState("일간");
+
+    // 날짜를 설정하기 위한 상태
     const [startDate, setStartDate] = useState(getFormatDate(new Date()));
     const [endDate, setEndDate] = useState(getFormatDate(new Date()));
+
+    // 출력할 데이터
     const [data, setData] = useState([]);
     const [option, setOption] = useState([]);
 
@@ -50,14 +54,6 @@ const OptionStat = (props) => {
         },
     ];
 
-    // userEffect 안에 api 호출 후 setState하면 무한루프에 빠짐
-    // 참고: https://one-it.tistory.com/entry/React%EC%9D%98-componentDidUpdate-%EC%82%AC%EC%9A%A9%ED%95%A0-%EB%95%8C-%EC%A3%BC%EC%9D%98%EC%A0%90-%EB%AC%B4%ED%95%9C%EB%A3%A8%ED%94%84
-
-    // useEffect(() => {
-    //     statApiCall();
-    //     menuApiCall();
-    // }, []);
-
     useEffect(() => {
         statApiCall();
         menuApiCall();
@@ -70,11 +66,11 @@ const OptionStat = (props) => {
         setEndDate(e.target.value)
     }
 
+    // 일간/주간/월간 버튼에 따라 타임필터 적용
     const handleBtnClicked = e => {
         const value = e.target.value;
         setBtnClicked(value);
         const currentDate = new Date();
-        console.log(value);
         if (value === "일간") {
             setStartDate(getFormatDate(new Date()));
             setEndDate(getFormatDate(new Date()));
@@ -95,7 +91,7 @@ const OptionStat = (props) => {
         }
     };
 
-    // 옵션을 인자로 받아 해당 옵션의 판매량을 반환합니다.
+    // 옵션을 인자로 받아 해당 옵션의 판매량을 반환
     const getSales = option => {
         if (data.length !== 0) {
             for (const item of data) {
@@ -115,6 +111,7 @@ const OptionStat = (props) => {
             <div className={styles.title}>
                 <h1>옵션별 통계</h1>
             </div>
+            {/* 시간 설정 */}
             <div className={styles.aboutDate}>
                 <div className={styles.dateFilterBtns}>
                     {DateFilterData.map((item, i) => (
@@ -134,6 +131,7 @@ const OptionStat = (props) => {
                         value={endDate}></input>
                 </div>
             </div>
+            {/* 옵션 출력 */}
             <div className={styles.content}>
                 {option.map((item, i) => (
                     <div className={styles.option} key={i}>

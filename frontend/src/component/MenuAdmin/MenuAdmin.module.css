@@ -1,6 +1,6 @@
-.title {
+/* .title {
     font-size: 1.5em;
-}
+} */
 
 p {
     display: inline-block !important;
@@ -69,17 +69,17 @@ button:hover {
 
 /* 전체 컨테이너 */
 .title {
-    height: 100px;
-    position: relative;
+    margin-top : 8%;
 }
 
 .title h1 {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0px;
-    padding-left: 50px;
+    color : black;
+    margin-left : 5%;
+    margin-bottom: 20px;
+    font-weight : bolder;
+    font-size : 60px;
 }
+
 .menuAdminContent {
     width: 100%;    
     position: relative;
@@ -89,7 +89,7 @@ button:hover {
 /* 카테고리/메뉴 생성 및 삭제 */
 /* 최상위 */
 .content {
-    border-right: 1px solid black;
+    border-right: 5px solid black;
     width: 50%;
     margin: 0px;
     margin-left: 10%;
@@ -101,10 +101,12 @@ button:hover {
 }
 .category {
     margin-left: 10%;
+    border-bottom: solid 3px black;
+    padding-top: 15px;
 }
 
 .category>.delBtn {
-    font-size: 2em;
+    font-size: 3em;
 }
 
 .catAddForm {
@@ -121,6 +123,8 @@ button:hover {
 
 .handleCategory, .handleMenu, .handleOption {
     margin-right: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
     height: 50px;
 }
 
@@ -144,7 +148,9 @@ button:hover {
 .main {
     font-size: 0.7em;
     margin-left: 10%;
-    padding-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-top: 1px solid black;
 }
 .mainName ,.mainPrice{
     font-size:1.8rem;
