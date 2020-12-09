@@ -51,6 +51,8 @@ const DarkBackground = styled.div`
 `;
 
 const DialogBlock = styled.div`
+  transform: scale(1.00);
+  transition:all 0.5s linear;
   width: 500px;
   padding: 1.5rem;
   background: white;
