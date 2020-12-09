@@ -88,6 +88,13 @@ export default {
       let status = axios.delete('/category', {params : data})
       return status
     },
+
+    getOption(data){
+      let status = axios.get('/option', {params:data})
+      return status
+
+    },
+    
     addOption(data){
       let status = axios.post('/option', data)
       return status
@@ -113,4 +120,8 @@ export default {
       return status
     },
 
+    deleteLink(data){
+      let status = axios.delete('/link', {params:data})
+      return status
+    }
 }

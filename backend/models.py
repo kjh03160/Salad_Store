@@ -28,7 +28,7 @@ class Menu(db.Model):
     menu_description = db.Column(db.String(200))
     menu_image = db.Column(db.String(200))
 
-    category = db.relationship('Category', primaryjoin='Menu.category_pk == Category.category_pk', backref='menus')
+    category = db.relationship('Category',primaryjoin='Menu.category_pk == Category.category_pk', backref='menus')
     options = db.relationship('Option', secondary='option_relation', backref='menus')
 
 

@@ -12,6 +12,7 @@ import {persistStore} from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react';
 import logger from 'redux-logger'
 import { composeWithDevTools} from 'redux-devtools-extension'
+import '@fortawesome/fontawesome-free/js/all.js';
 
 
 

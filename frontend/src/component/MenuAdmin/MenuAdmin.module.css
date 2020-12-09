@@ -1,43 +1,258 @@
+.title {
+    font-size: 1.5em;
+}
+
 p {
     display: inline-block;
 }
 
-.menuAdmin {
-    width: 100%;
+::placeholder {
+    font-size: 1em;
+    font-weight: 400;
+    opacity: 1; /* Firefox */
+  }
+  
+.hidden {
+    display: none;
+}
+
+input {
+    margin: 0.5em;
+    width: 80%;
+    display: block;
+    border: 0;
+    border-radius: 5px;
+    text-indent: 10px;
+}
+
+.inputFile {
+    display: none;
+}
+
+.uploadIcon{
+    font-size: 2rem;
+    margin-left: 0.1em;
+    background-color: transparent;
+    color: white;
+}
+
+button {
+    font-size: 2rem;
+    margin: 0 0.1em;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+}
+
+button:hover {
+    opacity: 0.7;
+  }
+
+.btn{
+    color: goldenrod;
+}
+
+.delBtn {
+    font-size: 2rem;
+    color: darkred;
+}
+
+.addBtn {
+    margin: 0 0.5em 0.2em;
+    color: #7DCD00;
+}
+
+/* form {
+    display: inline-block;
+} */
+
+/* 전체 컨테이너 */
+.title {
+    height: 100px;
     position: relative;
 }
 
-/* 카테고리/메뉴 생성 및 삭제 */
+.title h1 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0px;
+    padding-left: 50px;
+}
+.menuAdminContent {
+    width: 100%;    
+    position: relative;
+}
+/* 전체 컨테이너 */
 
+/* 카테고리/메뉴 생성 및 삭제 */
+/* 최상위 */
 .content {
-    padding-top: 50px;
-    width: 40%;
-    margin: 0;
+    border-right: 1px solid black;
+    width: 50%;
+    margin: 0px;
+    margin-left: 10%;
 }
 
+/* 1. 카테고리 */
 .category {
+    font-size: 1.5em;
+    margin-left: 10%;
+}
+
+.category>.delBtn {
+    font-size: 2em;
+}
+
+.catAddForm {
+    position: relative;
+    background-color: #378cca;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 50%;
+    padding-top: 10px;
+    z-index: 100;
+    border: 3px solid black;
+}
+/* 카테고리 토글 */
+
+.handleCategory, .handleMenu, .handleOption {
+    margin-right: 10px;
+    height: 50px;
+}
+
+.handleCategory .catToggle, .optToggle {
+    font-size: 40px;
+    padding: 8px;
+    border-radius: 8px;
+    margin-left: 10px;
+    background-color: #378cca;
+    color: white;
+    border: 3px solid black;
+}
+
+.catAddInput {
+    height: 40px;
+    font-size: 1.5em;
+}
+/* 카테고리 토글 */
+
+/* 2. 메뉴*/
+.main {
+    font-size: 0.7em;
+    margin-left: 10%;
+    padding-bottom: 20px;
+}
+
+/* 메뉴 토글 */
+.handleMenu .menuToggle, .handleSelector .selectorToggle  {
+    font-size: 25px;
+    margin-left: 10px;
+    padding: 3px;
+    border-radius: 8px;
+    background-color: #378cca;
+    color: white;
+    border: 3px solid black;
+}
+
+.menuAddForm {
+    position: relative;
+    background-color: #378cca;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 50%;
+    padding-top: 10px;
+    z-index: 100;
+    border: 3px solid black;
+}
+
+.menuAddInput {
+    height: 25px;
+    font-size: 0.8em;
+}
+
+.main form {
+    width: 40%;
+}
+/* 메뉴 토글 */
+
+
+/* 3. 옵션*/
+
+.option {
+    margin-left: 5%;
+}
+
+.option .delBtn {
+    color: red;
     font-size: 1.5em;
 }
 
-.main {
-    font-size: 0.7em;
+.optionName, .optionPrice {
+    font-size: 1.5em;
 }
 
-.optionName {
-    font-size: 0.9em;
+.matchedOptions {
+    margin: 10px 0px 0px 10px;
+}
+/* 옵션토글 */
+
+.handleSelector {
+    margin-right: 10px;
 }
 
-.optionPrice {
-    font-size: 0.9em;
+.optionSelector {
+    margin-left: 10px;
 }
 
+.optionSelector button{
+    margin: 0;
+}
 
-/* 옵션 생성 및 삭제 */
+/* 옵션토글 */
+/* 왼쪽 레이아웃 끝 */
 
+/* 4. 옵션 생성 및 삭제 */
 .modifyOption {
-    padding-top: 50px;
-    width: 50%;
+    width: 30%;
+    margin-right: 10%;
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.optionContent {
+    margin-left: 10%;
+}
+.rightOption {
+    margin-left: 10%;
+    padding: 0.5rem;
+}
+
+.rightOptionName {
+    font-size: 2.0em;
+}
+
+.rightOptionPrice {
+    font-size: 2.0em;
+}
+
+.handleOption .optToggle {
+    font-size: 40px;
+}
+
+.handleOption  .optionAddForm {
+    position: relative;
+    background-color: #378cca;
+    border-radius: 10px;
+    width: 50%;
+    margin-left: 10px;
+    padding-top: 10px;
+    z-index: 100;
+    border: 3px solid black;
+}
+
+.optionAddInput {
+    height: 40px;
+    font-size: 1.5em;
 }
