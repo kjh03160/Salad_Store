@@ -5,6 +5,7 @@ from flask import session as f_session
 from database import session, Base, engine
 import models
 from uuid import uuid4
+from API.method import snake_to_camel
 
 class Signup(Resource):
 
@@ -12,15 +13,16 @@ class Signup(Resource):
     def get(self):
         if 'usr' in f_session:
             f_session.pop('usr')
-            return 201
+            return 200
         else:
-            return Response(status = 409)
+            return Response(status = 404)
     # 회원 가입
     def post(self):
         arg = request.json
-        duplicated_user = models.User.query.filter_by(user_id = arg['usr_id']).first()
+        duplicated_user = models.User.query.filter_by(user_id = arg['usrId']).first()
+        # 같은 id의 유저가 DB에 있는지 확인
         if not duplicated_user:
-            user = models.User(user_id=arg['usr_id'], is_super=True)
+            user = models.User(user_id=arg['usrId'], is_super=arg['isStaff'])
             user.set_password(arg['password'])
             session.add(user)
             session.commit()
@@ -32,26 +34,33 @@ class Signup(Resource):
 class Login(Resource):
     # 로그인 상태 확인
     def get(self):
+        # 세션이 있는지 확인
         if 'usr' in f_session:
-            print('user in f_session!')
+            if 'authority' in f_session:
+                authority = f_session['authority']
+                return {'authority' : authority}, 200
         else:
-            print('user not in f_session!')
-        print(f_session)
-        return Response('', 200)
+            return Response('', 401)
 
     # 로그인
     def post(self):
         arg = request.json
-        user_in_db = models.User.query.filter_by(user_id = arg['usr_id']).first()
+        user_in_db = models.User.query.filter_by(user_id = arg['usrId']).first()
+        # 아이디 확인
         if user_in_db:
+            # 비밀번호 확인
             if user_in_db.check_password(arg['password']):
                 session_key = str(uuid4())
                 f_session.permanent = False
+                # 세션 생성
                 f_session['usr'] = session_key
-                print(f_session)
-                # print(redis_session.db)
-                # cookie = 'user=' + session_key
-                resp = Response('', 200)
+                if arg['usrId'] == 'admin':
+                    f_session['authority'] = 'admin'
+                if arg['usrId'] == 'staff':
+                    f_session['authority'] = 'staff'
+                if arg['usrId'] == 'user':
+                    f_session['authority'] = 'user'
+                resp = Response(f_session['authority'], 200)
                 resp.headers.add('Access-Control-Allow-Headers',
                          "Origin, X-Requested-With, Content-Type, Accept, x-auth")
                 return resp

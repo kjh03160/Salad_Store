@@ -8,7 +8,7 @@ height:95vh;
 display:flex;
 margin:auto;
 margin-top:2.5vh;
-font-family: 'Jua', sans-serif;
+font-family: 'Do Hyeon', sans-serif;
 `
 export default function Kitchen() {
     return (
