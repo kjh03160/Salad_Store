@@ -250,7 +250,7 @@ export default function MenuContainer(props) {
                   <Test className="orderContentButton">
                       <h3>총금액: {cashAmount}</h3>
                       <OrderCompleteButton onClick = {handleCompleteButton}>주문완료</OrderCompleteButton>  
-                      <OrderCompleteButton onClick = {()=> onCancelOrder()}>주문취소</OrderCompleteButton>  
+                      <Link to = ''><OrderCompleteButton onClick = {()=> onCancelOrder()}>주문취소</OrderCompleteButton>  </Link>
                   </Test>
                 </ForComplete>
           </WrapperSection>
