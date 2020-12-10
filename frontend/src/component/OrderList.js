@@ -9,8 +9,9 @@ width:100%;
 font-size:1.5rem;
 display:flex;
 align-items:center;
-
-
+span{
+    color:black;
+    }
 `
 const OrderedOption = styled.div`
 width:100%;
@@ -19,6 +20,9 @@ padding-left:50px;
 font-size:1.3rem;
 display:flex;
 align-items:center;
+span{
+    color:black;
+    }
 `
 const QuantityButton = styled.button`
 display: inline-flex;
@@ -34,6 +38,7 @@ display: inline-flex;
   justify-content:center;
   align-items:center;
   /* 크기 */
+  margin:0;
   height: 1.5rem;
   width:1.5rem;
   font-size: 1rem;

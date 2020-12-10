@@ -59,11 +59,12 @@ const DialogBlock = styled.div`
   border-radius: 2px;
   h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 2rem;
     padding-top:30px;
   }
   p{
     margin-top:50px;
+    font-size:1.3rem;
   }
 `;
 
