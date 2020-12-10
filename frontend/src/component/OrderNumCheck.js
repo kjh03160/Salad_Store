@@ -47,7 +47,7 @@ const DarkBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
 `;
 
 const DialogBlock = styled.div`
@@ -57,25 +57,22 @@ const DialogBlock = styled.div`
   padding: 1.5rem;
   background: white;
   border-radius: 2px;
+  display:flex;
+  flex-flow:column wrap;
+  justify-content:center;
+  align-items:center;
   h3 {
     margin: 0;
-    font-size: 2rem;
-    padding-top:30px;
+    font-size: 3rem;
+    padding:10px;
   }
   p{
-    margin-top:50px;
-    font-size:1.3rem;
+    display:block;
+    font-size:6rem;
   }
 `;
 
-const ButtonGroup = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: flex-end;
-`;
-function Button({ children, ...rest }) {
-    return <StyledButton {...rest}>{children}</StyledButton>;
-  }
+
 
 function Dialog({ title, children, confirmText, cancelText,onConfirm, onCancel, visible }) {
   if (!visible) return null;
@@ -85,10 +82,6 @@ function Dialog({ title, children, confirmText, cancelText,onConfirm, onCancel, 
       <DialogBlock>
         <h3>{title}</h3>
         <p>{children}</p>
-        <ButtonGroup>
-            <Button  onClick={onConfirm}>{confirmText}</Button>
-            <Button  onClick={onCancel}>{cancelText}</Button>      
-        </ButtonGroup>
       </DialogBlock>
     </DarkBackground>
   );

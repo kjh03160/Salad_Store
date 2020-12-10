@@ -218,13 +218,14 @@ export default function MenuContainer(props) {
         fetchData()
     }
     , [])
-
+    
     //컴포넌트에 넘겨줄 패키지들
     const menuComData = {nextId,  orderList ,setOrderList, onSetOrder,data}
     const optionComData = {nextId, orderList,setOrderList, onSetOrder,data}
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu,cashAmount,setDialog,onCancelOrder}
     if(loading) return <CircularProgress color="black"/>
     if(error)return <div>메뉴를 추가해주세요</div>
+    
     return (
         <ForCenter>
           <WrapperSection>
@@ -254,7 +255,7 @@ export default function MenuContainer(props) {
                   </Test>
                 </ForComplete>
           </WrapperSection>
-          <Dialog children ={cashAmount} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
+          <Dialog children ={`총 금액 : ${cashAmount}`} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
           <Payment children = "카드를 넣어주세요" visible = {dialog.card}/>
         </ForCenter>
     )

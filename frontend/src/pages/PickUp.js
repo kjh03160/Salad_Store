@@ -5,6 +5,8 @@ import OrderAPI from '../api/orderAPI'
 import { useState } from 'react'
 import  styled ,{css}from 'styled-components'
 import {useAsync} from 'react-async'
+import Dialog from '../component/Dialog'
+import OrderNumCheck from '../component/OrderNumCheck'
 const ForCenter = styled.section`
 display:flex;
 justify-content:center;
@@ -83,14 +85,15 @@ export default React.memo(function PickUp(){
   let {data, error, isLoading,reload} = useAsync({
     promiseFn:fetchData
   })
+  const [visible, setVisible ] = useState(true)
   const [forRender, setForRender] = useState(false)
-  // useEffect(()=>{
-  //   const timer = setInterval(()=>setForRender(!forRender),3000)
-  //   reload()
-  //   return ()=> clearInterval(timer)
+  useEffect(()=>{
+    setTimeout(()=>setVisible(false),3000)
+    const timer = setInterval(()=>setForRender(!forRender),3000)
+    reload()
+    return ()=> clearInterval(timer)
     
-  // },[forRender])
-  
+  },[forRender])
     
     if (isLoading) return null
     if(error){
@@ -100,6 +103,7 @@ export default React.memo(function PickUp(){
     return(
         // 날짜 범위 설정해서 보여줘야함
     <ForCenter>
+      <OrderNumCheck title = "번호를 확인해주세요!" children= {`${data.data.orderList[data.data.orderList.length-1].orderPk}`} visible = {visible}/>
       <Wrapper>
         <SplitedSection>
           <h1>조리중</h1>

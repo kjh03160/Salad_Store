@@ -82,7 +82,7 @@ function LinearDeterminate({setDone}) {
 }
 
 
-function Payment({ title, visible,children  }) {
+function Payment({ title, visible,children,orderNumber  }) {
   const [done, setDone] = useState(false)
   
   if (!visible) return null;
@@ -91,6 +91,7 @@ function Payment({ title, visible,children  }) {
     <DarkBackground>
       <DialogBlock>
         <h3>{children}</h3>
+        <h3>{orderNumber}</h3>
         <LinearDeterminate setDone={()=>setDone(true)}/>
       </DialogBlock>
     </DarkBackground>
