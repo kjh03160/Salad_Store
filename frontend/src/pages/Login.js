@@ -68,10 +68,15 @@ export default function Login() {
     // 로그인 버튼 클릭 이벤트 핸들러
     // setState를 하고 rerendering => 유저 권한에 따라 컴포넌트들이 다르게 보여짐
     const loginUser = async () => {
-        const result = await api.loginUser({"usrId": userId, "password":  userPw});
+      try {
+        let result = await api.loginUser({"usrId": userId, "password":  userPw});
         if (result.status === 200) {
           setAuthority(result.data);
-        }
+        } 
+      } catch(e) {
+        alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
+        clearInput();
+      }
     }
     const setId = (e) => {
         setUserId(e.target.value);
@@ -81,9 +86,16 @@ export default function Login() {
         setUserPw(e.target.value);
     }
 
-    
     const redirectToOrderPage = () => {
         history.push('/menu') 
+    }
+
+    const clearInput = () => {
+      const idElem = document.getElementById("userId");
+      const pwElem = document.getElementById("userPw");
+      idElem.value = '';
+      pwElem.value = '';
+      idElem.focus();
     }
 
     return (
@@ -92,8 +104,8 @@ export default function Login() {
           <Title>MAKE SALAD</Title>
             {!authority ?
               <>
-              <LoginForm type="text" id="userId" placeholder=" 아이디" onChange={setId} />
-              <LoginForm type="password" id="userPw" placeholder=" 비밀번호" onChange={setPw} />
+              <LoginForm type="text" id="userId" placeholder=" 아이디" onChange={setId} inputBorder = "1px solid gray" />
+              <LoginForm type="password" id="userPw" placeholder=" 비밀번호" onChange={setPw} inputBorder = "1px solid gray" />
               <LoginForm type="button" value="로그인" onClick={loginUser} inputColor="#dcdcdc" inputMargin="1vw" inputBorder="none" />
               </>
               :
