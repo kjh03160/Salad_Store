@@ -77,9 +77,9 @@ class Menu(Resource):
         if 'image' in request.files:
             #local_path 저장할 경로, server_path 이미지 접근 가능 url 저장
             image = request.files['image']
-            local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
+            local_path = os.path.join(saveImgDir, 'main/', image.filename)
             image.save(local_path)
-            server_path = os.path.join(serverImgDir, 'main/', secure_filename(image.filename))
+            server_path = os.path.join(serverImgDir, 'main/', image.filename)
         
         main_menu = models.Menu()
         

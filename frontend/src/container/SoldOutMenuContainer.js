@@ -122,13 +122,14 @@ const Text = styled.div`
 
 const Butt = styled.button`
 font-size:15px;
+background-color: #FAF8F8;
 :hover {
   background: #464646	;
   color:white;
 }
     padding: 10px;
     color: black;
-    border: 2px solid white;
+    border: 2px solid black;
     text-decoration: none;
     cursor: pointer;
     transition: all 0.3s ease-out;

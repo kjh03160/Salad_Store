@@ -24,7 +24,7 @@ class Statistic(Resource):
                         SELECT
                         DATE_FORMAT(order_time,  '%Y-%m-%d') AS '날짜', count(order_pk) AS '주문 건수',  CAST(SUM(total_price) AS signed integer) AS '매출'
                                 FROM ORDERS ORD
-                                WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d')
+                                WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d 00:00:00') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d 23:59:59')
                                         AND ORD.completed = TRUE
                                 GROUP BY DATE_FORMAT(order_time,  '%Y-%m-%d') WITH ROLLUP;
                         """
@@ -37,8 +37,7 @@ class Statistic(Resource):
                                     FROM ORDERS ORD
                                     JOIN ORDER_PRODUCTS ORD_PRD USING(order_pk)
                                     JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
-                                    WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d')
-                                          AND ORD.completed = TRUE
+                                    WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d 00:00:00') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d 23:59:59')
                                     GROUP BY menu_name WITH ROLLUP;
                             """
             
@@ -52,7 +51,7 @@ class Statistic(Resource):
                                     JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
                                     JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
                                     JOIN OPTIONS USING (option_pk)
-                                    WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d')
+                                    WHERE ORD.order_time between DATE_FORMAT(\'{start_date}\',  '%Y-%m-%d 00:00:00') and DATE_FORMAT(\'{end_date}\',  '%Y-%m-%d 23:59:59')
                                           AND ORD.completed = TRUE
                                     GROUP BY option_name WITH ROLLUP;
                             """
