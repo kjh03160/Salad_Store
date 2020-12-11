@@ -55,18 +55,19 @@ class Menu(Resource):
         return {'data' : return_list}, 200
 
     def post(self):
-        print(temp_dir)
-        print(saveImgDir)
         data = request.form
         server_path = '' 
+        print(3)
 
         if 'category_pk' not in data.keys():
             return Response(status = 404)
 
         if 'image' in request.files:
             image = request.files['image']
+            print(image.filename)
             local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
             image.save(local_path)
+            print(local_path)
             server_path = os.path.join(serverImgDir, 'main/', secure_filename(image.filename))
         
         main_menu = models.Menu()

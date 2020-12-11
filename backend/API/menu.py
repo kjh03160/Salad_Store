@@ -14,7 +14,6 @@ temp_dir = '/'.join(temp_dir)
 saveImgDir = os.path.join(temp_dir,'static','images')
 serverImgDir = os.path.join('http://localhost:5000/','static','images')   
 
-
 class Menu(Resource): 
     #request 해당 키 값으로 파싱 작업 수행
     parser = reqparse.RequestParser()

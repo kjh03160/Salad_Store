@@ -16,7 +16,7 @@ body{
 }
 
 .content {
-    margin-top : 60px;
+    margin-top : 35px;
     margin-left : 300px;
 
 
@@ -76,7 +76,9 @@ body{
     text-align: center;
     position: absolute;
     top: 30%;
-    left: 55%;
+    left: 50%;
+    float: left;
+    width : 500px;
 }
 
 span {
@@ -92,15 +94,10 @@ span {
     text-align : center;
     color : skyblue;
     font-family: 'Do Hyeon', sans-serif;
+    width : 200px;
+    display: inline;
     
 }
-
-input[type=date] {
-    font-weight : bolder;
-    font-family: 'Do Hyeon', sans-serif;
-    font-size : 17px;
-}
-
 .endDate{
     border-radius : 15px;
     border : 2px solid skyblue;
@@ -108,7 +105,17 @@ input[type=date] {
     text-align : center;
     color : skyblue;
     font-family: 'Do Hyeon', sans-serif;
+    width : 200px;
+    display : inline;
 }
+
+
+input[type=date] {
+    font-weight : bolder;
+    font-family: 'Do Hyeon', sans-serif;
+    font-size : 17px;
+}
+
 
 .optionName{
     width : 160px;
