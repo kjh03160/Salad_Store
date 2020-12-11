@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {darken, lighten} from 'polished'
-
+import useAsync from 'react-async'
+import OrderAPI from'../api/orderAPI'
+import { Redirect, useHistory } from 'react-router-dom';
 
 const StyledButton = styled.button`
   /* 공통 스타일 */
@@ -74,9 +76,14 @@ const DialogBlock = styled.div`
 
 
 
-function Dialog({ title, children, confirmText, cancelText,onConfirm, onCancel, visible }) {
+
+function OrderNumCheck({ title, children, confirmText, cancelText,onConfirm, onCancel, visible }) {
+  const history = useHistory()
+  useEffect(()=>
+    {setTimeout(()=>history.push('/pickup'),5000)
+  return 
+},[])
   if (!visible) return null;
-  
   return (
     <DarkBackground>
       <DialogBlock>
@@ -87,9 +94,5 @@ function Dialog({ title, children, confirmText, cancelText,onConfirm, onCancel, 
   );
 }
 
-Dialog.defaultProps = {
-  confirmText: '확인',
-  cancelText: '취소'
-};
 
-export default Dialog;
+export default OrderNumCheck;

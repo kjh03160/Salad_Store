@@ -76,7 +76,6 @@ color:white;
 `
 const fetchData = async () =>{
   const response = await OrderAPI.getOrders()
-  console.log(response.data)
   return response
 }
 
@@ -103,7 +102,6 @@ export default React.memo(function PickUp(){
     return(
         // 날짜 범위 설정해서 보여줘야함
     <ForCenter>
-      <OrderNumCheck title = "번호를 확인해주세요!" children= {`${data.data.orderList[data.data.orderList.length-1].orderPk}`} visible = {visible}/>
       <Wrapper>
         <SplitedSection>
           <h1>조리중</h1>
