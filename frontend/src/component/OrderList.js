@@ -32,12 +32,8 @@ display: inline-flex;
   background-color:black;
   font-weight: bold;
   cursor: pointer;
-  /* padding-left: 0.8rem;
-  padding-right: 0.8rem; */
-  /* margin-right: 0.5rem; */
   justify-content:center;
   align-items:center;
-  /* 크기 */
   margin:0;
   height: 1.5rem;
   width:1.5rem;

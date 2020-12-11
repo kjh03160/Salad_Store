@@ -84,7 +84,7 @@ function Dialog({ title, children, confirmText, cancelText,onConfirm, onCancel, 
     <DarkBackground>
       <DialogBlock>
         <h3>{title}</h3>
-        <p>총금액 : {children}</p>
+        <p>{children}</p>
         <ButtonGroup>
             <Button  onClick={onConfirm}>{confirmText}</Button>
             <Button  onClick={onCancel}>{cancelText}</Button>      
