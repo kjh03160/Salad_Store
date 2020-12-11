@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { useAsync } from 'react-async'
 
@@ -13,7 +12,6 @@ display:flex;
 width: 85%;
 height:100%;
 border:1px solid black;
-
 `
 
 const OrderSection = styled.section`
@@ -52,7 +50,6 @@ height:50px;
 display:flex;
 border:1px solid black;
 cursor: pointer;
-
 background-color: skyblue;
 border: 2px solid black;
 border-radius: 1px;
@@ -88,7 +85,7 @@ const DetailWrapper = styled.section`
 `
 
 const MenuWrapper = styled.section`
-  font-size: 30px
+  font-size: 30px;
 `
 
 const OptionWrapper = styled.section`
@@ -113,7 +110,7 @@ function DetailSection(props) {
                   {
                     menu.options[0] !== null ?
                       <OptionWrapper>
-                        {menu.options.map((options, index) => <div class="option" key={index}>- {options} 추가</div>)}
+                        {menu.options.map((options, index) => <div class="option" key={index}>- {options}</div>)}
                       </OptionWrapper> : null
                   }
                   <div class='count' key={index}>수량 : {menu.quantity}개</div>
@@ -178,4 +175,3 @@ export default function CompletedMenuContainer() {
   );
 
 }
-

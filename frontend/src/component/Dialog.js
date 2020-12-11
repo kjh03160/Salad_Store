@@ -59,11 +59,12 @@ const DialogBlock = styled.div`
   border-radius: 2px;
   h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 2rem;
     padding-top:30px;
   }
   p{
     margin-top:50px;
+    font-size:1.3rem;
   }
 `;
 
@@ -83,7 +84,7 @@ function Dialog({ title, children, confirmText, cancelText,onConfirm, onCancel, 
     <DarkBackground>
       <DialogBlock>
         <h3>{title}</h3>
-        <p>총금액 : {children}</p>
+        <p>{children}</p>
         <ButtonGroup>
             <Button  onClick={onConfirm}>{confirmText}</Button>
             <Button  onClick={onCancel}>{cancelText}</Button>      

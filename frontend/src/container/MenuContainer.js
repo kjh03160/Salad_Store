@@ -159,6 +159,16 @@ export default function MenuContainer(props) {
         check:false,
         card:false
     })
+    // 주문 완료 버튼 눌렀을시 비어있는경우 alert
+    function handleCompleteButton(){
+      console.log(selectedMenu)
+      if (selectedMenu.length == 0){
+        alert('장바구니에 한개 이상의 상품을 넣어주세요')
+      }
+      else{
+        setDialog({check:true,card:false})
+      }
+    }
 
     // 총 금액 
     let cashAmount = 0
@@ -208,51 +218,44 @@ export default function MenuContainer(props) {
         fetchData()
     }
     , [])
-
+    
     //컴포넌트에 넘겨줄 패키지들
     const menuComData = {nextId,  orderList ,setOrderList, onSetOrder,data}
     const optionComData = {nextId, orderList,setOrderList, onSetOrder,data}
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu,cashAmount,setDialog,onCancelOrder}
     if(loading) return <CircularProgress color="black"/>
     if(error)return <div>메뉴를 추가해주세요</div>
+    
     return (
-        
         <ForCenter>
-          
           <WrapperSection>
               <CategorySection>
                   {data.category.map((item,index)=>
-
                   (<Link style ={{textDecoration:"none"}} to ={`/menu/${item.categoryPk}`} key = {index} ><div>{item.categoryName}</div></Link>
                   ))}
-                  
               </CategorySection>
               <MenuSection>
                   <Route exact path='/menu/:categoryPk' render={(props)=><Menu {...props} data = {menuComData}/>}/>
                   <Route path='/menu/:categoryPk/:selectedMain' render={(props)=><Option {...props} data = {optionComData}/>}/>
               </MenuSection>
               <OrderListSection>
-                
                 <div className="nav">
                   주문 내역
-                
                   </div>
                 <div className="orderContent">
                   <OrderList data ={orderComData} />
-                  
-                  
                 </div>
-                
+
               </OrderListSection>
               <ForComplete>
                   <Test className="orderContentButton">
                       <h3>총금액: {cashAmount}</h3>
-                      <OrderCompleteButton onClick = {()=> setDialog({check:true,card:false})}>주문완료</OrderCompleteButton>  
-                      <OrderCompleteButton onClick = {()=> onCancelOrder()}>주문취소</OrderCompleteButton>  
+                      <OrderCompleteButton onClick = {handleCompleteButton}>주문완료</OrderCompleteButton>  
+                      <Link to = ''><OrderCompleteButton onClick = {()=> onCancelOrder()}>주문취소</OrderCompleteButton>  </Link>
                   </Test>
                 </ForComplete>
           </WrapperSection>
-          <Dialog children ={cashAmount} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
+          <Dialog children ={`총 금액 : ${cashAmount}`} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
           <Payment children = "카드를 넣어주세요" visible = {dialog.card}/>
         </ForCenter>
     )

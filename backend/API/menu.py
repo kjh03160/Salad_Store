@@ -14,7 +14,6 @@ temp_dir = '/'.join(temp_dir)
 saveImgDir = os.path.join(temp_dir,'static','images')
 serverImgDir = os.path.join('http://localhost:5000/','static','images')   
 
-
 class Menu(Resource): 
     #request 해당 키 값으로 파싱 작업 수행
     parser = reqparse.RequestParser()
@@ -77,9 +76,9 @@ class Menu(Resource):
         if 'image' in request.files:
             #local_path 저장할 경로, server_path 이미지 접근 가능 url 저장
             image = request.files['image']
-            local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
+            local_path = os.path.join(saveImgDir, 'main/', image.filename)
             image.save(local_path)
-            server_path = os.path.join(serverImgDir, 'main/', secure_filename(image.filename))
+            server_path = os.path.join(serverImgDir, 'main/', image.filename)
         
         main_menu = models.Menu()
         
@@ -124,9 +123,9 @@ class Menu(Resource):
                 file_name = past_image.split('/')[-1]
                 os.remove(os.path.join(saveImgDir,'main/',file_name))
             image = request.files['image']
-            local_path = os.path.join(saveImgDir, 'main/', secure_filename(image.filename))
+            local_path = os.path.join(saveImgDir, 'main/', image.filename)
             image.save(local_path)
-            server_path = os.path.join(serverImgDir, 'main/', secure_filename(image.filename))
+            server_path = os.path.join(serverImgDir, 'main/', image.filename)
             menu.menu_image = server_path
 
         for i in data.keys():

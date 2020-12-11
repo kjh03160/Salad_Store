@@ -155,7 +155,7 @@ export default function Option(props){
                     return (<OptionItem data = {{...props.data, item}}  key = {item.optionPk} /> )
                     }
                 )}
-                <Link to='/menu/1'><DoneButton onClick={addToOrdder}> 선택 완료 </DoneButton></Link>
+                <Link to ={`/menu/${data.category[0].categoryPk}`}><DoneButton onClick={addToOrdder}> 선택 완료 </DoneButton></Link>
             </OptionList>
         </Wrapper>
     )  }

@@ -24,16 +24,7 @@ const Navbar = () => {
                         <Link to="/admin/optionstat" className = {styles.subList}>옵션별 통계</Link>
                     </ul>
                 </div>
-                    {/* <li>
-                    <Link to="/admin/menuadmin" className = {styles.navList}>메뉴관리</Link>
-                    </li> */}
             </div>
-            {/* <ul>
-                <Link to="/admin/">MAKE SALAD</Link>
-                <Link to="/admin/menustat">메뉴별통계</Link>
-                <Link to="/admin/optionstat">옵션별통계</Link>
-                <Link to="/admin/menuadmin">메뉴관리</Link>
-            </ul> */}
         </nav>
     );
 };
