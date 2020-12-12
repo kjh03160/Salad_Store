@@ -12,7 +12,7 @@ import OrderAPI from '../api/orderAPI'
 import {qunatityDecrement, qunatityIncrement, setOrder,deleteOption,deleteOrder, cancelOrder} from '../module/order'
 import { setSuccess, setLoading, getData } from '../module/dataSet'
 
-
+import OrderNumCheck from '../component/OrderNumCheck'
 import Option from '../component/Option'
 import Menu from '../component/Menu'
 import OrderList from '../component/OrderList'
@@ -153,11 +153,12 @@ export default function MenuContainer(props) {
     }))
     // 한 단위의 장바구니
     const [orderList, setOrderList] = useState({})
-
+    const [orderData, setOrderData] = useState([])
     // 주문 완료 팝업
     const [dialog, setDialog] = useState({
         check:false,
-        card:false
+        card:false,
+        orderNum:false,
     })
     // 주문 완료 버튼 눌렀을시 비어있는경우 alert
     function handleCompleteButton(){
@@ -166,7 +167,7 @@ export default function MenuContainer(props) {
         alert('장바구니에 한개 이상의 상품을 넣어주세요')
       }
       else{
-        setDialog({check:true,card:false})
+        setDialog({check:true,card:false,orderNum:false})
       }
     }
 
@@ -174,7 +175,7 @@ export default function MenuContainer(props) {
     let cashAmount = 0
     selectedMenu.forEach((item)=> {
         cashAmount += item.mainPrice * item.mainQuantity
-        item.optionList.forEach((option)=> cashAmount += option.optionPrice)   
+        item.optionList.forEach((option)=> cashAmount += (option.optionPrice * item.mainQuantity))   
     })
     
     // order당 구분 위한 ID (나중에 수량변경, 삭제 위해서 고유 id 부여)
@@ -196,6 +197,8 @@ export default function MenuContainer(props) {
     const fetchData = async () =>{
         onSetLoading()
         const response = await MenuAPI.getAll()
+        const responseOrder = await OrderAPI.getOrders()
+        setOrderData(responseOrder)
         console.log(response.data)
         onSetSuccess(response.data)
     }
@@ -214,7 +217,8 @@ export default function MenuContainer(props) {
         return response
 
     }
-    useEffect(()=>{
+
+    useEffect(()=>{  
         fetchData()
     }
     , [])
@@ -225,7 +229,7 @@ export default function MenuContainer(props) {
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu,cashAmount,setDialog,onCancelOrder}
     if(loading) return <CircularProgress color="black"/>
     if(error)return <div>메뉴를 추가해주세요</div>
-    
+    if (orderData == undefined) return null
     return (
         <ForCenter>
           <WrapperSection>
@@ -256,7 +260,8 @@ export default function MenuContainer(props) {
                 </ForComplete>
           </WrapperSection>
           <Dialog children ={`총 금액 : ${cashAmount}`} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
-          <Payment children = "카드를 넣어주세요" visible = {dialog.card}/>
+          <Payment children = "카드를 넣어주세요" visible = {dialog.card} data= {data} setVisible={()=>setDialog({check:false, card:false, orderNum:true})}/>
+          <Route path={`/menu/:categoryPk/orderNum`} render={()=><OrderNumCheck  {...props} children = {`${orderData.data.orderList[orderData.data.orderList.length-1].orderPk}`} title = "번호를 확인해주세요!" visible = {true} />} />
         </ForCenter>
     )
 }

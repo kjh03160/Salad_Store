@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+
 import styled from 'styled-components';
 import {darken, lighten} from 'polished'
-import {Redirect} from 'react-router-dom'
+import {Redirect, useHistory} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import OrderNumCheck from './OrderNumCheck';
 
 const DarkBackground = styled.div`
   position: fixed;
@@ -50,7 +52,8 @@ const useStyles = makeStyles({
   },
 });
 
-function LinearDeterminate({setDone}) {
+function LinearDeterminate({setDone,data,setVisible}) {
+  const history = useHistory()
   const classes = useStyles();
   const [progress, setProgress] = React.useState(1);
   React.useEffect(() => {
@@ -63,17 +66,17 @@ function LinearDeterminate({setDone}) {
           const diff = Math.random() * 10;
         return Math.min(oldProgress + diff, 100);
         }
-        
       });
     }, 300);
     if (progress === 100){
-      setDone()
+      setVisible()
+      
+      history.push(`${data.category[0].categoryPk}/orderNum`)
     }
     return () => {
       clearInterval(timer);
     };
   }, [progress]);
-
   return (
     <div className={classes.root}>
       <LinearProgress style ={{width:"100%", height:"30px" }} variant="determinate" value={progress} />
@@ -81,18 +84,16 @@ function LinearDeterminate({setDone}) {
   );
 }
 
-
-function Payment({ title, visible,children,orderNumber  }) {
-  const [done, setDone] = useState(false)
   
+
+function Payment({ title, visible,children,orderNumber,data,setVisible  }) {
   if (!visible) return null;
-  if(done) return <Redirect to={{pathname:'/pickup'}}/>
   return (
     <DarkBackground>
       <DialogBlock>
         <h3>{children}</h3>
         <h3>{orderNumber}</h3>
-        <LinearDeterminate setDone={()=>setDone(true)}/>
+        <LinearDeterminate data={data}  setVisible={setVisible}/>
       </DialogBlock>
     </DarkBackground>
   );
