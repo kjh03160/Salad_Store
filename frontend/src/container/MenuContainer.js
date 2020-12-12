@@ -153,7 +153,7 @@ export default function MenuContainer(props) {
     }))
     // 한 단위의 장바구니
     const [orderList, setOrderList] = useState({})
-    const [orderData, setOrderData] = useState([])
+    const [orderData, setOrderData] = useState(0)
     // 주문 완료 팝업
     const [dialog, setDialog] = useState({
         check:false,
@@ -214,6 +214,8 @@ export default function MenuContainer(props) {
           totalPrice:cashAmount
         };
         const response = await OrderAPI.makeOrders(pack)
+        setOrderData(response.data.orderPk)
+        console.log(response.data)
         return response
 
     }
@@ -229,7 +231,6 @@ export default function MenuContainer(props) {
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu,cashAmount,setDialog,onCancelOrder}
     if(loading) return <CircularProgress color="black"/>
     if(error)return <div>메뉴를 추가해주세요</div>
-    if (orderData == undefined) return null
     return (
         <ForCenter>
           <WrapperSection>
@@ -261,7 +262,7 @@ export default function MenuContainer(props) {
           </WrapperSection>
           <Dialog children ={`총 금액 : ${cashAmount}`} title= "주문 하시겠습니까?"  visible = {dialog.check} onCancel={()=> setDialog({check:false,card:false})} onConfirm={()=>{return setDialog({check:false,card:true}),sendData()}} />
           <Payment children = "카드를 넣어주세요" visible = {dialog.card} data= {data} setVisible={()=>setDialog({check:false, card:false, orderNum:true})}/>
-          <Route path={`/menu/:categoryPk/orderNum`} render={()=><OrderNumCheck  {...props} children = {`${orderData.data.orderList[orderData.data.orderList.length-1].orderPk}`} title = "번호를 확인해주세요!" visible = {true} />} />
+          <Route path={`/menu/:categoryPk/orderNum`} render={()=><OrderNumCheck  {...props} children = {`${orderData}`} title = "번호를 확인해주세요!" visible = {true} />} />
         </ForCenter>
     )
 }
