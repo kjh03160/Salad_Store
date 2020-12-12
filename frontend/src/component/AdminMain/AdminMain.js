@@ -15,6 +15,11 @@ const AdminMain = () => {
 
     // 데이터를 동기화시킨다.
     const apiCall = async () => {
+        if (startDate > endDate) {
+            alert("날짜를 확인해주세요!")
+            setStartDate(endDate)
+            return
+        }
         const response = await api.getStat(startDate, endDate, null, null); // 안 넣을 때는 false X
         setData(response.data.data[response.data.data.length - 1]);
     };
@@ -65,6 +70,7 @@ const AdminMain = () => {
             setStartDate(getFormatDate(new Date()));
             setEndDate(getFormatDate(new Date()));
         }
+
         if (value === "주간") {
             let aWeekAgo = new Date(currentDate.getTime() - 7 * DAYTIME);
             setStartDate(getFormatDate(aWeekAgo));
