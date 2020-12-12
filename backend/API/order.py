@@ -58,6 +58,7 @@ class Order(Resource):
 
     def get(self):
         data = Order.parser.parse_args()
+        order_pk = None
         result = None
         if data['pk']:  # 만약 특정 pk 쿼리라면
             order_sql = """
@@ -80,7 +81,7 @@ class Order(Resource):
                                 LEFT JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
                                 JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
                                 LEFT JOIN OPTIONS USING (option_pk)
-                                WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
+                                WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 10 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
                                 ORDER BY ORD.order_pk, M.menu_pk;
                         """
         result = session.execute(order_sql).fetchall()
@@ -106,7 +107,7 @@ class Order(Resource):
             order = models.Order(order_time = order_time, completed = False, total_price = total_price) # 주문 행 생성
             session.add(order)
             session.flush() # 주문 메뉴 연결하기 위해 pk 생성 필요
-
+            order_pk = order.order_pk
             # 넘겨받은 주문 메뉴 리스트
             menu_list = data['menus']
 
@@ -137,7 +138,7 @@ class Order(Resource):
         session.close()
 
         # 문제 없다면
-        return Response(status=201) # CREATED 코드 전송
+        return {'orderPk' : order_pk}, 201 # CREATED 코드 전송
 
 
     # completed 완료 요청
