@@ -11,24 +11,6 @@ class Order(Resource):
     parser = reqparse.RequestParser()
 
     # [GET, DELETE, PUT] 에서 특정 행을 조회할 때 필요한 pk 파라미터
-    """
-    [
-        {'order_pk': int,
-         'order_time' : str,
-         'menus': [
-             {'product_pk': int, 
-              'menu_name': str, 
-              'quantity': str, 
-              'options': [str(option_name), str, ....]},
-              ....
-              ]
-        },
-        {'order_pk': int,
-            ....
-        },
-        ...
-    ]
-    """
     parser.add_argument('pk',
         type=int,
         required = False,
@@ -37,18 +19,6 @@ class Order(Resource):
 
 
     # POST에서 주문 정보를 받기 위한 파라미터
-    """
-    [
-        'total_price' : int,
-        'menus' : [
-            {'menu_pk': int,
-             'options' : [
-                     int(option_pk), int(option_pk), ...
-                    ]      
-            }
-        ]
-    ]
-    """
     parser.add_argument('data', 
         action='append', 
         required=False,
@@ -81,7 +51,7 @@ class Order(Resource):
                                 LEFT JOIN ORDER_OPTIONS ORD_OP USING (product_pk)
                                 JOIN MENUS M ON (M.menu_pk = ORD_PRD.order_menu_pk)
                                 LEFT JOIN OPTIONS USING (option_pk)
-                                WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 10 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
+                                WHERE ORD.order_time between DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),  '%Y-%m-%d') and DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 SECOND), '%Y-%m-%d %H:%i:%s') 
                                 ORDER BY ORD.order_pk, M.menu_pk;
                         """
         result = session.execute(order_sql).fetchall()
