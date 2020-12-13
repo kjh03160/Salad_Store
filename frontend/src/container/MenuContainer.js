@@ -197,9 +197,6 @@ export default function MenuContainer(props) {
     const fetchData = async () =>{
         onSetLoading()
         const response = await MenuAPI.getAll()
-        const responseOrder = await OrderAPI.getOrders()
-        setOrderData(responseOrder)
-        console.log(response.data)
         onSetSuccess(response.data)
     }
     // 주문 api

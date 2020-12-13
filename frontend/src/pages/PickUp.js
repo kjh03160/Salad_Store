@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react'
-import {Link} from 'react-router-dom'
-import {useSelector, useDispatch} from 'react-redux'
+
 import OrderAPI from '../api/orderAPI'
 import { useState } from 'react'
 import  styled ,{css}from 'styled-components'
 import {useAsync} from 'react-async'
-import Dialog from '../component/Dialog'
-import OrderNumCheck from '../component/OrderNumCheck'
+
 const ForCenter = styled.section`
 display:flex;
 justify-content:center;

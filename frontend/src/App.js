@@ -17,7 +17,6 @@ function App() {
     
     <>
       <Switch>
-        {/* <Route exact path='/' component ={Home}/> */}
         <Route exact path='/' component={Login}/>
         <Route exact path='/signup' component={Signup}/>
         <Route  path='/menu' component = {MenuPage}/>

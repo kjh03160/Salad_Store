@@ -87,7 +87,7 @@ export default function Login() {
     }
 
     const redirectToOrderPage = () => {
-        history.push('/menu') 
+        history.push('/menu/16') 
     }
 
     const clearInput = () => {
