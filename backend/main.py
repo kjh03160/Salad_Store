@@ -20,20 +20,23 @@ from API.link import Link
 from API.soldout import Soldout
 
 
-Base.metadata.create_all(bind=engine)
-
-
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+    # CORS configuration
     CORS(app, resources={r'*': {'origins': '*'}}, expose_headers =['*'], supports_credentials = True, credientials = True)
+    # Flask=DB 연결
     models.db.init_app(app)
     return app
+
+
+Base.metadata.create_all(bind=engine)
 
 app = create_app()
 api = Api(app)
 app.secret_key = "super secret key"
 
+# api 등록
 api.add_resource(Order, '/orders')
 api.add_resource(Statistic, '/statistics')
 api.add_resource(All,'/all')
@@ -44,6 +47,8 @@ api.add_resource(Link, '/link')
 api.add_resource(Soldout,'/soldout')
 api.add_resource(Login, '/login')
 api.add_resource(Signup, '/signup')
+
+
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run()
 
