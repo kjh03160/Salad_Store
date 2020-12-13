@@ -142,21 +142,25 @@ background-color: #FAF8F8;
     `}
 
 `
+//메뉴 데이터 가져오는 api
 async function getMenu() {
   const response = await MenuAPI.getAll()
   return response.data
 }
 
 export default function SoldOutMenuContainer() {
+  // 메뉴 관련 api불러 오기 위한 내부 모듈 useAsync
   const { data, error, isLoading, reload } = useAsync({
     promiseFn: getMenu
   })
 
+  // 메인메뉴 품절 관리 api
   async function handleMainClick(menuPk){
      let response = await MenuAPI.setSoldout({pk:menuPk,type:"main_soldout"})
      reload()
      return response
    }
+   // 옵션 메뉴 품절 관리 api
    async function handleOptionClick(optionPk){
      let response = await MenuAPI.setSoldout({pk:optionPk,type:"option_soldout"})
      reload()

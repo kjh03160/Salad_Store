@@ -62,16 +62,19 @@ export default function OrderList(props) {
     const {onDeleteOption,onQuantityDecrement,onQuantityIncrement,selectedMenu,onDeleteOrder,cashAmount,setDialog,onCancelOrder} = props.data
 
     
-
+    // 메뉴 수량 증가
     const handleIncrement = (orderId) =>{
         onQuantityIncrement(orderId)
     }
+    // 메뉴 수량 감소
     const handleDecrement= (orderId) =>{
         onQuantityDecrement(orderId)
     }
+    // 옵션 삭제
     const handleDeleteOption = (orderId,optionId,event) =>{     
         onDeleteOption(orderId,optionId)
     }
+    // 메뉴 삭제
     const handleDeleteOrder=(orderId)=>{
         onDeleteOrder(orderId)
     }

@@ -79,6 +79,7 @@ const DialogBlock = styled.div`
 
 function OrderNumCheck({ title, children, confirmText, cancelText,onConfirm, onCancel, visible }) {
   const history = useHistory()
+  //최초 랜더링 이후에 주문 현황판으로 이동
   useEffect(()=>
     {setTimeout(()=>history.push('/pickup'),5000)
   return 

@@ -95,8 +95,10 @@ const Text = styled.div`
     `}
 `;
 function OptionItem(props){
+    //패키지 뜯기
     const {nextId, orderList,setOrderList, onSetOrder, data,item } = props.data
     const [selected, setSelected] = useState(false)
+    // 옵션 선택 또는 삭제 관련 함수
     function handleClick(event,id, name, price, ){
         setOrderList(
             {
@@ -125,9 +127,11 @@ function OptionItem(props){
 }
 
 export default function Option(props){
+    //props 패키지 뜯기
     const {nextId,orderList,setOrderList, onSetOrder,data} = props.data
-    console.log(data)
+    // URL로 데이터 받아오기
     const selectedMain = Number(props.match.params.selectedMain)
+    // 주문 내역 추가 후 장바구니 초기회
     function addToOrdder(e){        
         nextId.current +=1
         onSetOrder(orderList)

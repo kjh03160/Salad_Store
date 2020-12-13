@@ -56,6 +56,7 @@ function LinearDeterminate({setDone,data,setVisible}) {
   const history = useHistory()
   const classes = useStyles();
   const [progress, setProgress] = React.useState(1);
+  // 카드 관련 팝업 진행 바 함수
   React.useEffect(() => {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
@@ -68,11 +69,12 @@ function LinearDeterminate({setDone,data,setVisible}) {
         }
       });
     }, 300);
+    // 진행바가 다 찰시 주문현황판으로 이동
     if (progress === 100){
       setVisible()
-      
       history.push(`${data.category[0].categoryPk}/orderNum`)
     }
+    // useEffct 클리어 하기 setInterval 그만 돌도록
     return () => {
       clearInterval(timer);
     };

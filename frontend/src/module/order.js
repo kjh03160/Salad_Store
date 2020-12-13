@@ -6,7 +6,7 @@ const DELETE_OPTION = "DELETE_OPTION"
 const DELETE_ORDER = 'DELETE_ORDER'
 const CANCEL_ORDER = "CANCEL_ORDER"
 
-// export const setMain = (mainChosen,orderId) => ({ type:SET_MAIN,mainChosen, orderId })
+
 export const setOrder = (menuChosen) => ({ type:SET_ORDER,menuChosen })
 export const qunatityIncrement = (orderId)=> ({type:QUANTITY_INCREMENT, orderId})
 export const qunatityDecrement = (orderId)=> ({type:QUANTITY_DECREMENT, orderId})
@@ -31,6 +31,7 @@ const initialState = [
         // ]       
     // }
 ]
+// 주문 상태 관리 관련 리듀서들
 export default function order(state = initialState, action){
     switch(action.type){
         case QUANTITY_INCREMENT:

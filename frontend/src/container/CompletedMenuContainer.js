@@ -96,7 +96,9 @@ const OptionWrapper = styled.section`
 `
 
 function DetailSection(props) {
+  //props 받아온 패키지 비구조화 할당
   const { children, value, index, detail, ...other } = props;
+  // value와 index에 따라 보여주는 섹션 다르게 설정
   if (value !== index) return null
   return (
     <DetailWrapper >
@@ -134,6 +136,7 @@ async function getOrder() {
 
 
 export default function CompletedMenuContainer() {
+  //들어온 주문 건 호출에 대한 api
   const { data, error, isLoading, reload } = useAsync({
     promiseFn: getOrder
   })
@@ -143,7 +146,7 @@ export default function CompletedMenuContainer() {
     setValue(newValue);
   };
 
-
+  // 제조 완료된 주문건에 대해 주문 완료 api 
   async function handleDone(orderPk) {
     const response = await OrderAPI.setComplete(orderPk)
     reload()

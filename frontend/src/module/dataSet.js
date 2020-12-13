@@ -16,6 +16,7 @@ const initialState = {
     error:false
 }
 
+// 데이터 api 호출시 비동기 처리를 위한 리듀서들
 export default function dataSet(state = initialState, action){
     switch(action.type){
         case LOADING:

@@ -147,11 +147,13 @@ const OrderCompleteButton = styled.button`
 `
 // 컨테이너에서 상태, 데이터 다 관리하고 컴포넌트에 뿌려주기
 export default function MenuContainer(props) {
+    //리덕스 상태 가져오는 부분
     const {dataSet:{loading,data,error}, selectedMenu} = useSelector(state =>({
         dataSet:state.dataSet,
         selectedMenu:state.order
     }))
     // 한 단위의 장바구니
+
     const [orderList, setOrderList] = useState({})
     const [orderData, setOrderData] = useState(0)
     // 주문 완료 팝업
@@ -160,6 +162,7 @@ export default function MenuContainer(props) {
         card:false,
         orderNum:false,
     })
+
     // 주문 완료 버튼 눌렀을시 비어있는경우 alert
     function handleCompleteButton(){
       console.log(selectedMenu)
@@ -182,7 +185,7 @@ export default function MenuContainer(props) {
     const nextId = useRef(0)
     
 
-    //리덕스 관련 
+    //리덕스 관련 상태 관리 함수 디스패치
     const dispatch = useDispatch()
     const onSetOrder = (menuChosen) =>dispatch(setOrder(menuChosen))
     const onSetSuccess = (data) => dispatch(setSuccess(data))
@@ -199,6 +202,7 @@ export default function MenuContainer(props) {
         const response = await MenuAPI.getAll()
         onSetSuccess(response.data)
     }
+
     // 주문 api
     const sendData = async ()=> {
         let pack = {
@@ -214,9 +218,9 @@ export default function MenuContainer(props) {
         setOrderData(response.data.orderPk)
         console.log(response.data)
         return response
-
     }
 
+    // 첫 랜더링 이 후 메뉴 데이터 가져오기
     useEffect(()=>{  
         fetchData()
     }
@@ -226,6 +230,7 @@ export default function MenuContainer(props) {
     const menuComData = {nextId,  orderList ,setOrderList, onSetOrder,data}
     const optionComData = {nextId, orderList,setOrderList, onSetOrder,data}
     const orderComData = {onDeleteOrder, onDeleteOption,onQuantityDecrement,onQuantityIncrement, selectedMenu,cashAmount,setDialog,onCancelOrder}
+    // 데이터 받아오는동안 로딩 페이지 보여주기
     if(loading) return <CircularProgress color="black"/>
     if(error)return <div>메뉴를 추가해주세요</div>
     return (
